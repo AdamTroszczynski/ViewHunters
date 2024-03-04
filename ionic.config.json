@@ -1,0 +1,7 @@
+{
+  "name": "ViewHunters",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
