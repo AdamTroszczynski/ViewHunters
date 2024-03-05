@@ -16,5 +16,15 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'vue/no-deprecated-slot-attribute': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-  }
+  },
+  overrides: [
+    {
+      files: [
+        'cypress/e2e/**/*.{cy,spec}.{js,ts,jsx,tsx}'
+      ],
+      'extends': [
+        'plugin:cypress/recommended'
+      ]
+    }
+  ],
 }
