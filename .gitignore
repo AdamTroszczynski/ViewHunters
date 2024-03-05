@@ -161,4 +161,8 @@ dist
 .history
 .ionide
 
+android/
+android/*
+android
+
 # End of https://www.toptal.com/developers/gitignore/api/node,visualstudiocode
