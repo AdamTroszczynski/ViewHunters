@@ -23,7 +23,7 @@ const router = createRouter({
         {
           path: 'nearby',
           name: 'nearby',
-          component: NearbyView
+          component: NearbyView,
         },
         {
           path: 'achievements',
@@ -51,7 +51,7 @@ const router = createRouter({
       path: '/:pathMatch(.*)*',
       name: 'notFound',
       redirect: { name: 'nearby' },
-    }
+    },
   ],
 });
 

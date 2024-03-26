@@ -1,7 +1,7 @@
 <template>
   <IonHeader class="heroBanner" :translucent="true">
     <IonToolbar class="heroBanner__toolbar">
-      <IonButtons class="heroBanner__buttonsContainer" slot="end">
+      <IonButtons slot="end" class="heroBanner__buttonsContainer">
         <IonButton class="heroBanner__actionButton" @click="logout()">
           <ExitIcon class="heroBanner__actionButtonIcon" />
         </IonButton>
@@ -19,7 +19,13 @@
 </template>
 
 <script setup lang="ts">
-import { IonHeader, IonToolbar, IonTitle, IonButtons, IonButton } from '@ionic/vue';
+import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  IonButton,
+} from '@ionic/vue';
 import ExitIcon from '@/components/icons/ExitIcon.vue';
 import GithubIcon from '@/components/icons/GithubIcon.vue';
 
