@@ -9,7 +9,16 @@
     "preview": "vite preview",
     "test:e2e": "cypress run",
     "test:unit": "vitest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "format": "prettier --write \"src/**/*.+(js|ts|html|vue)\"",
+    "prepare": "cd ../ && husky ./client/.husky",
+    "lint-staged": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js, ts, html, vue}": [
+      "eslint --quiet --fix",
+      "prettier --write --ignore-unknown"
+    ]
   },
   "dependencies": {
     "@capacitor/android": "5.7.1",
@@ -21,19 +30,36 @@
     "@ionic/vue": "^7.0.0",
     "@ionic/vue-router": "^7.0.0",
     "ionicons": "^7.0.0",
+    "axios": "^1.5.1",
+    "pinia": "^2.1.6",
+    "vee-validate": "^4.12.3",
+    "yup": "^1.3.3",
     "vue": "^3.3.0",
     "vue-router": "^4.2.0"
   },
   "devDependencies": {
+    "@pinia/testing": "^0.1.3",
     "@capacitor/cli": "5.7.1",
     "@vitejs/plugin-legacy": "^5.0.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/eslint-config-typescript": "^12.0.0",
     "@vue/test-utils": "^2.3.0",
     "@vue/tsconfig": "^0.4.0",
+    "@rushstack/eslint-patch": "^1.3.2",
+    "@types/jsdom": "^21.1.1",
+    "@types/node": "^18.17.5",
+    "@typescript-eslint/parser": "^5.62.0",
+    "axios-mock-adapter": "^1.22.0",
     "cypress": "^13.5.0",
-    "eslint": "^8.35.0",
-    "eslint-plugin-vue": "^9.9.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-cypress": "^2.14.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-vue": "^9.23.0",
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.2.5",
+    "vue-eslint-parser": "^9.4.2",
+    "husky": "^9.0.11",
     "jsdom": "^22.1.0",
     "sass": "^1.72.0",
     "terser": "^5.4.0",

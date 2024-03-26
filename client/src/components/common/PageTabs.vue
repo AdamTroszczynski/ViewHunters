@@ -1,7 +1,7 @@
 <template>
   <IonTabs class="pageTabs">
     <IonRouterOutlet />
-    <IonTabBar class="pageTabs__tabBar" slot="bottom">
+    <IonTabBar slot="bottom" class="pageTabs__tabBar">
       <IonTabButton class="pageTabs__tabButton" tab="home" href="/achievements">
         <StarIcon class="pageTabs__tabIcon" />
         <IonLabel class="pageTabs__tabLabel">Achievements</IonLabel>
@@ -26,7 +26,13 @@
 </template>
 
 <script setup lang="ts">
-import { IonTabs, IonTabBar, IonTabButton, IonLabel, IonRouterOutlet } from '@ionic/vue';
+import {
+  IonTabs,
+  IonTabBar,
+  IonTabButton,
+  IonLabel,
+  IonRouterOutlet,
+} from '@ionic/vue';
 import BookIcon from '@/components/icons/tabIcons/BookIcon.vue';
 import ProfileIcon from '@/components/icons/tabIcons/ProfileIcon.vue';
 import StarIcon from '@/components/icons/tabIcons/StarIcon.vue';
@@ -69,7 +75,7 @@ import HomeIcon from '@/components/icons/tabIcons/HomeIcon.vue';
 
   &__tabLabel {
     font-family: $poppins;
-    font-size: .625rem;
+    font-size: 0.625rem;
     color: rgba($darkGray, 0.6);
   }
 }
