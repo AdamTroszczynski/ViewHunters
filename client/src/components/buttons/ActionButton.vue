@@ -46,6 +46,9 @@ const props = defineProps({
   },
 });
 
+/** Choose icon to button
+ * @returns {Component}
+ */
 const setIcon = computed<Component | null>(() => {
   switch (props.icon) {
     case 'arrow':
@@ -64,17 +67,17 @@ const setIcon = computed<Component | null>(() => {
 
 <style lang="scss" scoped>
 .actionButton {
-  font-family: $poppins;
   --border-radius: 8px;
   --width: 100%;
-  height: 25px;
-  min-height: 0;
-  text-transform: none;
   --background: #293b4f;
   --padding-start: 1.125rem;
   --padding-end: 1.125rem;
   --padding-top: 0.3125rem;
   --padding-bottom: 0.3125rem;
+  height: 25px;
+  min-height: 0;
+  text-transform: none;
+  font-family: $poppins;
 
   &__content {
     height: 100%;
@@ -101,10 +104,10 @@ const setIcon = computed<Component | null>(() => {
   }
   &--is-blackOrange {
     --background: none;
-    color: #f48516;
     --border-width: 2px;
     --border-style: solid;
     --border-color: #f48516;
+    color: #f48516;
   }
 }
 </style>
