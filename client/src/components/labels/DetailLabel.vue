@@ -1,5 +1,5 @@
 <template>
-  <IonChip class="detailLabel">HGaloooo</IonChip>
+  <IonChip class="detailLabel"><slot></slot></IonChip>
 </template>
 
 <script setup lang="ts">
