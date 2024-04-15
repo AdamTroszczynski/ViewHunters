@@ -1,5 +1,5 @@
 <template>
-  <IonButton :click="emitClickEvent()" class="iconButton">
+  <IonButton class="iconButton" @click="emitClickEvent()">
     <component :is="setIcon" class="iconButton__icon"></component>
   </IonButton>
 </template>
