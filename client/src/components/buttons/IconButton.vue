@@ -1,5 +1,5 @@
 <template>
-  <IonButton class="iconButton">
+  <IonButton :click="emitClickEvent()" class="iconButton">
     <component :is="setIcon" class="iconButton__icon"></component>
   </IonButton>
 </template>
@@ -33,6 +33,14 @@ const setIcon = computed<Component>(() => {
       return ExitIcon;
   }
 });
+
+const emit = defineEmits<{
+  /** Emit event after click button */
+  (e: 'clickAction'): void;
+}>();
+
+/** Emit click action event */
+const emitClickEvent = () => emit('clickAction');
 </script>
 
 <style lang="scss" scoped>

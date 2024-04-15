@@ -1,5 +1,6 @@
 <template>
   <IonButton
+    :click="emitClickEvent()"
     class="actionButton"
     :class="[
       isGreen ? 'actionButton--is-green' : '',
@@ -63,6 +64,14 @@ const setIcon = computed<Component | null>(() => {
       return null;
   }
 });
+
+const emit = defineEmits<{
+  /** Emit event after click button */
+  (e: 'clickAction'): void;
+}>();
+
+/** Emit click action event */
+const emitClickEvent = () => emit('clickAction');
 </script>
 
 <style lang="scss" scoped>
