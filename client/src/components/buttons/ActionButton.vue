@@ -1,12 +1,12 @@
 <template>
   <IonButton
-    :click="emitClickEvent()"
     class="actionButton"
     :class="[
       isGreen ? 'actionButton--is-green' : '',
       isOrange ? 'actionButton--is-orange' : '',
       isBlackOrange ? 'actionButton--is-blackOrange' : '',
     ]"
+    @click="emitClickEvent()"
   >
     <div class="actionButton__content">
       <div v-if="icon !== ''" class="actionButton__icon">

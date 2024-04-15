@@ -6,8 +6,8 @@
         slot="end"
         class="heroBanner__buttonsContainer"
       >
-        <IconButton :icon="'github'"></IconButton>
-        <IconButton :icon="'exit'"></IconButton>
+        <IconButton :icon="'github'" @click-action="openSource"></IconButton>
+        <IconButton :icon="'exit'" @click-action="logout"></IconButton>
       </IonButtons>
 
       <IonTitle
