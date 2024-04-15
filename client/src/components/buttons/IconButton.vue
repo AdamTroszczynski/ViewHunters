@@ -6,9 +6,9 @@
 
 <script setup lang="ts">
 import { IonButton } from '@ionic/vue';
+import { computed, type Component } from 'vue';
 import ExitIcon from '@/components/icons/ExitIcon.vue';
 import GithubIcon from '@/components/icons/GithubIcon.vue';
-import { computed, type Component } from 'vue';
 
 const props = defineProps({
   icon: {
