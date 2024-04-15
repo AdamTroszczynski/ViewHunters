@@ -19,11 +19,11 @@
 
 <script setup lang="ts">
 import { IonButton } from '@ionic/vue';
+import { computed, type Component } from 'vue';
 import ArrowIcon from '@/components/icons/usesIcons/ArrowIcon.vue';
 import CheckIcon from '@/components/icons/usesIcons/CheckIcon.vue';
 import CodeIcon from '@/components/icons/usesIcons/CodeIcon.vue';
 import LocationIcon from '@/components/icons/usesIcons/LocationIcon.vue';
-import { computed, type Component } from 'vue';
 
 const props = defineProps({
   isGreen: {
