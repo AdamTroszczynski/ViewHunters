@@ -83,6 +83,7 @@ const emitClickEvent = () => emit('clickAction');
   --padding-end: 1.125rem;
   --padding-top: 0.3125rem;
   --padding-bottom: 0.3125rem;
+  min-width: 100%;
   height: 25px;
   min-height: 0;
   text-transform: none;

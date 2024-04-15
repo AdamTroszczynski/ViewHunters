@@ -16,6 +16,7 @@ import { IonText } from '@ionic/vue';
     font-weight: 500;
     font-size: 1.25rem;
     color: #37414a;
+    margin: 0;
   }
 }
 </style>
