@@ -1,16 +1,19 @@
 <template>
   <IonHeader class="heroBanner" :translucent="true">
     <IonToolbar class="heroBanner__toolbar">
-      <IonButtons slot="end" class="heroBanner__buttonsContainer">
-        <IonButton class="heroBanner__actionButton" @click="logout()">
-          <ExitIcon class="heroBanner__actionButtonIcon" />
-        </IonButton>
-        <IonButton class="heroBanner__actionButton" @click="openSource()">
-          <GithubIcon class="heroBanner__actionButtonIcon" />
-        </IonButton>
+      <IonButtons
+        v-if="isLogged"
+        slot="end"
+        class="heroBanner__buttonsContainer"
+      >
+        <IconButton :icon="'github'"></IconButton>
+        <IconButton :icon="'exit'"></IconButton>
       </IonButtons>
 
-      <IonTitle class="heroBanner__title">
+      <IonTitle
+        class="heroBanner__title"
+        :class="isLogged ? 'heroBanner__title--is-logged' : ''"
+      >
         <span class="heroBanner__highlightText">View</span>
         Hunters
       </IonTitle>
@@ -19,15 +22,15 @@
 </template>
 
 <script setup lang="ts">
-import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonButtons,
-  IonButton,
-} from '@ionic/vue';
-import ExitIcon from '@/components/icons/ExitIcon.vue';
-import GithubIcon from '@/components/icons/GithubIcon.vue';
+import { IonHeader, IonToolbar, IonTitle, IonButtons } from '@ionic/vue';
+import IconButton from '@/components/buttons/IconButton.vue';
+
+defineProps({
+  isLogged: {
+    type: Boolean,
+    default: true,
+  },
+});
 
 /** Logout user */
 const logout = (): void => {
@@ -52,33 +55,22 @@ const openSource = (): void => {
   }
 
   &__buttonsContainer {
-    column-gap: 5px;
-  }
-
-  &__actionButton {
-    width: 29px;
-    min-height: 29px;
-
-    border: solid 1px $mediumGray;
-    border-radius: 8px;
-  }
-
-  &__actionButtonIcon {
-    min-width: 15px;
-    height: auto;
-
-    fill: $mediumGray;
+    column-gap: 8px;
   }
 
   &__title {
     padding: 0;
-    margin-right: 20px;
+    margin-right: 0px;
 
     font-family: $poppins;
     font-size: 1.5625rem;
     font-weight: bold;
     color: $mediumGray;
     text-align: center;
+
+    &--is-logged {
+      margin-right: 15px;
+    }
   }
 
   &__highlightText {
