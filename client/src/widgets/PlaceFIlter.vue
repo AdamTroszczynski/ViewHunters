@@ -1,17 +1,52 @@
 <template>
   <div class="filterSection">
     <span class="filterSection__text">Filters</span>
-    <ActionButton :is-orange="true" class="filterSection__placeBtn"
-      >Buildings</ActionButton
+    <ActionButton
+      :is-orange="true"
+      class="filterSection__placeBtn"
+      @click-action="showPlaces()"
+      >{{ store.selectedCategory }}</ActionButton
     >
-    <ActionButton :is-green="true" class="filterSection__scopeBtn"
-      >To 5 km</ActionButton
+    <ActionButton
+      :is-green="true"
+      class="filterSection__scopeBtn"
+      @click-action="showSlider()"
+      >{{ `To ${store.selectedDistanse} km` }}</ActionButton
     >
+    <template v-if="isSliderShowed">
+      <ion-range
+        aria-label="Volume"
+        class="filterSection__slider"
+        @ionChange="distanseChange"
+      ></ion-range>
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
 import ActionButton from '@/components/buttons/ActionButton.vue';
+import { ref, type Ref } from 'vue';
+import { usePlaceStore } from '@/stores/placeStore';
+
+const store = usePlaceStore();
+
+const isPlacesShowed: Ref<Boolean> = ref(false);
+const isSliderShowed: Ref<Boolean> = ref(false);
+
+/** Show menu with places after click */
+const showPlaces = () => {
+  isPlacesShowed.value = !isPlacesShowed.value;
+};
+
+/** Show slider after click */
+const showSlider = () => {
+  isSliderShowed.value = !isSliderShowed.value;
+};
+
+const distanseChange = (val: any) => {
+  const { detail } = val;
+  store.selectedDistanse = detail.value;
+};
 </script>
 
 <style lang="scss" scoped>
@@ -63,6 +98,14 @@ import ActionButton from '@/components/buttons/ActionButton.vue';
 
   &__scopeBtn {
     width: 76px;
+  }
+
+  &__slider {
+    position: absolute;
+    width: 100px;
+    left: 65%;
+    top: 100%;
+    --bar-height: 3px;
   }
 }
 </style>
