@@ -1,5 +1,9 @@
 <template>
-  <IonHeader class="heroBanner" :translucent="true">
+  <IonHeader
+    class="heroBanner"
+    :translucent="true"
+    :class="isFilters ? 'heroBanner--is-filters' : ''"
+  >
     <IonToolbar class="heroBanner__toolbar">
       <IonButtons
         v-if="isLogged"
@@ -30,6 +34,10 @@ defineProps({
     type: Boolean,
     default: true,
   },
+  isFilters: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 /** Logout user */
@@ -47,10 +55,15 @@ const openSource = (): void => {
 .heroBanner {
   box-shadow: 0 6px 12px rgba($mediumGray, 0.15);
 
+  &--is-filters {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+  }
+
   &__toolbar {
     padding: 29px 50px 27px;
 
-    --background: $white;
+    --background: white;
     --min-height: auto;
   }
 
