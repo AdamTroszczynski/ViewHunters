@@ -104,7 +104,6 @@ const emitClickEvent = () => emit('clickAction');
     font-family: $poppins;
     font-size: 0.7rem;
     font-weight: bold;
-    margin-top: 2px;
   }
   &--is-green {
     --background: #13dac0;
