@@ -1,51 +1,52 @@
 <template>
   <div class="filterSection">
     <span class="filterSection__text">Filters</span>
-    <ActionButton
-      :is-orange="true"
+    <SelectButton
+      :starting-value="store.selectedCategory"
+      :options="['Buildings', 'Bridges', 'Houses']"
       class="filterSection__placeBtn"
-      @click-action="showPlaces()"
-      >{{ store.selectedCategory }}</ActionButton
-    >
-    <ActionButton
+      @ion-change="setCategory($event)"
+    ></SelectButton>
+    <SelectButton
+      :starting-value="convertDistanse"
+      :options="['To 5 km', 'To 10 km', 'To 15 km']"
       :is-green="true"
       class="filterSection__scopeBtn"
-      @click-action="showSlider()"
-      >{{ `To ${store.selectedDistanse} km` }}</ActionButton
+      @ion-change="setDistanse($event)"
     >
-    <template v-if="isSliderShowed">
-      <ion-range
-        aria-label="Volume"
-        class="filterSection__slider"
-        @ionChange="distanseChange"
-      ></ion-range>
-    </template>
+    </SelectButton>
   </div>
 </template>
 
 <script setup lang="ts">
-import ActionButton from '@/components/buttons/ActionButton.vue';
-import { ref, type Ref } from 'vue';
 import { usePlaceStore } from '@/stores/placeStore';
+import { computed } from 'vue';
+import SelectButton from '@/components/buttons/SelectButton.vue';
 
 const store = usePlaceStore();
 
-const isPlacesShowed: Ref<Boolean> = ref(false);
-const isSliderShowed: Ref<Boolean> = ref(false);
+/** Convert selectedDistanse from number to string
+ * @return {string}
+ */
+const convertDistanse = computed<string>(() => {
+  return store.selectedDistanse == 5
+    ? 'To 5 km'
+    : store.selectedDistanse == 10
+      ? 'To 10 km'
+      : 'To 15 km';
+});
 
-/** Show menu with places after click */
-const showPlaces = () => {
-  isPlacesShowed.value = !isPlacesShowed.value;
+/** Set selected category to store */
+const setCategory = (ev: CustomEvent): void => {
+  const { detail } = ev;
+  store.selectedCategory = detail.value;
 };
 
-/** Show slider after click */
-const showSlider = () => {
-  isSliderShowed.value = !isSliderShowed.value;
-};
-
-const distanseChange = (val: any) => {
-  const { detail } = val;
-  store.selectedDistanse = detail.value;
+/** Convert and set selected distanse to store */
+const setDistanse = (ev: CustomEvent): void => {
+  const { detail } = ev;
+  store.selectedDistanse =
+    detail.value == 'To 5 km' ? 5 : detail.value == 'To 10 km' ? 10 : 15;
 };
 </script>
 
@@ -60,12 +61,14 @@ const distanseChange = (val: any) => {
   padding: 15px 44px;
   display: flex;
   align-items: center;
-  gap: 38px;
+  justify-content: center;
+  gap: 35px;
 
   &__text {
     font-weight: 500;
     font-family: $poppins;
     font-size: 0.9375rem;
+    color: #37414a;
     user-select: none;
   }
 
@@ -98,14 +101,6 @@ const distanseChange = (val: any) => {
 
   &__scopeBtn {
     width: 76px;
-  }
-
-  &__slider {
-    position: absolute;
-    width: 100px;
-    left: 65%;
-    top: 100%;
-    --bar-height: 3px;
   }
 }
 </style>
