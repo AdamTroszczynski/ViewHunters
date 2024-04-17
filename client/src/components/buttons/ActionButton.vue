@@ -102,7 +102,7 @@ const emitClickEvent = () => emit('clickAction');
   }
   &__text {
     font-family: $poppins;
-    font-size: 0.7rem;
+    font-size: 0.63rem;
     font-weight: bold;
   }
   &--is-green {
