@@ -1,8 +1,11 @@
 <template>
   <div class="nearbyCard">
-    <div class="nearbyCard__photo" :style="`background-image: url(${photo})`">
-      <DetailLabel class="nearbyCard__label">{{ label }}</DetailLabel>
-    </div>
+    <div
+      class="nearbyCard__photo"
+      :class="!isCompleted ? 'nearbyCard__photo--is-hidden' : ''"
+      :style="`background-image: url(${photo})`"
+    ></div>
+    <DetailLabel class="nearbyCard__label">{{ label }}</DetailLabel>
     <div class="nearbyCard__buttons">
       <ActionButton :icon="'location'" class="nearbyCard__locationBtn"
         >{{ `${distance} km` }}
@@ -47,12 +50,22 @@ defineProps({
 <style lang="scss" scoped>
 .nearbyCard {
   height: 150px;
+  position: relative;
 
   &__photo {
     height: 120px;
     background-size: cover;
     background-position: center;
     border-radius: 8px;
+
+    &--is-hidden {
+      opacity: 0.4;
+    }
+  }
+
+  &__label {
+    position: absolute;
+    top: 0;
   }
 
   &__buttons {
