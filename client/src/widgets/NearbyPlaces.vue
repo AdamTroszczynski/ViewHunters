@@ -6,7 +6,7 @@
       :key="place.name"
     >
       <NearbyCard
-        :photo="place.photo"
+        :photo="place.photo[0]"
         :distance="calcDistance(place)"
         :label="place.name"
       ></NearbyCard>
@@ -23,7 +23,7 @@ import {
 } from '@ionic/vue';
 import { computed, onBeforeMount } from 'vue';
 import { usePlaceStore } from '@/stores/placeStore';
-import type { Place } from '@/types/commonTypes';
+import type { Place } from '@/types/Place';
 import getPlaces from '@/testPlaces';
 import NearbyCard from '@/components/cards/NearbyCard.vue';
 
