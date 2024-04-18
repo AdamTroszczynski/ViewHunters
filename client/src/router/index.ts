@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 
 import HomeView from '@/views/HomeView.vue';
+import PlaceDetails from '@/views/PlaceDetails.vue';
 import TestView from '@/views/TestView.vue';
 
 import AchievementsView from '@/views/tabViews/AchievementsView.vue';
@@ -46,6 +47,11 @@ const router = createRouter({
       path: '/test',
       name: 'test',
       component: TestView,
+    },
+    {
+      path: '/placeDetail/:id',
+      name: 'placeDetail',
+      component: PlaceDetails,
     },
     {
       path: '/:pathMatch(.*)*',
