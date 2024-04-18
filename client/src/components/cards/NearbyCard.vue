@@ -51,6 +51,7 @@ defineProps({
 .nearbyCard {
   height: 150px;
   position: relative;
+  width: 100%;
 
   &__photo {
     height: 120px;
