@@ -14,10 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import { register } from 'swiper/element/bundle';
-
-register();
-
 defineProps({
   photos: {
     type: Array<string>,

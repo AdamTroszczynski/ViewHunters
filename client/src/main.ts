@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import { createPinia } from 'pinia';
+import { register } from 'swiper/element/bundle';
 
 import { IonicVue } from '@ionic/vue';
 
@@ -25,6 +26,7 @@ import '@ionic/vue/css/display.css';
 import './theme/variables.css';
 
 const app = createApp(App).use(IonicVue).use(router).use(createPinia());
+register();
 
 router.isReady().then(() => {
   app.mount('#app');
