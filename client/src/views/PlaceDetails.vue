@@ -3,12 +3,12 @@
     <HeroBanner />
     <div class="placeDetails">
       <div v-if="loadedPlace !== null">
-        <div
-          class="placeDetails__photo"
-          :style="`background-image: url(${loadedPlace.photo[0]})`"
-        ></div>
+        <div class="placeDetails__photo">
+          <PhotoGallery :photos="loadedPlace.photo"></PhotoGallery>
+        </div>
         <div class="placeDetails__header">
           <h2 class="placeDetails__title">{{ loadedPlace.name }}</h2>
+          <!-- DODAĆ TUTAJ ZE STORA OBLICZANIE ODLEGŁOŚCI-->
           <ActionButton :icon="'location'" class="placeDetails__locationBtn"
             >3.5 km</ActionButton
           >
@@ -27,6 +27,7 @@ import { IonPage } from '@ionic/vue';
 import { onBeforeMount, ref, type Ref } from 'vue';
 import { useRoute } from 'vue-router';
 import type { Place } from '@/types/Place';
+import PhotoGallery from '@/widgets/PhotoGallery.vue';
 import getPlaces from '@/testPlaces';
 import HeroBanner from '@/components/common/HeroBanner.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
@@ -62,7 +63,7 @@ onBeforeMount(() => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 10px;
+    margin-top: 17px;
   }
 
   &__title {
@@ -75,6 +76,7 @@ onBeforeMount(() => {
 
   &__locationBtn {
     width: 88px;
+    min-width: 88px;
   }
 
   &__text {
@@ -82,10 +84,12 @@ onBeforeMount(() => {
     font-weight: 500;
     font-size: 0.75rem;
     color: rgba(55, 65, 74, 0.6);
+    margin-top: 34px;
   }
 
   &__btn {
     width: 79px;
+    min-width: 79px;
   }
 }
 </style>

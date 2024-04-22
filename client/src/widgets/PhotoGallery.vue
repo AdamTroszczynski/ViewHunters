@@ -1,5 +1,7 @@
 <template>
   <swiper-container
+    :pagination="true"
+    :pagination-dynamic-bullets="true"
     :slides-per-view="1"
     :space-between="15"
     class="photoGallery"
