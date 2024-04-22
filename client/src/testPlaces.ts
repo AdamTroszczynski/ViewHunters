@@ -9,7 +9,7 @@ const Places: Place[] = [
     name: 'Building',
     geoWidth: 11,
     geoHeight: 5,
-    photo: ['/Untitled.jpeg'],
+    photo: ['/test.webp', 'test2.jpg', 'test3.jpg'],
     category: 'Buildings',
   },
   {
