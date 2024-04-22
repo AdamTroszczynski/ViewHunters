@@ -7,7 +7,7 @@ const Places: Place[] = [
     code: '000',
     isDiscovered: true,
     name: 'Building',
-    geoWidth: 5,
+    geoWidth: 11,
     geoHeight: 5,
     photo: ['/Untitled.jpeg'],
     category: 'Buildings',
