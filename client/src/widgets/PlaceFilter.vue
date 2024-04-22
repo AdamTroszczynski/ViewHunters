@@ -8,11 +8,11 @@
       @ion-change="setCategory($event)"
     ></SelectButton>
     <SelectButton
-      :starting-value="convertDistanse"
+      :starting-value="convertDistance"
       :options="['To 5 km', 'To 10 km', 'To 15 km']"
       :is-green="true"
       class="filterSection__scopeBtn"
-      @ion-change="setDistanse($event)"
+      @ion-change="setDistance($event)"
     >
     </SelectButton>
   </div>
@@ -25,10 +25,10 @@ import SelectButton from '@/components/buttons/SelectButton.vue';
 
 const store = usePlaceStore();
 
-/** Convert selectedDistanse from number to string
+/** Convert selectedDistance from number to string
  * @return {string}
  */
-const convertDistanse = computed<string>(() => {
+const convertDistance = computed<string>(() => {
   return store.selectedDistanse == 5
     ? 'To 5 km'
     : store.selectedDistanse == 10
@@ -36,14 +36,18 @@ const convertDistanse = computed<string>(() => {
       : 'To 15 km';
 });
 
-/** Set selected category to store */
+/** Set selected category to store
+ * @param {CustomEvent} ev selected category
+ */
 const setCategory = (ev: CustomEvent): void => {
   const { detail } = ev;
   store.selectedCategory = detail.value;
 };
 
-/** Convert and set selected distanse to store */
-const setDistanse = (ev: CustomEvent): void => {
+/** Convert and set selected distance to store
+ * @param {CustomEvent} ev selected distance
+ */
+const setDistance = (ev: CustomEvent): void => {
   const { detail } = ev;
   store.selectedDistanse =
     detail.value == 'To 5 km' ? 5 : detail.value == 'To 10 km' ? 10 : 15;

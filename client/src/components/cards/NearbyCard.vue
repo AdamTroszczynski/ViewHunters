@@ -2,7 +2,7 @@
   <div class="nearbyCard">
     <div
       class="nearbyCard__photo"
-      :class="!isCompleted ? 'nearbyCard__photo--is-hidden' : ''"
+      :class="!isDiscovered ? 'nearbyCard__photo--is-hidden' : ''"
       :style="`background-image: url(${photo})`"
     ></div>
     <DetailLabel class="nearbyCard__label">{{ label }}</DetailLabel>
@@ -11,7 +11,7 @@
         >{{ `${distance} km` }}
       </ActionButton>
       <ActionButton
-        v-if="isCompleted"
+        v-if="isDiscovered"
         :is-green="true"
         class="nearbyCard__statusBtn"
         >Completed</ActionButton
@@ -40,7 +40,7 @@ defineProps({
     type: String,
     required: true,
   },
-  isCompleted: {
+  isDiscovered: {
     type: Boolean,
     default: false,
   },
