@@ -74,12 +74,12 @@ defineProps({
   }
 
   &__locationBtn {
-    width: 88px;
+    --width: 88px;
     min-width: 0px;
   }
 
   &__statusBtn {
-    width: 100%;
+    width: 242px;
     min-width: 0px;
   }
 }
