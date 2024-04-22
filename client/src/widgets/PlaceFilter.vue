@@ -57,7 +57,6 @@ const setDistanse = (ev: CustomEvent): void => {
   background: white;
   box-shadow: 0 6px 12px rgba($mediumGray, 0.15);
   border-top: 1px solid rgba(55, 65, 74, 0.15);
-  position: fixed;
   padding: 15px 44px;
   display: flex;
   align-items: center;

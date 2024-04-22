@@ -1,6 +1,6 @@
 import { ref, type Ref } from 'vue';
 import { defineStore } from 'pinia';
-import type { Place } from '@/types/commonTypes';
+import type { Place } from '@/types/Place';
 
 export const usePlaceStore = defineStore('placeStore', () => {
   const selectedCategory: Ref<string> = ref('Buildings');
