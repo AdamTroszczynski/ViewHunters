@@ -24,6 +24,7 @@ import ArrowIcon from '@/components/icons/usesIcons/ArrowIcon.vue';
 import CheckIcon from '@/components/icons/usesIcons/CheckIcon.vue';
 import CodeIcon from '@/components/icons/usesIcons/CodeIcon.vue';
 import LocationIcon from '@/components/icons/usesIcons/LocationIcon.vue';
+import MapIcon from '@/components/icons/usesIcons/MapIcon.vue';
 
 const props = defineProps({
   isGreen: {
@@ -42,7 +43,7 @@ const props = defineProps({
     type: String,
     default: '',
     validator(val: string): boolean {
-      return ['arrow', 'check', 'code', 'location', ''].includes(val);
+      return ['arrow', 'check', 'code', 'location', 'map', ''].includes(val);
     },
   },
 });
@@ -60,6 +61,8 @@ const setIcon = computed<Component | null>(() => {
       return CodeIcon;
     case 'location':
       return LocationIcon;
+    case 'map':
+      return MapIcon;
     default:
       return null;
   }
