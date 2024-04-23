@@ -1,4 +1,4 @@
-import type { Place } from '@/types/Place';
+import type { Place, ExploredPlace } from '@/types/Place';
 
 const Places: Place[] = [
   {
@@ -124,7 +124,108 @@ const Places: Place[] = [
   },
 ];
 
-const getPlaces = (): Place[] => {
+const ExploredPlaces: ExploredPlace[] = [
+  { id: 1, name: 'Eifle Tower', photo: '/test.webp', category: 'Buildings' },
+  {
+    id: 2,
+    name: 'Grunwald Bridge',
+    photo: '/test2.jpg',
+    category: 'Buildings',
+  },
+  {
+    id: 3,
+    name: 'Politeknika Nova',
+    photo: '/test3.jpg',
+    category: 'Buildings',
+  },
+  {
+    id: 4,
+    name: 'Puchala Wiktor Szandal',
+    photo: '/images.jpg',
+    category: 'Buildings',
+  },
+  { id: 1, name: 'Eifle Tower', photo: '/test.webp', category: 'Buildings' },
+  {
+    id: 2,
+    name: 'Grunwald Bridge',
+    photo: '/test2.jpg',
+    category: 'Buildings',
+  },
+  {
+    id: 3,
+    name: 'Politeknika Nova',
+    photo: '/test3.jpg',
+    category: 'Buildings',
+  },
+  {
+    id: 4,
+    name: 'Puchala Wiktor Szandal',
+    photo: '/images.jpg',
+    category: 'Buildings',
+  },
+  { id: 1, name: 'Eifle Tower', photo: '/test.webp', category: 'Buildings' },
+  {
+    id: 2,
+    name: 'Grunwald Bridge',
+    photo: '/test2.jpg',
+    category: 'Buildings',
+  },
+  {
+    id: 3,
+    name: 'Politeknika Nova',
+    photo: '/test3.jpg',
+    category: 'Buildings',
+  },
+  {
+    id: 4,
+    name: 'Puchala Wiktor Szandal',
+    photo: '/images.jpg',
+    category: 'Buildings',
+  },
+  { id: 1, name: 'Eifle Tower', photo: '/test.webp', category: 'Buildings' },
+  {
+    id: 2,
+    name: 'Grunwald Bridge',
+    photo: '/test2.jpg',
+    category: 'Buildings',
+  },
+  {
+    id: 3,
+    name: 'Politeknika Nova',
+    photo: '/test3.jpg',
+    category: 'Buildings',
+  },
+  {
+    id: 4,
+    name: 'Puchala Wiktor Szandal',
+    photo: '/images.jpg',
+    category: 'Buildings',
+  },
+  { id: 1, name: 'Eifle Tower', photo: '/test.webp', category: 'Buildings' },
+  {
+    id: 2,
+    name: 'Grunwald Bridge',
+    photo: '/test2.jpg',
+    category: 'Buildings',
+  },
+  {
+    id: 3,
+    name: 'Politeknika Nova',
+    photo: '/test3.jpg',
+    category: 'Buildings',
+  },
+  {
+    id: 4,
+    name: 'Puchala Wiktor Szandal',
+    photo: '/images.jpg',
+    category: 'Buildings',
+  },
+];
+
+export const getPlaces = (): Place[] => {
   return Places;
 };
-export default getPlaces;
+
+export const getExploredPlaces = (): ExploredPlace[] => {
+  return ExploredPlaces;
+};

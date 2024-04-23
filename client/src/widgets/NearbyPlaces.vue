@@ -61,8 +61,7 @@ const filterPlaces = computed<Place[]>(() => {
 });
 
 onBeforeMount(() => {
-  const result = getPlaces(); // CONNECT SERVICE HERE
-  store.setPlaces(result);
+  store.loadPlaces();
 });
 </script>
 
