@@ -87,7 +87,7 @@ const setDistance = (ev: CustomEvent): void => {
       background: rgba(55, 65, 74, 0.15);
       height: 100%;
       top: 0;
-      left: -25%;
+      left: -20%;
     }
 
     &::after {
@@ -98,7 +98,7 @@ const setDistance = (ev: CustomEvent): void => {
       background: rgba(55, 65, 74, 0.15);
       height: 100%;
       top: 0;
-      left: 125%;
+      left: 120%;
     }
   }
 
