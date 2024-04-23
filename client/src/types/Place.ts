@@ -9,3 +9,10 @@ export type Place = {
   code: string;
   isDiscovered: boolean;
 };
+
+export type ExploredPlace = {
+  id: number;
+  name: string;
+  category: string;
+  photo: string;
+};
