@@ -24,7 +24,10 @@
         </div>
         <p class="placeDetails__text">{{ loadedPlace.description }}</p>
       </div>
-      <ActionButton :icon="'arrow'" class="placeDetails__btn"
+      <ActionButton
+        :icon="'arrow'"
+        class="placeDetails__btn"
+        @click-action="router.push('/nearby')"
         >Back</ActionButton
       >
     </div>
@@ -37,19 +40,20 @@
 <script setup lang="ts">
 import { IonPage, IonModal } from '@ionic/vue';
 import { onBeforeMount, ref, type Ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import type { Place } from '@/types/Place';
 import L from 'leaflet';
-import { LeafletEvent } from 'leaflet';
 import PhotoGallery from '@/widgets/PhotoGallery.vue';
 import getPlaces from '@/testPlaces';
 import HeroBanner from '@/components/common/HeroBanner.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
+
 const route = useRoute();
+const router = useRouter();
 
 const loadedPlace: Ref<Place | null> = ref(null);
 
-const map: Ref<LeafletEvent> = ref();
+const map = ref();
 
 /** Set map and marker to modal */
 const setMap = () => {
