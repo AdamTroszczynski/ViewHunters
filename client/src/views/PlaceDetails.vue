@@ -27,7 +27,7 @@
       <ActionButton
         :icon="'arrow'"
         class="placeDetails__btn"
-        @click-action="router.push('/nearby')"
+        @click-action="router.navigate('/', 'back', 'pop')"
         >Back</ActionButton
       >
     </div>
@@ -40,7 +40,8 @@
 <script setup lang="ts">
 import { IonPage, IonModal } from '@ionic/vue';
 import { onBeforeMount, ref, type Ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
+import { useIonRouter } from '@ionic/vue';
 import type { Place } from '@/types/Place';
 import L from 'leaflet';
 import PhotoGallery from '@/widgets/PhotoGallery.vue';
@@ -49,7 +50,7 @@ import HeroBanner from '@/components/common/HeroBanner.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
 
 const route = useRoute();
-const router = useRouter();
+const router = useIonRouter();
 
 const loadedPlace: Ref<Place | null> = ref(null);
 
