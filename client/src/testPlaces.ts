@@ -1,4 +1,4 @@
-import type { Place } from '@/types/Place';
+import type { Place, ExploredPlace } from '@/types/Place';
 
 const Places: Place[] = [
   {
