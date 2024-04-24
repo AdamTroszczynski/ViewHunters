@@ -16,6 +16,7 @@
       <ActionButton :icon="'code'" class="codeChecker__btn"
         >Scan QR code</ActionButton
       >
+      {{ values.code }}
     </div>
   </div>
 </template>
