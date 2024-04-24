@@ -6,34 +6,48 @@
       :key="place.id"
     >
       <ExploredCard
+        :id="place.id"
         :label="place.name"
-        :photo="place.photo"
-        @click-action="test(place.id)"
+        :photo="place.photo[0]"
+        @click-action="goToDetails"
       ></ExploredCard>
     </IonItem>
   </IonList>
 </template>
 
 <script setup lang="ts">
-import { IonList, IonItem } from '@ionic/vue';
+import {
+  IonList,
+  IonItem,
+  AnimationBuilder,
+  createAnimation,
+} from '@ionic/vue';
 import { computed, onBeforeMount } from 'vue';
 import { usePlaceStore } from '@/stores/placeStore';
+import { useIonRouter } from '@ionic/vue';
+import { Place } from '@/types/Place';
+
+import { forwardAnimation } from '@/animations/navigateAnimations';
 import ExploredCard from '@/components/cards/ExploredCard.vue';
-import { ExploredPlace } from '@/types/Place';
 
 const store = usePlaceStore();
+const router = useIonRouter();
 
 /**
- * Filter exploredPlaces based on selectedCategory
- * @returns {ExploredPlace[]}
+ * Filter ExploredPlaces based on selectedCategory
+ * @returns {Place[]}
  */
-const filteredPlaces = computed<ExploredPlace[]>(() => {
+const filteredPlaces = computed<Place[]>(() => {
   return store.exploredPlaces.filter(
     (el) => el.category === store.selectedCategory,
   );
 });
 
-const test = (id: number) => {
+/**
+ * Move to /placeDetail/id path
+ * @param {number} id - Place's id
+ */
+const goToDetails = (id: number) => {
   console.log(id);
 };
 

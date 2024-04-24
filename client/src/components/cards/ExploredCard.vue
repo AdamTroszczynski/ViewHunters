@@ -11,7 +11,11 @@
 <script setup lang="ts">
 import DetailLabel from '@/components/labels/DetailLabel.vue';
 
-defineProps({
+const props = defineProps({
+  id: {
+    type: Number,
+    required: true,
+  },
   photo: {
     type: String,
     required: true,
@@ -24,11 +28,11 @@ defineProps({
 
 const emit = defineEmits<{
   /** Emit event after click button */
-  (e: 'clickAction'): void;
+  (e: 'clickAction', id: number): void;
 }>();
 
 /** Emit click action event */
-const emitClickEvent = () => emit('clickAction');
+const emitClickEvent = () => emit('clickAction', props.id);
 </script>
 
 <style lang="scss" scoped>
