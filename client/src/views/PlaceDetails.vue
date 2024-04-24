@@ -13,7 +13,6 @@
               id="open-modal"
               :icon="'map'"
               class="placeDetails__btn"
-              @click="setMap"
               >Map</ActionButton
             >
             <!-- DODAĆ TUTAJ ZE STORA OBLICZANIE ODLEGŁOŚCI-->
@@ -31,7 +30,11 @@
         >Back</ActionButton
       >
     </div>
-    <IonModal trigger="open-modal" class="placeDetails__modal">
+    <IonModal
+      trigger="open-modal"
+      class="placeDetails__modal"
+      @didPresent="setMap"
+    >
       <div id="map" class="placeDetails__map"></div>
     </IonModal>
   </IonPage>
@@ -59,22 +62,20 @@ const map = ref();
 
 /** Set map and marker to modal */
 const setMap = () => {
-  setTimeout(() => {
-    if (loadedPlace.value !== null) {
-      map.value = L.map('map').setView(
-        [loadedPlace.value.geoWidth, loadedPlace.value.geoHeight],
-        18,
-      );
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution:
-          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }).addTo(map.value);
-      L.marker([loadedPlace.value.geoWidth, loadedPlace.value.geoHeight]).addTo(
-        map.value,
-      );
-    }
-  }, 200);
+  if (loadedPlace.value !== null) {
+    map.value = L.map('map').setView(
+      [loadedPlace.value.geoWidth, loadedPlace.value.geoHeight],
+      18,
+    );
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution:
+        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map.value);
+    L.marker([loadedPlace.value.geoWidth, loadedPlace.value.geoHeight]).addTo(
+      map.value,
+    );
+  }
 };
 
 onBeforeMount(() => {
