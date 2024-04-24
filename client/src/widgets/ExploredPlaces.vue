@@ -21,10 +21,10 @@ import {
   IonItem,
   AnimationBuilder,
   createAnimation,
+  useIonRouter,
 } from '@ionic/vue';
 import { computed, onBeforeMount } from 'vue';
 import { usePlaceStore } from '@/stores/placeStore';
-import { useIonRouter } from '@ionic/vue';
 import { Place } from '@/types/Place';
 
 import { forwardAnimation } from '@/animations/navigateAnimations';
