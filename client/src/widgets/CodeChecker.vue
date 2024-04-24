@@ -27,7 +27,10 @@
       class="codeChecker__modal"
       @didDismiss="stopCamera"
     >
-      <video ref="videoElement" width="100%" :hidden="!scanActive"></video>
+      <div v-show="!isLoaded" class="codeChecker__loader"></div>
+      <div v-show="isLoaded">
+        <video ref="videoElement" width="100%" :hidden="!scanActive"></video>
+      </div>
     </IonModal>
     <canvas ref="canvasElement" hidden></canvas>
   </div>
@@ -50,6 +53,13 @@ const videoElement: Ref<HTMLVideoElement | null> = ref(null);
 const canvasElement: Ref<HTMLCanvasElement | null> = ref(null);
 const canvasContext = ref();
 const scanActive = ref(false);
+const isLoaded = ref(false);
+
+const setActive = () => {
+  setTimeout(() => {
+    isLoaded.value = true;
+  }, 500);
+};
 
 const props = defineProps({
   id: {
@@ -77,6 +87,7 @@ const { validate, meta, values, setFieldError, setFieldValue } = useForm<{
 /** Close all stream tracks after close modal */
 const stopCamera = () => {
   scanActive.value = false;
+  isLoaded.value = false;
   if (!(videoElement.value instanceof HTMLMediaElement)) return;
   const stream = (videoElement.value as HTMLMediaElement)
     .srcObject as MediaStream;
@@ -99,6 +110,7 @@ const startScan = async () => {
     throw new Error('Video does not exist');
   }
   scanActive.value = true;
+  setActive();
   requestAnimationFrame(scan);
 };
 /** Scan all frames */
@@ -201,5 +213,66 @@ onMounted(() => {
     --border-radius: 8px;
     padding: 10px;
   }
+
+  &__loader {
+    position: absolute;
+    top: 90%;
+    height: 30px;
+    aspect-ratio: 2;
+    display: grid;
+    background:
+      radial-gradient(farthest-side, #000 15%, #0000 18%) 0 0/50% 100%,
+      radial-gradient(50% 100% at 50% 160%, #fff 95%, #0000) 0 0 /50% 50%,
+      radial-gradient(50% 100% at 50% -60%, #fff 95%, #0000) 0 100%/50% 50%;
+    background-repeat: repeat-x;
+    animation: l2 1.5s infinite linear;
+  }
+  @keyframes l2 {
+    0%,
+    15% {
+      background-position:
+        0 0,
+        0 0,
+        0 100%;
+    }
+    20%,
+    40% {
+      background-position:
+        5px 0,
+        0 0,
+        0 100%;
+    }
+    45%,
+    55% {
+      background-position:
+        0 0,
+        0 0,
+        0 100%;
+    }
+    60%,
+    80% {
+      background-position:
+        -5px 0,
+        0 0,
+        0 100%;
+    }
+    85%,
+    100% {
+      background-position:
+        0 0,
+        0 0,
+        0 100%;
+    }
+  }
 }
 </style>
+
+/* HTML:
+<div class="loader"></div>
+*/ .loader { display: inline-flex; gap: 10px; } .loader:before, .loader:after {
+content: ""; height: 20px; aspect-ratio: 1; border-radius: 50%; background:
+linear-gradient(#222 0 0) top/100% 40% no-repeat,
+radial-gradient(farthest-side,#000 95%,#0000) 50%/8px 8px no-repeat #fff;
+animation: l7 1.5s infinite alternate ease-in; } @keyframes l7 { 0%, 70%
+{background-size:100% 40%,8px 8px} 85% {background-size:100% 120%,8px 8px} 100%
+{background-size:100% 40%,8px 8px} }
