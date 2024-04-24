@@ -1,4 +1,4 @@
-import type { Place, ExploredPlace } from '@/types/Place';
+import type { Place } from '@/types/Place';
 
 const Places: Place[] = [
   {
@@ -49,7 +49,7 @@ const Places: Place[] = [
     id: 5,
     description: 'test',
     code: '000',
-    isDiscovered: false,
+    isDiscovered: true,
     name: 'HOuse 2',
     geoWidth: 5,
     geoHeight: 5,
@@ -60,7 +60,7 @@ const Places: Place[] = [
     id: 6,
     description: 'test',
     code: '000',
-    isDiscovered: false,
+    isDiscovered: true,
     name: 'HOuse 2',
     geoWidth: 5,
     geoHeight: 5,
@@ -104,7 +104,7 @@ const Places: Place[] = [
     id: 10,
     description: 'test',
     code: '000',
-    isDiscovered: false,
+    isDiscovered: true,
     name: 'HOuse 2',
     geoWidth: 5,
     geoHeight: 5,
@@ -124,101 +124,61 @@ const Places: Place[] = [
   },
 ];
 
-const ExploredPlaces: ExploredPlace[] = [
-  { id: 1, name: 'Eifle Tower', photo: '/test.webp', category: 'Buildings' },
+const ExploredPlaces: Place[] = [
   {
-    id: 2,
-    name: 'Grunwald Bridge',
-    photo: '/test2.jpg',
+    id: 1,
+    description: 'test',
+    code: '000',
+    isDiscovered: true,
+    name: 'Building',
+    geoWidth: 11,
+    geoHeight: 5,
+    photo: ['/Untitled.jpeg'],
     category: 'Buildings',
   },
   {
     id: 3,
-    name: 'Politeknika Nova',
-    photo: '/test3.jpg',
-    category: 'Buildings',
+    description: 'test',
+    code: '000',
+    isDiscovered: true,
+    name: 'HOuse 1',
+    geoWidth: 5,
+    geoHeight: 5,
+    photo: ['/test2.jpg'],
+    category: 'Houses',
   },
   {
-    id: 4,
-    name: 'Puchala Wiktor Szandal',
-    photo: '/images.jpg',
-    category: 'Buildings',
-  },
-  { id: 1, name: 'Eifle Tower', photo: '/test.webp', category: 'Buildings' },
-  {
-    id: 2,
-    name: 'Grunwald Bridge',
-    photo: '/test2.jpg',
-    category: 'Buildings',
+    id: 5,
+    description: 'test',
+    code: '000',
+    isDiscovered: true,
+    name: 'HOuse 2',
+    geoWidth: 5,
+    geoHeight: 5,
+    photo: ['/images.jpg'],
+    category: 'Houses',
   },
   {
-    id: 3,
-    name: 'Politeknika Nova',
-    photo: '/test3.jpg',
-    category: 'Buildings',
+    id: 6,
+    description: 'test',
+    code: '000',
+    isDiscovered: true,
+    name: 'HOuse 2',
+    geoWidth: 5,
+    geoHeight: 5,
+    photo: ['/images.jpg'],
+    category: 'Houses',
   },
   {
-    id: 4,
-    name: 'Puchala Wiktor Szandal',
-    photo: '/images.jpg',
-    category: 'Buildings',
-  },
-  { id: 1, name: 'Eifle Tower', photo: '/test.webp', category: 'Buildings' },
-  {
-    id: 2,
-    name: 'Grunwald Bridge',
-    photo: '/test2.jpg',
-    category: 'Buildings',
-  },
-  {
-    id: 3,
-    name: 'Politeknika Nova',
-    photo: '/test3.jpg',
-    category: 'Buildings',
-  },
-  {
-    id: 4,
-    name: 'Puchala Wiktor Szandal',
-    photo: '/images.jpg',
-    category: 'Buildings',
-  },
-  { id: 1, name: 'Eifle Tower', photo: '/test.webp', category: 'Buildings' },
-  {
-    id: 2,
-    name: 'Grunwald Bridge',
-    photo: '/test2.jpg',
-    category: 'Buildings',
-  },
-  {
-    id: 3,
-    name: 'Politeknika Nova',
-    photo: '/test3.jpg',
-    category: 'Buildings',
-  },
-  {
-    id: 4,
-    name: 'Puchala Wiktor Szandal',
-    photo: '/images.jpg',
-    category: 'Buildings',
-  },
-  { id: 1, name: 'Eifle Tower', photo: '/test.webp', category: 'Buildings' },
-  {
-    id: 2,
-    name: 'Grunwald Bridge',
-    photo: '/test2.jpg',
-    category: 'Buildings',
-  },
-  {
-    id: 3,
-    name: 'Politeknika Nova',
-    photo: '/test3.jpg',
-    category: 'Buildings',
-  },
-  {
-    id: 4,
-    name: 'Puchala Wiktor Szandal',
-    photo: '/images.jpg',
-    category: 'Buildings',
+    id: 10,
+    description: 'test',
+    code: '000',
+    isDiscovered: true,
+    name: 'HOuse 2',
+    geoWidth: 5,
+    geoHeight: 5,
+    photo: ['/images.jpg'],
+    category: 'Houses',
   },
 ];
 
@@ -226,6 +186,6 @@ export const getPlaces = (): Place[] => {
   return Places;
 };
 
-export const getExploredPlaces = (): ExploredPlace[] => {
+export const getExploredPlaces = (): Place[] => {
   return ExploredPlaces;
 };
