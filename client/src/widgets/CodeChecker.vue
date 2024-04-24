@@ -20,7 +20,6 @@
         @click-action="startScan"
         >Scan QR code</ActionButton
       >
-      {{ values.code }}
     </div>
     <IonModal
       ref="modal"
