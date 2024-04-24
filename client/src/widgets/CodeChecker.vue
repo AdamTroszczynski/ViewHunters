@@ -14,17 +14,27 @@
         >Check</ActionButton
       >
       <ActionButton
+        id="open-modal"
         :icon="'code'"
         class="codeChecker__btn"
         @click-action="startScan"
         >Scan QR code</ActionButton
       >
-      {{ values.code }}
     </div>
+    <IonModal
+      ref="modal"
+      trigger="open-modal"
+      class="codeChecker__modal"
+      @didDismiss="stopCamera"
+    >
+      <video ref="videoElement" width="100%" :hidden="!scanActive"></video>
+    </IonModal>
+    <canvas ref="canvasElement" hidden></canvas>
   </div>
 </template>
 
 <script setup lang="ts">
+import { IonModal } from '@ionic/vue';
 import MainInput from '@/components/inputs/MainInput.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
 import { object, string } from 'yup';
@@ -34,12 +44,12 @@ import { Ref, onMounted, ref } from 'vue';
 import jsQR from 'jsqr';
 
 const router = useIonRouter();
+const modal = ref();
 
 const videoElement: Ref<HTMLVideoElement | null> = ref(null);
-const canvasElement = ref();
+const canvasElement: Ref<HTMLCanvasElement | null> = ref(null);
 const canvasContext = ref();
 const scanActive = ref(false);
-const scanResult: Ref<string> = ref('');
 
 const props = defineProps({
   id: {
@@ -58,14 +68,26 @@ const codeSchema = object({
     .min(6, 'Username must be at least 6 characters'),
 });
 
-const { validate, meta, values, setFieldError } = useForm<{
+const { validate, meta, values, setFieldError, setFieldValue } = useForm<{
   code: String;
 }>({
   validationSchema: codeSchema,
 });
 
-const reset = () => (scanResult.value = '');
-const stopScan = () => (scanActive.value = false);
+/** Close all stream tracks after close modal */
+const stopCamera = () => {
+  scanActive.value = false;
+  if (!(videoElement.value instanceof HTMLMediaElement)) return;
+  const stream = (videoElement.value as HTMLMediaElement)
+    .srcObject as MediaStream;
+  if (stream) {
+    const tracks = stream.getTracks();
+    tracks.forEach((track) => track.stop());
+    videoElement.value.srcObject = null;
+  }
+};
+
+/** Start scanning after btn cliced */
 const startScan = async () => {
   const stream = await navigator.mediaDevices.getUserMedia({
     video: { facingMode: 'environment' },
@@ -79,9 +101,11 @@ const startScan = async () => {
   scanActive.value = true;
   requestAnimationFrame(scan);
 };
+/** Scan all frames */
 const scan = async () => {
   if (
     videoElement.value !== null &&
+    canvasElement.value !== null &&
     videoElement.value.readyState === videoElement.value.HAVE_ENOUGH_DATA
   ) {
     canvasElement.value.height = videoElement.value.videoHeight;
@@ -105,7 +129,9 @@ const scan = async () => {
     });
     if (code) {
       scanActive.value = false;
-      scanResult.value = code.data;
+      setFieldValue('code', code.data);
+      modal.value.$el.dismiss();
+      checkCode();
     } else {
       if (scanActive.value) {
         requestAnimationFrame(scan);
@@ -116,6 +142,7 @@ const scan = async () => {
   }
 };
 
+/** Check if code is valid */
 const checkCode = async (): Promise<any> => {
   try {
     await validate();
@@ -123,6 +150,7 @@ const checkCode = async (): Promise<any> => {
       if (values.code !== props.code) {
         setFieldError('code', 'The code is invalid');
       } else {
+        stopCamera();
         router.navigate(`/placeDetail/${props.id}`, 'none', 'replace');
       }
     }
@@ -132,7 +160,11 @@ const checkCode = async (): Promise<any> => {
 };
 
 onMounted(() => {
-  canvasContext.value = canvasElement.value.getContext('2d');
+  if (canvasElement.value !== null) {
+    canvasContext.value = canvasElement.value.getContext('2d');
+  } else {
+    throw new Error('Canvas does not exist');
+  }
 });
 </script>
 
@@ -162,6 +194,12 @@ onMounted(() => {
     font-size: 1rem;
     color: red;
     text-align: center;
+  }
+
+  &__modal {
+    --height: 290px;
+    --border-radius: 8px;
+    padding: 10px;
   }
 }
 </style>
