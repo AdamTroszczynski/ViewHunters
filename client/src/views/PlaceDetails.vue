@@ -27,7 +27,7 @@
       <ActionButton
         :icon="'arrow'"
         class="placeDetails__btn"
-        @click-action="router.navigate('/', 'back', 'pop')"
+        @click-action="router.back(backAnimation)"
         >Back</ActionButton
       >
     </div>
@@ -45,6 +45,7 @@ import { useIonRouter } from '@ionic/vue';
 import type { Place } from '@/types/Place';
 import L from 'leaflet';
 import PhotoGallery from '@/widgets/PhotoGallery.vue';
+import { backAnimation } from '@/animations/navigateAnimations';
 import getPlaces from '@/testPlaces';
 import HeroBanner from '@/components/common/HeroBanner.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
