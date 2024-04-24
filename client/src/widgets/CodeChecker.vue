@@ -10,10 +10,13 @@
         :icon="'check'"
         :is-green="true"
         class="codeChecker__btn"
-        @click-action="check"
+        @click-action="checkCode"
         >Check</ActionButton
       >
-      <ActionButton :icon="'code'" class="codeChecker__btn"
+      <ActionButton
+        :icon="'code'"
+        class="codeChecker__btn"
+        @click-action="startScan"
         >Scan QR code</ActionButton
       >
       {{ values.code }}
@@ -27,8 +30,16 @@ import ActionButton from '@/components/buttons/ActionButton.vue';
 import { object, string } from 'yup';
 import { useIonRouter } from '@ionic/vue';
 import { useForm } from 'vee-validate';
+import { Ref, onMounted, ref } from 'vue';
+import jsQR from 'jsqr';
 
 const router = useIonRouter();
+
+const videoElement: Ref<HTMLVideoElement | null> = ref(null);
+const canvasElement = ref();
+const canvasContext = ref();
+const scanActive = ref(false);
+const scanResult: Ref<string> = ref('');
 
 const props = defineProps({
   id: {
@@ -41,7 +52,7 @@ const props = defineProps({
   },
 });
 
-const loginSchema = object({
+const codeSchema = object({
   code: string()
     .required('Please enter a code')
     .min(6, 'Username must be at least 6 characters'),
@@ -50,10 +61,62 @@ const loginSchema = object({
 const { validate, meta, values, setFieldError } = useForm<{
   code: String;
 }>({
-  validationSchema: loginSchema,
+  validationSchema: codeSchema,
 });
 
-const check = async (): Promise<any> => {
+const reset = () => (scanResult.value = '');
+const stopScan = () => (scanActive.value = false);
+const startScan = async () => {
+  const stream = await navigator.mediaDevices.getUserMedia({
+    video: { facingMode: 'environment' },
+  });
+  if (videoElement.value !== null) {
+    videoElement.value.srcObject = stream;
+    videoElement.value.play();
+  } else {
+    throw new Error('Video does not exist');
+  }
+  scanActive.value = true;
+  requestAnimationFrame(scan);
+};
+const scan = async () => {
+  if (
+    videoElement.value !== null &&
+    videoElement.value.readyState === videoElement.value.HAVE_ENOUGH_DATA
+  ) {
+    canvasElement.value.height = videoElement.value.videoHeight;
+    canvasElement.value.width = videoElement.value.videoWidth;
+
+    canvasContext.value.drawImage(
+      videoElement.value,
+      0,
+      0,
+      canvasElement.value.width,
+      canvasElement.value.height,
+    );
+    const imageData = canvasContext.value.getImageData(
+      0,
+      0,
+      canvasElement.value.width,
+      canvasElement.value.height,
+    );
+    const code = jsQR(imageData.data, imageData.width, imageData.height, {
+      inversionAttempts: 'dontInvert',
+    });
+    if (code) {
+      scanActive.value = false;
+      scanResult.value = code.data;
+    } else {
+      if (scanActive.value) {
+        requestAnimationFrame(scan);
+      }
+    }
+  } else {
+    requestAnimationFrame(scan);
+  }
+};
+
+const checkCode = async (): Promise<any> => {
   try {
     await validate();
     if (meta.value.valid) {
@@ -67,6 +130,10 @@ const check = async (): Promise<any> => {
     console.log(err);
   }
 };
+
+onMounted(() => {
+  canvasContext.value = canvasElement.value.getContext('2d');
+});
 </script>
 
 <style lang="scss" scoped>
