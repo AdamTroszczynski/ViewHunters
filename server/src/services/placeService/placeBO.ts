@@ -1,5 +1,5 @@
 import type Place from '@/types/Place';
-import { getNearestPlacesDAO } from '@/services/placeService/placeDAO';
+import { getNearestPlacesDAO, getSinglePlaceDAO } from '@/services/placeService/placeDAO';
 
 /**
  * Get nearest places BO, only places that are near the user's location
@@ -24,4 +24,18 @@ export const getNearestPlacesBO = async (geoWidth: number, geoHeight: number): P
   });
 
   return filteredPlaces;
+};
+
+/**
+ * Get single place BO
+ * @param {number} id place id
+ * @returns {Place} single place object
+ */
+export const getSinglePlaceBO = async (id: number): Promise<Place | null> => {
+  const place = await getSinglePlaceDAO(id);
+  if (place) {
+    place.photo = (place.photo as string).split(',');
+  }
+
+  return place;
 };
