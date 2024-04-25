@@ -15,8 +15,10 @@
 </template>
 
 <script setup lang="ts">
+import { PropType } from 'vue';
 import { IonInput } from '@ionic/vue';
 import { useField } from 'vee-validate';
+import type { TextFieldTypes } from '@ionic/core';
 
 const props = defineProps({
   name: {
@@ -24,7 +26,7 @@ const props = defineProps({
     required: true,
   },
   type: {
-    type: String,
+    type: String as PropType<TextFieldTypes>,
     default: 'text',
   },
   placeholder: {
