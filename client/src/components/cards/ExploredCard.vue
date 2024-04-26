@@ -56,6 +56,7 @@ const emitClickEvent = () => emit('clickAction', props.id);
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-inline: 0px;
   }
 }
 </style>
