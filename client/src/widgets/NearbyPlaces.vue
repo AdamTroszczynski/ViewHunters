@@ -3,13 +3,15 @@
     <IonItem
       class="nearbyPlaces__item"
       v-for="place in filterPlaces"
-      :key="place.name"
+      :key="place.id"
     >
       <NearbyCard
+        :id="place.id"
         :photo="place.photo[0]"
         :distance="calcDistance(place)"
         :label="place.name"
         :is-discovered="place.isDiscovered"
+        @click-action="choosePath($event, place.isDiscovered)"
       ></NearbyCard>
     </IonItem>
   </IonList>
@@ -19,16 +21,28 @@
 import { IonList, IonItem } from '@ionic/vue';
 import { computed, onBeforeMount } from 'vue';
 import { usePlaceStore } from '@/stores/placeStore';
+import { forwardAnimation } from '@/animations/navigateAnimations';
+import { useIonRouter } from '@ionic/vue';
 import type { Place } from '@/types/Place';
 import getPlaces from '@/testPlaces';
 import NearbyCard from '@/components/cards/NearbyCard.vue';
 
 const store = usePlaceStore();
+const router = useIonRouter();
 
 // SET USER LOCATION INSTED OF THIS !!!!
 const location = {
   width: 5,
   height: 5,
+};
+
+/** Choose where redirect */
+const choosePath = (id: number, isDiscovered: boolean) => {
+  if (isDiscovered) {
+    router.navigate(`/placeDetail/${id}`, 'forward', 'push', forwardAnimation);
+  } else {
+    router.navigate(`/placeUnlock/${id}`, 'forward', 'push', forwardAnimation);
+  }
 };
 
 /** Filter places from store

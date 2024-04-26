@@ -40,6 +40,7 @@
 import { IonModal } from '@ionic/vue';
 import MainInput from '@/components/inputs/MainInput.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
+import { forwardAnimation } from '@/animations/navigateAnimations';
 import { object, string } from 'yup';
 import { useIonRouter } from '@ionic/vue';
 import { useForm } from 'vee-validate';
@@ -163,7 +164,12 @@ const checkCode = async (): Promise<any> => {
         setFieldError('code', 'The code is invalid');
       } else {
         stopCamera();
-        router.navigate(`/placeDetail/${props.id}`, 'none', 'replace');
+        router.navigate(
+          `/placeDetail/${props.id}`,
+          'root',
+          'replace',
+          forwardAnimation,
+        );
       }
     }
   } catch (err) {

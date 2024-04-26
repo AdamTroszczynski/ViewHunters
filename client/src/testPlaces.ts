@@ -4,8 +4,8 @@ const Places: Place[] = [
   {
     id: 1,
     name: 'Bridge',
-    geoWidth: 51.108177,
-    geoHeight: 17.069694,
+    geoWidth: 5,
+    geoHeight: 5,
     description: 'test',
     code: '000',
     isDiscovered: true,

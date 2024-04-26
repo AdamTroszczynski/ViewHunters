@@ -18,13 +18,13 @@ export const forwardAnimation: AnimationBuilder = (baseEl: any, opts?: any) => {
 };
 
 export const backAnimation: AnimationBuilder = (baseEl: any, opts?: any) => {
-  const forwardAnimation = createAnimation()
+  const leavingAnimation = createAnimation()
     .addElement(opts.leavingEl)
     .duration(200)
     .fromTo('transform', 'translateX(0)', 'translateX(100%)')
     .fromTo('opacity', 1, 0.7);
 
-  const leavingAnimation = createAnimation()
+  const forwardAnimation = createAnimation()
     .addElement(opts.enteringEl)
     .duration(200)
     .fromTo('opacity', 0.6, 1);

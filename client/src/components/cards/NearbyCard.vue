@@ -1,5 +1,5 @@
 <template>
-  <div class="nearbyCard">
+  <div class="nearbyCard" @click="emitClickEvent">
     <div
       class="nearbyCard__photo"
       :class="!isDiscovered ? 'nearbyCard__photo--is-hidden' : ''"
@@ -27,7 +27,11 @@
 import DetailLabel from '@/components/labels/DetailLabel.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
 
-defineProps({
+const props = defineProps({
+  id: {
+    type: Number,
+    required: true,
+  },
   photo: {
     type: String,
     required: true,
@@ -45,6 +49,14 @@ defineProps({
     default: false,
   },
 });
+
+const emit = defineEmits<{
+  /** Emit event after click button */
+  (e: 'clickAction', id: number): void;
+}>();
+
+/** Emit click action event */
+const emitClickEvent = () => emit('clickAction', props.id);
 </script>
 
 <style lang="scss" scoped>

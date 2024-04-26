@@ -60,11 +60,12 @@ const loadedPlace: Ref<Place | null> = ref(null);
 
 const map = ref();
 
+/** Choose where redirect */
 const goBack = async () => {
   if (router.canGoBack()) {
     router.back(backAnimation);
   } else {
-    router.navigate('/nearby', 'root', 'replace', backAnimation);
+    router.navigate('/explored', 'root', 'pop', backAnimation);
   }
 };
 
