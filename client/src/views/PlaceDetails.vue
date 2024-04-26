@@ -10,9 +10,9 @@
           <h2 class="placeDetails__title">{{ loadedPlace.name }}</h2>
           <div>
             <ActionButton
-              id="open-modal"
               :icon="'map'"
               class="placeDetails__btn"
+              @click-action="isModalOpen = true"
               >Map</ActionButton
             >
             <!-- DODAĆ TUTAJ ZE STORA OBLICZANIE ODLEGŁOŚCI-->
@@ -31,9 +31,10 @@
       >
     </div>
     <IonModal
-      trigger="open-modal"
+      :is-open="isModalOpen"
       class="placeDetails__modal"
       @didPresent="setMap"
+      @didDismiss="isModalOpen = false"
     >
       <div id="map" class="placeDetails__map"></div>
     </IonModal>
@@ -58,6 +59,7 @@ const router = useIonRouter();
 
 const loadedPlace: Ref<Place | null> = ref(null);
 
+const isModalOpen = ref(false);
 const map = ref();
 
 /** Choose where redirect */
@@ -87,7 +89,7 @@ const setMap = () => {
   }
 };
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
   const placeId = Number(route.params.id);
   loadedPlace.value = getPlaces()[placeId - 1];
 });
