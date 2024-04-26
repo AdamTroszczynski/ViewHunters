@@ -27,7 +27,7 @@ const Places: Place[] = [
     id: 3,
     description: 'test',
     code: '000',
-    isDiscovered: false,
+    isDiscovered: true,
     name: 'HOuse 1',
     geoWidth: 5,
     geoHeight: 5,
@@ -38,7 +38,7 @@ const Places: Place[] = [
     id: 4,
     description: 'test',
     code: '000',
-    isDiscovered: false,
+    isDiscovered: true,
     name: 'HOuse 2',
     geoWidth: 5,
     geoHeight: 5,
@@ -46,7 +46,7 @@ const Places: Place[] = [
     category: 'Houses',
   },
   {
-    id: 4,
+    id: 5,
     description: 'test',
     code: '000',
     isDiscovered: false,
@@ -57,7 +57,7 @@ const Places: Place[] = [
     category: 'Houses',
   },
   {
-    id: 4,
+    id: 6,
     description: 'test',
     code: '000',
     isDiscovered: false,
@@ -68,7 +68,7 @@ const Places: Place[] = [
     category: 'Houses',
   },
   {
-    id: 4,
+    id: 7,
     description: 'test',
     code: '000',
     isDiscovered: false,
@@ -79,7 +79,7 @@ const Places: Place[] = [
     category: 'Houses',
   },
   {
-    id: 4,
+    id: 8,
     description: 'test',
     code: '000',
     isDiscovered: false,
@@ -90,7 +90,7 @@ const Places: Place[] = [
     category: 'Houses',
   },
   {
-    id: 4,
+    id: 9,
     description: 'test',
     code: '000',
     isDiscovered: false,
@@ -101,7 +101,7 @@ const Places: Place[] = [
     category: 'Houses',
   },
   {
-    id: 4,
+    id: 10,
     description: 'test',
     code: '000',
     isDiscovered: false,
@@ -112,7 +112,7 @@ const Places: Place[] = [
     category: 'Houses',
   },
   {
-    id: 4,
+    id: 11,
     description: 'test',
     code: '000',
     isDiscovered: false,
