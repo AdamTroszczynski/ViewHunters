@@ -26,7 +26,7 @@
       <ActionButton
         :icon="'arrow'"
         class="placeDetails__btn"
-        @click-action="router.back(backAnimation)"
+        @click-action="goBack"
         >Back</ActionButton
       >
     </div>
@@ -59,6 +59,14 @@ const router = useIonRouter();
 const loadedPlace: Ref<Place | null> = ref(null);
 
 const map = ref();
+
+const goBack = async () => {
+  if (router.canGoBack()) {
+    router.back(backAnimation);
+  } else {
+    router.navigate('/nearby', 'root', 'replace', backAnimation);
+  }
+};
 
 /** Set map and marker to modal */
 const setMap = () => {
