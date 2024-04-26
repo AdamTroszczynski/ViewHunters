@@ -5,13 +5,14 @@
         ><slot name="title"></slot
       ></TitleLabel>
       <slot name="inputs"></slot>
+      <ActionButton
+        class="mainForm__btn"
+        :is-green="true"
+        :icon="'check'"
+        @click-action="emitAuthAction"
+        ><slot name="button"></slot
+      ></ActionButton>
     </div>
-    <ActionButton
-      :is-green="true"
-      :icon="'check'"
-      @click-action="emitAuthAction"
-      ><slot name="button"></slot
-    ></ActionButton>
   </form>
 </template>
 
@@ -30,7 +31,6 @@ const emitAuthAction = (): void => emit('onSubmit');
 
 <style lang="scss" scoped>
 .mainForm {
-  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -44,6 +44,10 @@ const emitAuthAction = (): void => emit('onSubmit');
 
   &__title {
     margin-bottom: 1rem;
+  }
+
+  &__btn {
+    margin-top: 15px;
   }
 }
 </style>
