@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 
 import HomeView from '@/views/HomeView.vue';
 import PlaceDetails from '@/views/PlaceDetails.vue';
+import LoginView from '@/views/LoginView.vue';
+import RegisterView from '@/views/RegisterView.vue';
 import TestView from '@/views/TestView.vue';
 
 import AchievementsView from '@/views/tabViews/AchievementsView.vue';
@@ -47,6 +49,16 @@ const router = createRouter({
       path: '/test',
       name: 'test',
       component: TestView,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView,
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: RegisterView,
     },
     {
       path: '/placeDetail/:id',
