@@ -1,17 +1,19 @@
 <template>
   <IonList class="exploredPlaces">
-    <IonItem
-      class="exploredPlaces__item"
-      v-for="place in filteredPlaces"
-      :key="place.id"
-    >
-      <ExploredCard
-        :id="place.id"
-        :label="place.name"
-        :photo="place.photo[0]"
-        @click-action="goToDetails"
-      ></ExploredCard>
-    </IonItem>
+    <TransitionGroup name="list">
+      <IonItem
+        class="exploredPlaces__item"
+        v-for="place in filteredPlaces"
+        :key="place.id"
+      >
+        <ExploredCard
+          :id="place.id"
+          :label="place.name"
+          :photo="place.photo[0]"
+          @click-action="goToDetails"
+        />
+      </IonItem>
+    </TransitionGroup>
   </IonList>
 </template>
 
@@ -66,6 +68,13 @@ onBeforeMount(() => {
     --border: none;
     --padding-start: 0px;
     --inner-padding-end: 0px;
+  }
+  .list-enter-active {
+    transition: all 0.5s ease;
+  }
+  .list-enter-from {
+    opacity: 0;
+    transform: translateY(30px);
   }
 }
 </style>
