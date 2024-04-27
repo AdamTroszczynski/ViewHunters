@@ -8,8 +8,7 @@ export const getSinglePlace = async (id: number): Promise<Place> => {
         const data = response.data;
         return data;
     } catch (error) {
-        console.log(error);
-        throw new Error('getSinglePlace error');
+        throw new Error('GetSinglePlace service error');
     }
 }
 
@@ -19,7 +18,6 @@ export const getPLaces = async (geoWidth: number, geoHeight: number): Promise<Pl
         const data = response.data;
         return data;
     } catch (error) {
-        console.log(error);
-        throw new Error('getPlaces error');
+        throw new Error('GetPlaces service error');
     }
 }
