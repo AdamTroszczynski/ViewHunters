@@ -54,7 +54,7 @@ onBeforeMount(() => {
 
 <style lang="scss" scoped>
 .exploredPlaces {
-  min-height: fit-content;
+  min-height: min-content;
   padding: 0px;
   background: none;
   display: flex;
