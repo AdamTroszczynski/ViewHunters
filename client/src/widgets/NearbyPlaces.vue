@@ -1,25 +1,30 @@
 <template>
-  <IonList class="nearbyPlaces">
-    <IonItem
-      class="nearbyPlaces__item"
-      v-for="place in filterPlaces"
-      :key="place.id"
-    >
-      <NearbyCard
-        :id="place.id"
-        :photo="place.photo[0]"
-        :distance="calcDistance(place)"
-        :label="place.name"
-        :is-discovered="place.isDiscovered"
-        @click-action="choosePath($event, place.isDiscovered)"
-      ></NearbyCard>
-    </IonItem>
+  <IonList
+    class="nearbyPlaces"
+    :class="filterPlaces.length < 3 ? 'nearbyPlaces--is-maxTwo' : ''"
+  >
+    <TransitionGroup name="list">
+      <IonItem
+        class="nearbyPlaces__item"
+        v-for="place in filterPlaces"
+        :key="place.id"
+      >
+        <NearbyCard
+          :id="place.id"
+          :photo="place.photo[0]"
+          :distance="store.getDistance(place)"
+          :label="place.name"
+          :is-discovered="place.isDiscovered"
+          @click-action="choosePath($event, place.isDiscovered)"
+        ></NearbyCard>
+      </IonItem>
+    </TransitionGroup>
   </IonList>
 </template>
 
 <script setup lang="ts">
 import { IonList, IonItem } from '@ionic/vue';
-import { computed, onBeforeMount } from 'vue';
+import { computed, onBeforeMount, watch } from 'vue';
 import { usePlaceStore } from '@/stores/placeStore';
 import { forwardAnimation } from '@/animations/navigateAnimations';
 import { useIonRouter } from '@ionic/vue';
@@ -30,13 +35,10 @@ import NearbyCard from '@/components/cards/NearbyCard.vue';
 const store = usePlaceStore();
 const router = useIonRouter();
 
-// SET USER LOCATION INSTED OF THIS !!!!
-const location = {
-  width: 5,
-  height: 5,
-};
-
-/** Choose where redirect */
+/** Redirect to correct path
+ * @param {number} id - Place's id
+ * @param {boolean} isDiscovered - If place is discorvered
+ */
 const choosePath = (id: number, isDiscovered: boolean) => {
   if (isDiscovered) {
     router.navigate(`/placeDetail/${id}`, 'forward', 'push', forwardAnimation);
@@ -52,19 +54,10 @@ const filterPlaces = computed<Place[]>(() => {
   const filterArray = store.places.filter(
     (el) => el.category === store.selectedCategory,
   );
-  return filterArray.filter((el) => calcDistance(el) <= store.selectedDistanse);
-});
-
-/** Calculate distance from device location to place
- * @param {Place} place Place object
- * @returns {number} - Distance from device location to place
- */
-const calcDistance = (place: Place): number => {
-  return Math.sqrt(
-    Math.pow(place.geoWidth - location.width, 2) +
-      Math.pow(place.geoHeight - location.height, 2),
+  return filterArray.filter(
+    (el) => store.getDistance(el) <= store.selectedDistanse,
   );
-};
+});
 
 onBeforeMount(() => {
   const result = getPlaces(); // CONNECT SERVICE HERE
@@ -74,12 +67,16 @@ onBeforeMount(() => {
 
 <style lang="scss" scoped>
 .nearbyPlaces {
-  min-height: fit-content;
+  height: min-content;
   padding: 0px;
   background: none;
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  &--is-maxTwo {
+    min-height: 80%;
+  }
 
   &__item {
     --inner-border-width: 0px;
@@ -88,6 +85,14 @@ onBeforeMount(() => {
     --border: none;
     --padding-start: 0px;
     --inner-padding-end: 0px;
+  }
+
+  .list-enter-active {
+    transition: all 0.5s ease;
+  }
+  .list-enter-from {
+    opacity: 0;
+    transform: translateY(30px);
   }
 }
 </style>
