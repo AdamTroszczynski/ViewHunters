@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import { IonList, IonItem } from '@ionic/vue';
-import { computed, onBeforeMount, watch } from 'vue';
+import { computed, onBeforeMount } from 'vue';
 import { usePlaceStore } from '@/stores/placeStore';
 import { forwardAnimation } from '@/animations/navigateAnimations';
 import { useIonRouter } from '@ionic/vue';
