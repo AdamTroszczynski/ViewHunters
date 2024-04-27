@@ -32,7 +32,7 @@ import TitleLabel from '@/components/labels/TitleLabel.vue';
     width: 100%;
     height: 100%;
     overflow-y: scroll;
-    padding: 0px 20px 0px 20px;
+    padding: 0px 20px 160px 20px;
     display: flex;
     flex-direction: column;
     gap: 30px;
