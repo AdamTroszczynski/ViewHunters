@@ -9,12 +9,19 @@ datasource db {
 }
 
 model Places {
-  id Int @id @default(autoincrement())
-  name String
-  geoWidth Int
-  geoHeight Int
-  photo String
-  category String
-  description String
-  code String
+  id            Int @id @default(autoincrement())
+  name          String
+  geoWidth      Int
+  geoHeight     Int
+  photo         String
+  category      String
+  description   String
+  code          String
+}
+
+model User {
+  id            Int @id @default(autoincrement())
+  username      String
+  email         String
+  passwordHash  String
 }
