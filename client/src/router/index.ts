@@ -5,8 +5,6 @@ import PlaceDetailView from '@/views/PlaceDetailView.vue';
 import LoginView from '@/views/LoginView.vue';
 import RegisterView from '@/views/RegisterView.vue';
 import PlaceUnlockView from '@/views/PlaceUnlockView.vue';
-import TestView from '@/views/TestView.vue';
-
 import AchievementsView from '@/views/tabViews/AchievementsView.vue';
 import ExploredView from '@/views/tabViews/ExploredView.vue';
 import ProfileView from '@/views/tabViews/ProfileView.vue';
@@ -45,11 +43,6 @@ const router = createRouter({
           component: ExploredView,
         },
       ],
-    },
-    {
-      path: '/test',
-      name: 'test',
-      component: TestView,
     },
     {
       path: '/login',

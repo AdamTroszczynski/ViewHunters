@@ -2,8 +2,9 @@ import express, { Express } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import { json } from 'body-parser';
-import { BASE_CLIENT_URL, PREVIEW_CLIENT_URL, PLACE_API_PATH } from '@/const/commonConst';
+import { BASE_CLIENT_URL, PREVIEW_CLIENT_URL, PLACE_API_PATH, AUTH_API_PATH } from '@/const/commonConst';
 import placeRouter from '@/router/placeRouter';
+import userRouter from '@/router/userRouter';
 
 /** Create and prepare app object */
 export const createApp = (): Express => {
@@ -16,6 +17,7 @@ export const createApp = (): Express => {
 
   // Routes setup
   app.use(PLACE_API_PATH, placeRouter);
+  app.use(AUTH_API_PATH, userRouter);
 
   return app;
 };

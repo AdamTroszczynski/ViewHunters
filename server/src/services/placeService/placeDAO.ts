@@ -15,9 +15,5 @@ export const getNearestPlacesDAO = async (): Promise<Place[]> => {
  * @returns {Place} place object
  */
 export const getSinglePlaceDAO = async (id: number): Promise<Place | null> => {
-  return await dbClient.places.findFirst({
-    where: {
-      id: id,
-    },
-  });
+  return await dbClient.places.findFirst({ where: { id: id } });
 };
