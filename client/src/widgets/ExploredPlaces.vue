@@ -22,8 +22,8 @@ import { IonList, IonItem, useIonRouter } from '@ionic/vue';
 import { computed, onBeforeMount } from 'vue';
 import { usePlaceStore } from '@/stores/placeStore';
 import { Place } from '@/types/Place';
-
 import { forwardAnimation } from '@/animations/navigateAnimations';
+
 import ExploredCard from '@/components/cards/ExploredCard.vue';
 
 const store = usePlaceStore();

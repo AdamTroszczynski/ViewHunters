@@ -13,6 +13,7 @@
 
 <script setup lang="ts">
 import { IonPage } from '@ionic/vue';
+
 import HeroBanner from '@/components/common/HeroBanner.vue';
 import PlaceFilter from '@/widgets/PlaceFilter.vue';
 import ExploredPlaces from '@/widgets/ExploredPlaces.vue';
