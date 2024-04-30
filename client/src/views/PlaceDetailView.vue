@@ -42,17 +42,18 @@
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonModal } from '@ionic/vue';
+import { IonPage, IonModal, useIonRouter } from '@ionic/vue';
 import { onBeforeMount, ref, type Ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { useIonRouter } from '@ionic/vue';
 import type { Place } from '@/types/Place';
 import L from 'leaflet';
-import PhotoGallery from '@/widgets/PhotoGallery.vue';
+
 import { backAnimation } from '@/animations/navigateAnimations';
-import getPlaces from '@/testPlaces';
+import PhotoGallery from '@/widgets/PhotoGallery.vue';
 import HeroBanner from '@/components/common/HeroBanner.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
+
+import getPlaces from '@/testPlaces';
 
 const route = useRoute();
 const router = useIonRouter();

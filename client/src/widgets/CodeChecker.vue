@@ -37,15 +37,15 @@
 </template>
 
 <script setup lang="ts">
-import { IonModal } from '@ionic/vue';
+import { IonModal, useIonRouter } from '@ionic/vue';
+import { Ref, onMounted, ref } from 'vue';
+import { useForm } from 'vee-validate';
+import { object, string } from 'yup';
+import jsQR from 'jsqr';
+import { forwardAnimation } from '@/animations/navigateAnimations';
+
 import MainInput from '@/components/inputs/MainInput.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
-import { forwardAnimation } from '@/animations/navigateAnimations';
-import { object, string } from 'yup';
-import { useIonRouter } from '@ionic/vue';
-import { useForm } from 'vee-validate';
-import { Ref, onMounted, ref } from 'vue';
-import jsQR from 'jsqr';
 
 const router = useIonRouter();
 const modal = ref();
@@ -114,6 +114,7 @@ const startScan = async () => {
   setActive();
   requestAnimationFrame(scan);
 };
+
 /** Scan all frames */
 const scan = async () => {
   if (

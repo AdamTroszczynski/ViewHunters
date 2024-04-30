@@ -23,14 +23,15 @@
 </template>
 
 <script setup lang="ts">
-import { IonList, IonItem } from '@ionic/vue';
+import { IonList, IonItem, useIonRouter } from '@ionic/vue';
 import { computed, onBeforeMount } from 'vue';
+import type { Place } from '@/types/Place';
 import { usePlaceStore } from '@/stores/placeStore';
 import { forwardAnimation } from '@/animations/navigateAnimations';
-import { useIonRouter } from '@ionic/vue';
-import type { Place } from '@/types/Place';
-import getPlaces from '@/testPlaces';
+
 import NearbyCard from '@/components/cards/NearbyCard.vue';
+
+import getPlaces from '@/testPlaces';
 
 const store = usePlaceStore();
 const router = useIonRouter();
