@@ -10,7 +10,7 @@ export const usePlaceStore = defineStore('placeStore', () => {
   const places: Ref<Place[]> = ref([]);
 
   const setPlaces = (placeArray: Place[]) => {
-    return (places.value = placeArray);
+    places.value = placeArray;
   };
 
   const getDistance = (place: Place): number => {

@@ -19,8 +19,9 @@
 </template>
 
 <script setup lang="ts">
-import { usePlaceStore } from '@/stores/placeStore';
 import { computed } from 'vue';
+import { usePlaceStore } from '@/stores/placeStore';
+
 import SelectButton from '@/components/buttons/SelectButton.vue';
 
 const store = usePlaceStore();

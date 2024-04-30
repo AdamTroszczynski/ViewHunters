@@ -28,13 +28,15 @@
 
 <script setup lang="ts">
 import { IonPage, useIonRouter } from '@ionic/vue';
+import { useRoute } from 'vue-router';
+import { Ref, onBeforeMount, ref } from 'vue';
+import { Place } from '@/types/Place';
+import { backAnimation } from '@/animations/navigateAnimations';
+
 import HeroBanner from '@/components/common/HeroBanner.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
 import CodeChecker from '@/widgets/CodeChecker.vue';
-import { useRoute } from 'vue-router';
-import { backAnimation } from '@/animations/navigateAnimations';
-import { Ref, onBeforeMount, ref } from 'vue';
-import { Place } from '@/types/Place';
+
 import getPlaces from '@/testPlaces';
 
 const route = useRoute();
