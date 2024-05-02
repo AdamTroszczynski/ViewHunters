@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { useUserStore } from '@/stores/userStore';
 
 import HomeView from '@/views/HomeView.vue';
-import PlaceDetailView from '@/views/PlaceDetailView.vue';
+import PlaceDetailsView from '@/views/PlaceDetailsView.vue';
 import LoginView from '@/views/LoginView.vue';
 import RegisterView from '@/views/RegisterView.vue';
 import PlaceUnlockView from '@/views/PlaceUnlockView.vue';
@@ -60,7 +60,7 @@ const router = createRouter({
     {
       path: '/placeDetail/:id',
       name: 'placeDetail',
-      component: PlaceDetailView,
+      component: PlaceDetailsView,
     },
     {
       path: '/placeUnlock/:id',
