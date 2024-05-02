@@ -33,12 +33,8 @@
     <IonModal
       :is-open="isModalOpen"
       class="placeDetails__modal"
-<<<<<<<< HEAD:client/src/views/PlaceDetailView.vue
       @didPresent="setMap"
       @didDismiss="isModalOpen = false"
-========
-      @did-present="setMap"
->>>>>>>> 9adae63 (Created base auth backend logic):client/src/views/PlaceDetailsView.vue
     >
       <div id="map" class="placeDetails__map"></div>
     </IonModal>
