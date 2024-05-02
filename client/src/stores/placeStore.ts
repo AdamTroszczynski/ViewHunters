@@ -17,6 +17,7 @@ export const usePlaceStore = defineStore('placeStore', () => {
       Math.pow(place.geoWidth - localization.value.width, 2) +
         Math.pow(place.geoHeight - localization.value.height, 2),
     );
+  };
 
   const loadPlaces = async () => {
     const result = getPlaces();
@@ -33,16 +34,9 @@ export const usePlaceStore = defineStore('placeStore', () => {
     selectedCategory,
     selectedDistanse,
     places,
-    setPlaces,
-    getDistance,
-    localization,
-  };
-  return {
-    selectedCategory,
-    selectedDistanse,
-    places,
     exploredPlaces,
     loadPlaces,
     loadExploredPlaces,
+    getDistance,
   };
 });

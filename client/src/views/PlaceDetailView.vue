@@ -45,6 +45,7 @@
 import { IonPage, IonModal, useIonRouter } from '@ionic/vue';
 import { onBeforeMount, ref, type Ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { usePlaceStore } from '@/stores/placeStore';
 import type { Place } from '@/types/Place';
 import L from 'leaflet';
 
@@ -53,10 +54,9 @@ import PhotoGallery from '@/widgets/PhotoGallery.vue';
 import HeroBanner from '@/components/common/HeroBanner.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
 
-import getPlaces from '@/testPlaces';
-
 const route = useRoute();
 const router = useIonRouter();
+const store = usePlaceStore();
 
 const loadedPlace: Ref<Place | null> = ref(null);
 
@@ -92,7 +92,12 @@ const setMap = () => {
 
 onBeforeMount(async () => {
   const placeId = Number(route.params.id);
-  loadedPlace.value = getPlaces()[placeId - 1];
+  const place = store.exploredPlaces.find((el) => el.id === placeId);
+  if (place !== undefined) {
+    loadedPlace.value = place;
+  } else {
+    throw new Error('Place not found');
+  }
 });
 </script>
 
