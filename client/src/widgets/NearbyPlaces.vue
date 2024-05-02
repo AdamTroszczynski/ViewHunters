@@ -48,15 +48,6 @@ const choosePath = (id: number, isDiscovered: boolean) => {
   }
 };
 
-/** Choose where redirect */
-const choosePath = (id: number, isDiscovered: boolean) => {
-  if (isDiscovered) {
-    router.navigate(`/placeDetail/${id}`, 'forward', 'push', forwardAnimation);
-  } else {
-    router.navigate(`/placeUnlock/${id}`, 'forward', 'push', forwardAnimation);
-  }
-};
-
 /** Filter places from store
  * @return {Places[]}
  */
