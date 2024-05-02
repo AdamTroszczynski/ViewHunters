@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
+import { useUserStore } from '@/stores/userStore';
 
 import HomeView from '@/views/HomeView.vue';
 import PlaceDetailView from '@/views/PlaceDetailView.vue';
@@ -48,11 +49,13 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView,
+      meta: { onlyWhenLogout: true },
     },
     {
       path: '/register',
       name: 'register',
       component: RegisterView,
+      meta: { onlyWhenLogout: true },
     },
     {
       path: '/placeDetail/:id',
@@ -70,6 +73,22 @@ const router = createRouter({
       redirect: { name: 'nearby' },
     },
   ],
+});
+
+router.beforeEach(async (to, from, next) => {
+  const userStore = useUserStore();
+
+  // TODO: Logic to check if auth token exists on user device and login user automatically
+
+  if (userStore.isUserLoggedIn && !to.meta.onlyWhenLogout) {
+    next();
+  } else if (!userStore.isUserLoggedIn && to.meta.onlyWhenLogout) {
+    next();
+  } else if (userStore.isUserLoggedIn && to.meta.onlyWhenLogout) {
+    next({ name: 'nearby' });
+  } else {
+    next({ name: 'login' });
+  }
 });
 
 export default router;
