@@ -29,6 +29,7 @@
 <script setup lang="ts">
 import { IonPage, useIonRouter } from '@ionic/vue';
 import { useRoute } from 'vue-router';
+import { usePlaceStore } from '@/stores/placeStore';
 import { Ref, onBeforeMount, ref } from 'vue';
 import { Place } from '@/types/Place';
 import { backAnimation } from '@/animations/navigateAnimations';
@@ -37,16 +38,15 @@ import HeroBanner from '@/components/common/HeroBanner.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
 import CodeChecker from '@/widgets/CodeChecker.vue';
 
-import getPlaces from '@/testPlaces';
-
 const route = useRoute();
 const router = useIonRouter();
+const store = usePlaceStore();
 
 const loadedPlace: Ref<Place | null> = ref(null);
 
 onBeforeMount(() => {
   const placeId = Number(route.params.id);
-  loadedPlace.value = getPlaces()[placeId - 1];
+  loadedPlace.value = store.places[placeId - 1];
 });
 </script>
 

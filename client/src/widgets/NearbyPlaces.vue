@@ -31,8 +31,6 @@ import { forwardAnimation } from '@/animations/navigateAnimations';
 
 import NearbyCard from '@/components/cards/NearbyCard.vue';
 
-import getPlaces from '@/testPlaces';
-
 const store = usePlaceStore();
 const router = useIonRouter();
 
