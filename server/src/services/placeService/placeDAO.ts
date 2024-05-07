@@ -6,7 +6,7 @@ import dbClient from '@/services/dbClient';
  * @returns {Place[]} Array of places
  */
 export const getNearestPlacesDAO = async (): Promise<Place[]> => {
-  return await dbClient.places.findMany();
+  return await dbClient.place.findMany();
 };
 
 /**
@@ -15,5 +15,5 @@ export const getNearestPlacesDAO = async (): Promise<Place[]> => {
  * @returns {Place} place object
  */
 export const getSinglePlaceDAO = async (id: number): Promise<Place | null> => {
-  return await dbClient.places.findFirst({ where: { id: id } });
+  return await dbClient.place.findFirst({ where: { id: id } });
 };

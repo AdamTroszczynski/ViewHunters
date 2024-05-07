@@ -23,6 +23,18 @@ export const getUserByIdDAO = async (id: number): Promise<User | null> => {
 };
 
 /**
+ * Get user by email DAO
+ * @param {string} email email to find
+ * @returns {Promise<User | null>} user object or null if user is not found
+ */
+export const getUserByEmailDAO = async (email: string): Promise<User | null> => {
+  return (await dbClient.user.findFirst({
+    where: { email: email },
+    select: { id: true, username: true, email: true },
+  })) as User | null;
+};
+
+/**
  * Create new user BO
  * @param {string} username username
  * @param {string} email email address

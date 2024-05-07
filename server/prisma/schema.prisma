@@ -8,11 +8,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Places {
+model Place {
   id            Int @id @default(autoincrement())
   name          String
-  geoWidth      Int
-  geoHeight     Int
+  geoWidth      Float
+  geoHeight     Float
   photo         String
   category      String
   description   String
