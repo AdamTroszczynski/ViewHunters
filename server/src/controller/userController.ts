@@ -5,7 +5,7 @@ import type { TokenRequest } from '@/interfaces/customRequests';
 import { ErrorMessagesEnum } from '@/enums/ErrorMessagesEnum';
 import { StatusCodesEnum } from '@/enums/StatusCodesEnum';
 import bcrypt from 'bcrypt';
-import { getUserByUsernameBO, getUserByIdBO, createUserBO } from '@/services/userService/userBO';
+import { getUserByUsernameBO, getUserByIdBO, createUserBO, getUserByEmailBO } from '@/services/userService/userBO';
 import { createToken } from '@/utils/helpers/tokenHelpers';
 
 /**
@@ -70,9 +70,10 @@ export const registerAction = async (req: Request, res: Response): Promise<void>
       return;
     }
 
-    const oldUser = await getUserByUsernameBO(username);
+    const oldUserByUsername = await getUserByUsernameBO(username);
+    const oldUserByEmail = await getUserByEmailBO(email);
 
-    if (oldUser) {
+    if (oldUserByUsername || oldUserByEmail) {
       res
         .status(StatusCodesEnum.ResourceConflict)
         .json({ name: ErrorMessagesEnum.ResourceError, errorMsg: 'User already exist. Please Login' } as RequestError);
