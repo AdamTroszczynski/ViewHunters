@@ -1,8 +1,7 @@
 <template>
   <IonPage>
     <div class="exploredView">
-      <HeroBanner :is-filters="true" />
-      <PlaceFilter />
+      <HeroBanner />
       <div class="exploredView__container">
         <TitleLabel class="exploredView__title">Explored</TitleLabel>
         <ExploredPlaces />
@@ -15,7 +14,6 @@
 import { IonPage } from '@ionic/vue';
 
 import HeroBanner from '@/components/common/HeroBanner.vue';
-import PlaceFilter from '@/widgets/PlaceFilter.vue';
 import ExploredPlaces from '@/widgets/ExploredPlaces.vue';
 import TitleLabel from '@/components/labels/TitleLabel.vue';
 </script>

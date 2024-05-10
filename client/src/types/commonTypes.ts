@@ -16,3 +16,8 @@ export type UserToken = {
   user: User;
   token: string;
 };
+
+export type GeoLocation = {
+  geoWidth: number;
+  geoHeight: number;
+};
