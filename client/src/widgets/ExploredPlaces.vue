@@ -34,11 +34,8 @@ const router = useIonRouter();
  * @returns {Place[]}
  */
 const filterPlaces = computed<Place[]>(() => {
-  const filterArray = store.exploredPlaces.filter(
+  return store.exploredPlaces.filter(
     (el) => el.category === store.selectedCategory,
-  );
-  return filterArray.filter(
-    (el) => store.getDistance(el) <= store.selectedDistanse,
   );
 });
 

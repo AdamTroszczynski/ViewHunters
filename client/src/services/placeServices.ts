@@ -25,3 +25,22 @@ export const getPlaces = async (
   const data = response.data;
   return data;
 };
+
+export const unlockPlace = async (
+  placeId: number,
+  userId: number,
+  code: string,
+  token: string,
+): Promise<number> => {
+  const response = await axiosClient.post(
+    '/place/places/unlock',
+    {
+      placeId,
+      userId,
+      code,
+    },
+    { headers: { 'x-access-token': token } },
+  );
+  const data = response.data;
+  return data;
+};

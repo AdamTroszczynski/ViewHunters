@@ -16,11 +16,6 @@
             :placeholder="'Password'"
           ></MainInput>
         </template>
-        <template #errorMessage>
-          <div v-show="isBadRequest" class="loginView__error">
-            {{ badRequestMessage }}
-          </div>
-        </template>
         <template #button>Login</template>
       </MainForm>
       <div class="loginView__info">
@@ -50,13 +45,9 @@ import MainInput from '@/components/inputs/MainInput.vue';
 import MainForm from '@/components/layout/MainForm.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
 import { AxiosError } from 'axios';
-import { Ref, ref } from 'vue';
 
 const router = useIonRouter();
 const store = useUserStore();
-
-const isBadRequest: Ref<boolean> = ref(false);
-const badRequestMessage: Ref<string> = ref('');
 
 /** Login schema with all validation rules */
 const loginSchema = object({
@@ -64,7 +55,7 @@ const loginSchema = object({
   password: string().required('Please enter a password'),
 });
 
-const { validate, meta, values } = useForm<LoginForm>({
+const { validate, meta, values, setFieldError } = useForm<LoginForm>({
   validationSchema: loginSchema,
 });
 
@@ -86,12 +77,11 @@ const loginAction = async (): Promise<void> => {
     }
   } catch (error) {
     if (error instanceof AxiosError) {
-      isBadRequest.value = true;
       if (error.response && error.response.data) {
         const { errorMsg } = error.response.data;
-        badRequestMessage.value = errorMsg;
+        setFieldError('password', errorMsg);
       } else if (error.code === 'ECONNABORTED') {
-        badRequestMessage.value = 'Server is not available';
+        setFieldError('password', 'Server is not available');
       }
     }
   }

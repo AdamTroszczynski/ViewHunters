@@ -11,7 +11,7 @@
           <h2 class="placeUnlock__title">{{ loadedPlace.name }}</h2>
           <!-- DODAĆ TUTAJ ZE STORA OBLICZANIE ODLEGŁOŚCI-->
           <ActionButton :icon="'location'" class="placeUnlock__btn"
-            >{{ store.getDistance(loadedPlace) }} km</ActionButton
+            >{{ store.getDistance(loadedPlace).toFixed(2) }} km</ActionButton
           >
         </div>
         <CodeChecker :id="loadedPlace.id" />

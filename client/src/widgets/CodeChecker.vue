@@ -43,11 +43,15 @@ import { useForm } from 'vee-validate';
 import { object, string } from 'yup';
 import jsQR from 'jsqr';
 import { forwardAnimation } from '@/animations/navigateAnimations';
+import { useUserStore } from '@/stores/userStore';
+import { unlockPlace } from '@/services/placeServices';
 
 import MainInput from '@/components/inputs/MainInput.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
+import { AxiosError } from 'axios';
 
 const router = useIonRouter();
+const store = useUserStore();
 const modal = ref();
 
 const videoElement: Ref<HTMLVideoElement | null> = ref(null);
@@ -56,12 +60,6 @@ const canvasContext = ref();
 const scanActive = ref(false);
 const isLoaded = ref(false);
 
-const setActive = () => {
-  setTimeout(() => {
-    isLoaded.value = true;
-  }, 500);
-};
-
 const props = defineProps({
   id: {
     type: Number,
@@ -69,14 +67,20 @@ const props = defineProps({
   },
 });
 
+const setActive = () => {
+  setTimeout(() => {
+    isLoaded.value = true;
+  }, 500);
+};
+
 const codeSchema = object({
   code: string()
     .required('Please enter a code')
-    .min(6, 'Username must be at least 6 characters'),
+    .min(6, 'Code must be at least 6 characters'),
 });
 
 const { validate, meta, values, setFieldError, setFieldValue } = useForm<{
-  code: String;
+  code: string;
 }>({
   validationSchema: codeSchema,
 });
@@ -158,15 +162,30 @@ const checkCode = async (): Promise<any> => {
     await validate();
     if (meta.value.valid) {
       stopCamera();
-      router.navigate(
-        `/placeDetail/${props.id}`,
-        'root',
-        'replace',
-        forwardAnimation,
-      );
+      if (store.user && store.user.id) {
+        const response = await unlockPlace(
+          props.id,
+          store.user.id,
+          values.code,
+          store.token,
+        );
+        router.navigate(
+          `/placeDetail/${response}`,
+          'root',
+          'replace',
+          forwardAnimation,
+        );
+      }
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      if (error.response && error.response.data) {
+        const { errorMsg } = error.response.data;
+        setFieldError('code', errorMsg);
+      } else if (error.code === 'ECONNABORTED') {
+        setFieldError('code', 'Server is not available');
+      }
+    }
   }
 };
 

@@ -16,9 +16,9 @@
               >Map</ActionButton
             >
             <!-- DODAĆ TUTAJ ZE STORA OBLICZANIE ODLEGŁOŚCI-->
-            <ActionButton :icon="'location'" class="placeDetails__btn"
-              >3.5 km</ActionButton
-            >
+            <ActionButton :icon="'location'" class="placeDetails__btn">{{
+              `${store.getDistance(loadedPlace).toFixed(2)} km`
+            }}</ActionButton>
           </div>
         </div>
         <p class="placeDetails__text">{{ loadedPlace.description }}</p>
@@ -47,6 +47,8 @@ import { onBeforeMount, ref, type Ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { usePlaceStore } from '@/stores/placeStore';
 import type { Place } from '@/types/Place';
+import { useUserStore } from '@/stores/userStore';
+import { getSinglePlace } from '@/services/placeServices';
 import L from 'leaflet';
 
 import { backAnimation } from '@/animations/navigateAnimations';
@@ -57,6 +59,7 @@ import ActionButton from '@/components/buttons/ActionButton.vue';
 const route = useRoute();
 const router = useIonRouter();
 const store = usePlaceStore();
+const userStore = useUserStore();
 
 const loadedPlace: Ref<Place | null> = ref(null);
 
@@ -92,7 +95,7 @@ const setMap = () => {
 
 onBeforeMount(async () => {
   const placeId = Number(route.params.id);
-  const place = store.exploredPlaces.find((el) => el.id === placeId);
+  const place = await getSinglePlace(placeId, userStore.token);
   if (place !== undefined) {
     loadedPlace.value = place;
   } else {
