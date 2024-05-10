@@ -19,12 +19,16 @@ export const usePlaceStore = defineStore('placeStore', () => {
   const exploredPlaces: Ref<Place[]> = ref([]);
 
   const loadLocalization = async () => {
-    const coordinates = (await Geolocation.getCurrentPosition()).coords;
-    localization.value = {
-      geoWidth: coordinates.latitude,
-      geoHeight: coordinates.longitude,
-    };
-    console.log('coodrinates updated');
+    try {
+      await Geolocation.checkPermissions();
+      const coordinates = (await Geolocation.getCurrentPosition()).coords;
+      localization.value = {
+        geoWidth: coordinates.latitude,
+        geoHeight: coordinates.longitude,
+      };
+    } catch (err) {
+      alert('Please enable localization!');
+    }
   };
 
   /** Load nearby places  */
