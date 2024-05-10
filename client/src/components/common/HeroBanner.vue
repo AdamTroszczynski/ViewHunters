@@ -26,13 +26,19 @@
 </template>
 
 <script setup lang="ts">
-import { IonHeader, IonToolbar, IonTitle, IonButtons } from '@ionic/vue';
+import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  useIonRouter,
+} from '@ionic/vue';
 import { useUserStore } from '@/stores/userStore';
-import { useIonRouter } from '@ionic/vue';
 import { backAnimation } from '@/animations/navigateAnimations';
+
 import IconButton from '@/components/buttons/IconButton.vue';
 
-const store = useUserStore();
+const userStore = useUserStore();
 const router = useIonRouter();
 
 defineProps({
@@ -48,13 +54,13 @@ defineProps({
 
 /** Logout user */
 const logoutAction = (): void => {
-  store.logout();
+  userStore.logout();
   router.navigate('/login', 'none', 'pop', backAnimation);
 };
 
 /** Open github source code */
 const openSource = (): void => {
-  console.log('Open Source');
+  window.location.replace('https://github.com/AdamTroszczynski/ViewHunters');
 };
 </script>
 

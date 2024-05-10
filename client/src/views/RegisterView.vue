@@ -33,7 +33,7 @@
         <ActionButton
           class="registerView__btn"
           :icon="'check'"
-          @click-action="goToLogin"
+          @click-action="goToLoginPage"
           >Login</ActionButton
         >
       </div>
@@ -42,37 +42,28 @@
 </template>
 
 <script setup lang="ts">
-import { IonPage } from '@ionic/vue';
-import { useForm } from 'vee-validate';
+import { IonPage, useIonRouter } from '@ionic/vue';
+import { AxiosError } from 'axios';
 import { object, string, ref as yupRef } from 'yup';
+import { YupSchema, useForm } from 'vee-validate';
 import type { RegisterForm } from '@/types/commonTypes';
 import { register } from '@/services/userServices';
-import { useIonRouter } from '@ionic/vue';
 import { useUserStore } from '@/stores/userStore';
 import {
   backAnimation,
   forwardAnimation,
 } from '@/animations/navigateAnimations';
+
 import ActionButton from '@/components/buttons/ActionButton.vue';
 import HeroBanner from '@/components/common/HeroBanner.vue';
 import MainInput from '@/components/inputs/MainInput.vue';
 import MainForm from '@/components/layout/MainForm.vue';
-import { AxiosError } from 'axios';
-import { Ref, ref } from 'vue';
 
 const router = useIonRouter();
-const store = useUserStore();
-
-const isBadRequest: Ref<boolean> = ref(false);
-const badRequestMessage: Ref<string> = ref('');
-
-/** Go to login view */
-const goToLogin = (): void => {
-  router.navigate('/login', 'back', 'pop', backAnimation);
-};
+const userStore = useUserStore();
 
 /** Login schema with all validation rules */
-const loginSchema = object({
+const loginSchema: YupSchema = object({
   username: string()
     .required('Please enter a username')
     .min(6, 'Username must be at least 6 characters'),
@@ -87,11 +78,12 @@ const loginSchema = object({
     .required('Please enter a password'),
 });
 
+/** Use validationSchema to RegisterForm */
 const { validate, meta, values, setFieldError } = useForm<RegisterForm>({
   validationSchema: loginSchema,
 });
 
-/** Register user */
+/** Register user action with error handling */
 const registerAction = async (): Promise<void> => {
   try {
     validate();
@@ -99,7 +91,7 @@ const registerAction = async (): Promise<void> => {
       const { username, email, password, passwordRepeat } = values;
       const result = await register(username, email, password, passwordRepeat);
       const { user, token } = result;
-      store.login(user, token);
+      userStore.login(user, token);
       router.navigate('/', 'root', 'push', forwardAnimation);
     }
   } catch (error) {
@@ -112,6 +104,11 @@ const registerAction = async (): Promise<void> => {
       }
     }
   }
+};
+
+/** Go to login view */
+const goToLoginPage = (): void => {
+  router.navigate('/login', 'back', 'pop', backAnimation);
 };
 </script>
 

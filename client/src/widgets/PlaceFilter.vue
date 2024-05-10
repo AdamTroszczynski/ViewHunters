@@ -2,8 +2,8 @@
   <div class="filterSection">
     <span class="filterSection__text">Filters</span>
     <SelectButton
-      :starting-value="store.selectedCategory"
-      :options="['Buildings', 'Bridges', 'Houses']"
+      :starting-value="placeStore.selectedCategory"
+      :options="[Category.buildings, Category.bridges, Category.houses]"
       class="filterSection__placeBtn"
       @ion-change="setCategory($event)"
     ></SelectButton>
@@ -21,37 +21,44 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { usePlaceStore } from '@/stores/placeStore';
+import { Category, Distance } from '@/enums/placeEnum';
 
 import SelectButton from '@/components/buttons/SelectButton.vue';
 
-const store = usePlaceStore();
+const placeStore = usePlaceStore();
 
 /** Convert selectedDistance from number to string
- * @return {string}
+ * @return {string} Distance in km
  */
 const convertDistance = computed<string>(() => {
-  return store.selectedDistanse == 5
+  return placeStore.selectedDistanse == Distance.short
     ? 'To 5 km'
-    : store.selectedDistanse == 10
+    : placeStore.selectedDistanse == Distance.medium
       ? 'To 10 km'
-      : 'To 15 km';
+      : Distance.long
+        ? 'To 15 km'
+        : '';
 });
 
 /** Set selected category to store
- * @param {CustomEvent} ev selected category
+ * @param {CustomEvent} ev Selected category
  */
 const setCategory = (ev: CustomEvent): void => {
   const { detail } = ev;
-  store.selectedCategory = detail.value;
+  placeStore.selectedCategory = detail.value;
 };
 
 /** Convert and set selected distance to store
- * @param {CustomEvent} ev selected distance
+ * @param {CustomEvent} ev Selected distance
  */
 const setDistance = (ev: CustomEvent): void => {
   const { detail } = ev;
-  store.selectedDistanse =
-    detail.value == 'To 5 km' ? 5 : detail.value == 'To 10 km' ? 10 : 15;
+  placeStore.selectedDistanse =
+    detail.value == 'To 5 km'
+      ? Distance.short
+      : detail.value == 'To 10 km'
+        ? Distance.medium
+        : Distance.long;
 };
 </script>
 

@@ -39,19 +39,19 @@
 <script setup lang="ts">
 import { IonModal, useIonRouter } from '@ionic/vue';
 import { Ref, onMounted, ref } from 'vue';
-import { useForm } from 'vee-validate';
 import { object, string } from 'yup';
+import { YupSchema, useForm } from 'vee-validate';
+import { AxiosError } from 'axios';
 import jsQR from 'jsqr';
-import { forwardAnimation } from '@/animations/navigateAnimations';
-import { useUserStore } from '@/stores/userStore';
 import { unlockPlace } from '@/services/placeServices';
+import { useUserStore } from '@/stores/userStore';
+import { forwardAnimation } from '@/animations/navigateAnimations';
 
 import MainInput from '@/components/inputs/MainInput.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
-import { AxiosError } from 'axios';
 
 const router = useIonRouter();
-const store = useUserStore();
+const userStore = useUserStore();
 const modal = ref();
 
 const videoElement: Ref<HTMLVideoElement | null> = ref(null);
@@ -67,26 +67,62 @@ const props = defineProps({
   },
 });
 
-const setActive = () => {
-  setTimeout(() => {
-    isLoaded.value = true;
-  }, 500);
-};
-
-const codeSchema = object({
+/** Code schema with all validation rules */
+const codeSchema: YupSchema = object({
   code: string()
     .required('Please enter a code')
     .min(6, 'Code must be at least 6 characters'),
 });
 
+/** Use validationSchema to code */
 const { validate, meta, values, setFieldError, setFieldValue } = useForm<{
   code: string;
 }>({
   validationSchema: codeSchema,
 });
 
+/** Check if code is valid */
+const checkCode = async (): Promise<any> => {
+  try {
+    await validate();
+    if (meta.value.valid) {
+      stopCamera();
+      if (userStore.user && userStore.user.id) {
+        const response = await unlockPlace(
+          props.id,
+          userStore.user.id,
+          values.code,
+          userStore.token,
+        );
+        router.navigate(
+          `/placeDetail/${response}`,
+          'root',
+          'replace',
+          forwardAnimation,
+        );
+      }
+    }
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      if (error.response && error.response.data) {
+        const { errorMsg } = error.response.data;
+        setFieldError('code', errorMsg);
+      } else if (error.code === 'ECONNABORTED') {
+        setFieldError('code', 'Server is not available');
+      }
+    }
+  }
+};
+
+/** Set active when camera is ready */
+const setActive = (): void => {
+  setTimeout(() => {
+    isLoaded.value = true;
+  }, 500);
+};
+
 /** Close all stream tracks after close modal */
-const stopCamera = () => {
+const stopCamera = (): void => {
   scanActive.value = false;
   isLoaded.value = false;
   if (!(videoElement.value instanceof HTMLMediaElement)) return;
@@ -100,7 +136,7 @@ const stopCamera = () => {
 };
 
 /** Start scanning after btn cliced */
-const startScan = async () => {
+const startScan = async (): Promise<void> => {
   const stream = await navigator.mediaDevices.getUserMedia({
     video: { facingMode: 'environment' },
   });
@@ -116,7 +152,7 @@ const startScan = async () => {
 };
 
 /** Scan all frames */
-const scan = async () => {
+const scan = async (): Promise<void> => {
   if (
     videoElement.value !== null &&
     canvasElement.value !== null &&
@@ -153,39 +189,6 @@ const scan = async () => {
     }
   } else {
     requestAnimationFrame(scan);
-  }
-};
-
-/** Check if code is valid */
-const checkCode = async (): Promise<any> => {
-  try {
-    await validate();
-    if (meta.value.valid) {
-      stopCamera();
-      if (store.user && store.user.id) {
-        const response = await unlockPlace(
-          props.id,
-          store.user.id,
-          values.code,
-          store.token,
-        );
-        router.navigate(
-          `/placeDetail/${response}`,
-          'root',
-          'replace',
-          forwardAnimation,
-        );
-      }
-    }
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      if (error.response && error.response.data) {
-        const { errorMsg } = error.response.data;
-        setFieldError('code', errorMsg);
-      } else if (error.code === 'ECONNABORTED') {
-        setFieldError('code', 'Server is not available');
-      }
-    }
   }
 };
 

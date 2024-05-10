@@ -33,6 +33,7 @@ import {
   IonLabel,
   IonRouterOutlet,
 } from '@ionic/vue';
+
 import BookIcon from '@/components/icons/tabIcons/BookIcon.vue';
 import ProfileIcon from '@/components/icons/tabIcons/ProfileIcon.vue';
 import StarIcon from '@/components/icons/tabIcons/StarIcon.vue';

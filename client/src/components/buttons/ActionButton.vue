@@ -20,6 +20,7 @@
 <script setup lang="ts">
 import { IonButton } from '@ionic/vue';
 import { computed, type Component } from 'vue';
+
 import ArrowIcon from '@/components/icons/usesIcons/ArrowIcon.vue';
 import CheckIcon from '@/components/icons/usesIcons/CheckIcon.vue';
 import CodeIcon from '@/components/icons/usesIcons/CodeIcon.vue';
@@ -49,7 +50,7 @@ const props = defineProps({
 });
 
 /** Choose icon to button
- * @returns {Component}
+ * @returns {Component | null} Icon's component
  */
 const setIcon = computed<Component | null>(() => {
   switch (props.icon) {
