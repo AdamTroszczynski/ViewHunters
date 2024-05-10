@@ -3,7 +3,7 @@
     <TransitionGroup name="list">
       <IonItem
         class="exploredPlaces__item"
-        v-for="place in filteredPlaces"
+        v-for="place in filterPlaces"
         :key="place.id"
       >
         <ExploredCard
@@ -33,9 +33,12 @@ const router = useIonRouter();
  * Filter ExploredPlaces based on selectedCategory
  * @returns {Place[]}
  */
-const filteredPlaces = computed<Place[]>(() => {
-  return store.exploredPlaces.filter(
+const filterPlaces = computed<Place[]>(() => {
+  const filterArray = store.exploredPlaces.filter(
     (el) => el.category === store.selectedCategory,
+  );
+  return filterArray.filter(
+    (el) => store.getDistance(el) <= store.selectedDistanse,
   );
 });
 

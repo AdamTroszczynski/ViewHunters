@@ -67,10 +67,6 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  code: {
-    type: String,
-    required: true,
-  },
 });
 
 const codeSchema = object({
@@ -161,17 +157,13 @@ const checkCode = async (): Promise<any> => {
   try {
     await validate();
     if (meta.value.valid) {
-      if (values.code !== props.code) {
-        setFieldError('code', 'The code is invalid');
-      } else {
-        stopCamera();
-        router.navigate(
-          `/placeDetail/${props.id}`,
-          'root',
-          'replace',
-          forwardAnimation,
-        );
-      }
+      stopCamera();
+      router.navigate(
+        `/placeDetail/${props.id}`,
+        'root',
+        'replace',
+        forwardAnimation,
+      );
     }
   } catch (err) {
     console.log(err);

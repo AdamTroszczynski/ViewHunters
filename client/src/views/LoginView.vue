@@ -2,7 +2,7 @@
   <IonPage>
     <HeroBanner :is-logged="false" />
     <div class="loginView">
-      <MainForm @on-submit="login()">
+      <MainForm @on-submit="loginAction()">
         <template #title>Login</template>
         <template #inputs>
           <MainInput
@@ -15,6 +15,11 @@
             :type="'password'"
             :placeholder="'Password'"
           ></MainInput>
+        </template>
+        <template #errorMessage>
+          <div v-show="isBadRequest" class="loginView__error">
+            {{ badRequestMessage }}
+          </div>
         </template>
         <template #button>Login</template>
       </MainForm>
@@ -36,23 +41,27 @@ import { IonPage } from '@ionic/vue';
 import { useForm } from 'vee-validate';
 import { object, string } from 'yup';
 import type { LoginForm } from '@/types/commonTypes';
+import { login } from '@/services/userServices';
 import { useIonRouter } from '@ionic/vue';
+import { useUserStore } from '@/stores/userStore';
 import { forwardAnimation } from '@/animations/navigateAnimations';
 import HeroBanner from '@/components/common/HeroBanner.vue';
 import MainInput from '@/components/inputs/MainInput.vue';
 import MainForm from '@/components/layout/MainForm.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
+import { AxiosError } from 'axios';
+import { Ref, ref } from 'vue';
 
 const router = useIonRouter();
+const store = useUserStore();
+
+const isBadRequest: Ref<boolean> = ref(false);
+const badRequestMessage: Ref<string> = ref('');
 
 /** Login schema with all validation rules */
 const loginSchema = object({
-  username: string()
-    .required('Please enter a username')
-    .min(6, 'Username must be at least 6 characters'),
-  password: string()
-    .required('Please enter a password')
-    .min(6, 'Password must be at least 6 characters'),
+  username: string().required('Please enter a username'),
+  password: string().required('Please enter a password'),
 });
 
 const { validate, meta, values } = useForm<LoginForm>({
@@ -65,14 +74,26 @@ const goToRegister = (): void => {
 };
 
 /** Login user */
-const login = (): void => {
+const loginAction = async (): Promise<void> => {
   try {
     validate();
     if (meta.value.valid) {
-      console.log(values.username, values.password);
+      const { username, password } = values;
+      const result = await login(username, password);
+      const { user, token } = result;
+      store.login(user, token);
+      router.navigate('/', 'root', 'push', forwardAnimation);
     }
   } catch (error) {
-    console.log(error);
+    if (error instanceof AxiosError) {
+      isBadRequest.value = true;
+      if (error.response && error.response.data) {
+        const { errorMsg } = error.response.data;
+        badRequestMessage.value = errorMsg;
+      } else if (error.code === 'ECONNABORTED') {
+        badRequestMessage.value = 'Server is not available';
+      }
+    }
   }
 };
 </script>
@@ -90,6 +111,13 @@ const login = (): void => {
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  &__error {
+    text-align: center;
+    color: #ff6262;
+    font-family: $poppins;
+    font-size: 0.85rem;
   }
 
   &__text {

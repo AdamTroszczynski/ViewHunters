@@ -2,7 +2,7 @@
   <IonPage>
     <HeroBanner :is-logged="false" />
     <div class="registerView">
-      <MainForm @on-submit="register()">
+      <MainForm @on-submit="registerAction()">
         <template #title>Create Account</template>
         <template #inputs>
           <MainInput
@@ -26,6 +26,11 @@
             :placeholder="'Repeat password'"
           ></MainInput>
         </template>
+        <template #errorMessage>
+          <div v-show="isBadRequest" class="loginView__error">
+            {{ badRequestMessage }}
+          </div>
+        </template>
         <template #button>Create account</template>
       </MainForm>
       <div class="registerView__info">
@@ -46,14 +51,25 @@ import { IonPage } from '@ionic/vue';
 import { useForm } from 'vee-validate';
 import { object, string, ref as yupRef } from 'yup';
 import type { RegisterForm } from '@/types/commonTypes';
+import { register } from '@/services/userServices';
 import { useIonRouter } from '@ionic/vue';
-import { backAnimation } from '@/animations/navigateAnimations';
+import { useUserStore } from '@/stores/userStore';
+import {
+  backAnimation,
+  forwardAnimation,
+} from '@/animations/navigateAnimations';
 import ActionButton from '@/components/buttons/ActionButton.vue';
 import HeroBanner from '@/components/common/HeroBanner.vue';
 import MainInput from '@/components/inputs/MainInput.vue';
 import MainForm from '@/components/layout/MainForm.vue';
+import { AxiosError } from 'axios';
+import { Ref, ref } from 'vue';
 
 const router = useIonRouter();
+const store = useUserStore();
+
+const isBadRequest: Ref<boolean> = ref(false);
+const badRequestMessage: Ref<string> = ref('');
 
 /** Go to login view */
 const goToLogin = (): void => {
@@ -81,19 +97,26 @@ const { validate, meta, values } = useForm<RegisterForm>({
 });
 
 /** Register user */
-const register = (): void => {
+const registerAction = async (): Promise<void> => {
   try {
     validate();
     if (meta.value.valid) {
-      console.log(
-        values.username,
-        values.email,
-        values.password,
-        values.passwordRepeat,
-      );
+      const { username, email, password, passwordRepeat } = values;
+      const result = await register(username, email, password, passwordRepeat);
+      const { user, token } = result;
+      store.login(user, token);
+      router.navigate('/', 'root', 'push', forwardAnimation);
     }
   } catch (error) {
-    console.log(error);
+    if (error instanceof AxiosError) {
+      isBadRequest.value = true;
+      if (error.response && error.response.data) {
+        const { errorMsg } = error.response.data;
+        badRequestMessage.value = errorMsg;
+      } else if (error.code === 'ECONNABORTED') {
+        badRequestMessage.value = 'Server is not available';
+      }
+    }
   }
 };
 </script>

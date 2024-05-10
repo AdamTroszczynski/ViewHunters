@@ -1,23 +1,27 @@
-import axios from "axios";
-import axiosClient from "@/utils/axiosClient";
-import { type Place } from "@/types/Place";
+import axios from 'axios';
+import axiosClient from '@/utils/axiosClient';
+import { type Place } from '@/types/Place';
 
-export const getSinglePlace = async (id: number): Promise<Place> => {
-    try {
-        const response = await axiosClient.get(`/place/${id}`);
-        const data = response.data;
-        return data;
-    } catch (error) {
-        throw new Error('GetSinglePlace service error');
-    }
-}
+export const getSinglePlace = async (
+  id: number,
+  token: string,
+): Promise<Place> => {
+  const response = await axiosClient.get(`/place/places/${id}`, {
+    headers: { 'x-access-token': token },
+  });
+  const data = response.data;
+  return data;
+};
 
-export const getPLaces = async (geoWidth: number, geoHeight: number): Promise<Place[]> => {
-    try {
-        const response = await axiosClient.get(`/place?geoWidth=${geoWidth}&geoHeight=${geoHeight}`);
-        const data = response.data;
-        return data;
-    } catch (error) {
-        throw new Error('GetPlaces service error');
-    }
-}
+export const getPlaces = async (
+  geoWidth: number,
+  geoHeight: number,
+  token: string,
+): Promise<Place[]> => {
+  const response = await axiosClient.get(
+    `/place/places?geoWidth=${geoWidth}&geoHeight=${geoHeight}`,
+    { headers: { 'x-access-token': token } },
+  );
+  const data = response.data;
+  return data;
+};
