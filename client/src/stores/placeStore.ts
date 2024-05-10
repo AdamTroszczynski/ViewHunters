@@ -1,8 +1,10 @@
 import { ref, type Ref } from 'vue';
 import { defineStore } from 'pinia';
+import { Geolocation } from '@capacitor/geolocation';
 import { useUserStore } from '@/stores/userStore';
 import { getNearbyPlaces } from '@/services/placeServices';
 import type Place from '@/types/Place';
+import type { GeoLocation } from '@/types/commonTypes';
 import { Category, Distance } from '@/enums/placeEnum';
 
 export const usePlaceStore = defineStore('placeStore', () => {
@@ -11,19 +13,31 @@ export const usePlaceStore = defineStore('placeStore', () => {
   const selectedCategory: Ref<string> = ref(Category.buildings);
   const selectedDistanse: Ref<number> = ref(Distance.short);
 
-  const localization: Ref<any> = ref({ width: 51, height: 17 });
+  const localization: Ref<GeoLocation | null> = ref(null);
 
   const nearbyPlaces: Ref<Place[]> = ref([]);
   const exploredPlaces: Ref<Place[]> = ref([]);
 
+  const loadLocalization = async () => {
+    const coordinates = (await Geolocation.getCurrentPosition()).coords;
+    localization.value = {
+      geoWidth: coordinates.latitude,
+      geoHeight: coordinates.longitude,
+    };
+    console.log('coodrinates updated');
+  };
+
   /** Load nearby places  */
   const loadNearbyPlaces = async (): Promise<void> => {
-    const result = await getNearbyPlaces(
-      localization.value.width,
-      localization.value.height,
-      userStore.token,
-    );
-    nearbyPlaces.value = result;
+    if (!localization.value) await loadLocalization();
+    if (localization.value) {
+      const result = await getNearbyPlaces(
+        localization.value.geoWidth,
+        localization.value.geoHeight,
+        userStore.token,
+      );
+      nearbyPlaces.value = result;
+    }
   };
 
   /** Load explored places */
@@ -34,10 +48,35 @@ export const usePlaceStore = defineStore('placeStore', () => {
    * @returns {number} Distance to place in km
    */
   const getDistance = (place: Place): number => {
-    return Math.sqrt(
-      Math.pow(place.geoWidth - localization.value.width, 2) +
-        Math.pow(place.geoHeight - localization.value.height, 2),
-    );
+    if (!localization.value) throw new Error('Localization does not exist');
+
+    const R = 6371.0;
+
+    const lat1 = toRadians(localization.value.geoWidth);
+    const lon1 = toRadians(localization.value.geoHeight);
+    const lat2 = toRadians(place.geoWidth);
+    const lon2 = toRadians(place.geoHeight);
+
+    const dLat = lat2 - lat1;
+    const dLon = lon2 - lon1;
+
+    const a =
+      Math.sin(dLat / 2) ** 2 +
+      Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const distance = R * c;
+
+    return distance;
+  };
+
+  /** Calculate degrees to radians
+   * @param {number} degrees Degrees
+   * @returns {number} Radians
+   */
+  const toRadians = (degrees: number): number => {
+    return (degrees * Math.PI) / 180;
   };
 
   return {
@@ -48,5 +87,6 @@ export const usePlaceStore = defineStore('placeStore', () => {
     loadNearbyPlaces,
     loadExploredPlaces,
     getDistance,
+    loadLocalization,
   };
 });

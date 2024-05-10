@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { useUserStore } from '@/stores/userStore';
+import { checkToken } from '@/services/userServices';
+import { Storage } from '@ionic/storage';
 
 import HomeView from '@/views/HomeView.vue';
 import PlaceDetailsView from '@/views/PlaceDetailsView.vue';
@@ -77,9 +79,17 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore();
-
-  // TODO: Logic to check if auth token exists on user device and login user automatically
-
+  if (!userStore.isLogged) {
+    const storage = new Storage();
+    await storage.create();
+    const token = await storage.get('token');
+    if (token !== null) {
+      try {
+        const response = await checkToken(token);
+        userStore.login(response, token);
+      } catch (err) {}
+    }
+  }
   if (userStore.isUserLoggedIn && !to.meta.onlyWhenLogout) {
     next();
   } else if (!userStore.isUserLoggedIn && to.meta.onlyWhenLogout) {

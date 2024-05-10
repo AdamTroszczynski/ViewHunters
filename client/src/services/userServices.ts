@@ -1,6 +1,7 @@
 import axios from 'axios';
 import axiosClient from '@/utils/axiosClient';
 import { type UserToken } from '@/types/commonTypes';
+import User from '@/types/User';
 
 /** Login action
  * @param {string} username Username
@@ -40,4 +41,16 @@ export const register = async (
   });
   const data = response.data;
   return { user: data.user, token: data.token };
+};
+
+/** Check token action
+ * @param {string} token User's token
+ * @returns {Promise<User>} User object
+ */
+export const checkToken = async (token: string): Promise<User> => {
+  const response = await axiosClient.get('/auth/check', {
+    headers: { 'x-access-token': token },
+  });
+  const data = response.data;
+  return data;
 };

@@ -93,6 +93,7 @@ const goBack = async (): Promise<void> => {
 };
 
 onBeforeMount(async () => {
+  await placeStore.loadLocalization();
   const placeId = Number(route.params.id);
   const place = await getSinglePlace(placeId, userStore.token);
   if (place !== undefined) {

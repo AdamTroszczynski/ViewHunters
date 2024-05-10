@@ -2,11 +2,13 @@ import { ref, type Ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import type User from '@/types/User';
 import { usePlaceStore } from '@/stores/placeStore';
+import { Storage } from '@ionic/storage';
 
 export const useUserStore = defineStore('userStore', () => {
   const user: Ref<User | null> = ref(null);
   const token: Ref<string> = ref('');
   const isLogged: Ref<boolean> = ref(false);
+  const storage = new Storage();
 
   /**
    * Check if user is logged in
@@ -21,10 +23,10 @@ export const useUserStore = defineStore('userStore', () => {
    * @param {User} newUser User data
    * @param {string} newToken Token
    */
-  const login = (newUser: User, newToken: string): void => {
+  const login = async (newUser: User, newToken: string): Promise<void> => {
     user.value = newUser;
     token.value = newToken;
-    // TODO: Add logic to store auth token on user device with some expiration time
+    saveToken(newToken);
     isLogged.value = true;
   };
 
@@ -33,12 +35,25 @@ export const useUserStore = defineStore('userStore', () => {
     const placeStore = usePlaceStore();
     user.value = null;
     token.value = '';
-    // TODO: Add logic to remove auth token from user device
+    removeToken();
     isLogged.value = false;
     placeStore.nearbyPlaces = [];
     placeStore.exploredPlaces = [];
   };
 
+  /** Save token to device storage
+   * @param {string} token User's token
+   */
+  const saveToken = async (token: string): Promise<void> => {
+    await storage.create();
+    await storage.set('token', token);
+  };
+
+  /** Remove token from device storage */
+  const removeToken = async (): Promise<void> => {
+    await storage.create();
+    await storage.remove('token');
+  };
   return {
     user,
     token,
@@ -46,5 +61,6 @@ export const useUserStore = defineStore('userStore', () => {
     isUserLoggedIn,
     login,
     logout,
+    saveToken,
   };
 });
