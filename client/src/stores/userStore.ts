@@ -35,7 +35,7 @@ export const useUserStore = defineStore('userStore', () => {
     token.value = '';
     // TODO: Add logic to remove auth token from user device
     isLogged.value = false;
-    placeStore.places = [];
+    placeStore.nearbyPlaces = [];
     placeStore.exploredPlaces = [];
   };
 

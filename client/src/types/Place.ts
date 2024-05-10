@@ -1,4 +1,4 @@
-export type Place = {
+type Place = {
   id: number;
   name: string;
   geoWidth: number;
@@ -8,3 +8,5 @@ export type Place = {
   description: string;
   isDiscovered: boolean;
 };
+
+export default Place;

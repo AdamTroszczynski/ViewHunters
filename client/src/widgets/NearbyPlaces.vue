@@ -12,7 +12,7 @@
         <NearbyCard
           :id="place.id"
           :photo="place.photo[0]"
-          :distance="store.getDistance(place)"
+          :distance="placeStore.getDistance(place)"
           :label="place.name"
           :is-discovered="place.isDiscovered"
           @click-action="choosePath($event, place.isDiscovered)"
@@ -25,20 +25,32 @@
 <script setup lang="ts">
 import { IonList, IonItem, useIonRouter } from '@ionic/vue';
 import { computed, onBeforeMount } from 'vue';
-import type { Place } from '@/types/Place';
+import type Place from '@/types/Place';
 import { usePlaceStore } from '@/stores/placeStore';
 import { forwardAnimation } from '@/animations/navigateAnimations';
 
 import NearbyCard from '@/components/cards/NearbyCard.vue';
 
-const store = usePlaceStore();
+const placeStore = usePlaceStore();
 const router = useIonRouter();
 
-/** Redirect to correct path
- * @param {number} id - Place's id
- * @param {boolean} isDiscovered - If place is discorvered
+/** Filter places from store
+ * @return {Places[]}
  */
-const choosePath = (id: number, isDiscovered: boolean) => {
+const filterPlaces = computed<Place[]>(() => {
+  const filterArray = placeStore.nearbyPlaces.filter(
+    (el) => el.category === placeStore.selectedCategory,
+  );
+  return filterArray.filter(
+    (el) => placeStore.getDistance(el) <= placeStore.selectedDistanse,
+  );
+});
+
+/** Redirect to correct path
+ * @param {number} id Place's id
+ * @param {boolean} isDiscovered If place is discorvered
+ */
+const choosePath = (id: number, isDiscovered: boolean): void => {
   if (isDiscovered) {
     router.navigate(`/placeDetail/${id}`, 'forward', 'push', forwardAnimation);
   } else {
@@ -46,20 +58,8 @@ const choosePath = (id: number, isDiscovered: boolean) => {
   }
 };
 
-/** Filter places from store
- * @return {Places[]}
- */
-const filterPlaces = computed<Place[]>(() => {
-  const filterArray = store.places.filter(
-    (el) => el.category === store.selectedCategory,
-  );
-  return filterArray.filter(
-    (el) => store.getDistance(el) <= store.selectedDistanse,
-  );
-});
-
 onBeforeMount(() => {
-  store.loadPlaces();
+  placeStore.loadNearbyPlaces();
 });
 </script>
 

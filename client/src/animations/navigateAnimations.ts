@@ -1,6 +1,14 @@
 import { AnimationBuilder, createAnimation } from '@ionic/vue';
 
-export const forwardAnimation: AnimationBuilder = (baseEl: any, opts?: any) => {
+/** Forward animation function
+ * @param {Node} baseEl Base html element
+ * @param {any} opts Additionals options
+ * @returns {AnimationBuilder} Animation Builder function
+ */
+export const forwardAnimation: AnimationBuilder = (
+  baseEl: Node,
+  opts?: any,
+) => {
   const forwardAnimation = createAnimation()
     .addElement(opts.enteringEl)
     .duration(150)
@@ -17,7 +25,12 @@ export const forwardAnimation: AnimationBuilder = (baseEl: any, opts?: any) => {
     .addAnimation(leavingAnimation);
 };
 
-export const backAnimation: AnimationBuilder = (baseEl: any, opts?: any) => {
+/** Back animation function
+ * @param {Node} baseEl Base html element
+ * @param {any} opts Additionals options
+ * @returns {AnimationBuilder} Animation Builder function
+ */
+export const backAnimation: AnimationBuilder = (baseEl: Node, opts?: any) => {
   const leavingAnimation = createAnimation()
     .addElement(opts.leavingEl)
     .duration(150)

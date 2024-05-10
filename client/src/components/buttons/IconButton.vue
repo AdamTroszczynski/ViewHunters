@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import { IonButton } from '@ionic/vue';
 import { computed, type Component } from 'vue';
+
 import ExitIcon from '@/components/icons/ExitIcon.vue';
 import GithubIcon from '@/components/icons/GithubIcon.vue';
 
@@ -21,7 +22,7 @@ const props = defineProps({
 });
 
 /** Choose icon to button
- * @returns {Component}
+ * @returns {Component} Icon's component
  */
 const setIcon = computed<Component>(() => {
   switch (props.icon) {

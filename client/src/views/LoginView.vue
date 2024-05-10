@@ -32,39 +32,35 @@
 </template>
 
 <script setup lang="ts">
-import { IonPage } from '@ionic/vue';
-import { useForm } from 'vee-validate';
+import { IonPage, useIonRouter } from '@ionic/vue';
+import { YupSchema, useForm } from 'vee-validate';
 import { object, string } from 'yup';
+import { AxiosError } from 'axios';
 import type { LoginForm } from '@/types/commonTypes';
 import { login } from '@/services/userServices';
-import { useIonRouter } from '@ionic/vue';
 import { useUserStore } from '@/stores/userStore';
 import { forwardAnimation } from '@/animations/navigateAnimations';
+
 import HeroBanner from '@/components/common/HeroBanner.vue';
 import MainInput from '@/components/inputs/MainInput.vue';
 import MainForm from '@/components/layout/MainForm.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
-import { AxiosError } from 'axios';
 
 const router = useIonRouter();
-const store = useUserStore();
+const userStore = useUserStore();
 
 /** Login schema with all validation rules */
-const loginSchema = object({
+const loginSchema: YupSchema = object({
   username: string().required('Please enter a username'),
   password: string().required('Please enter a password'),
 });
 
+/** Use validationSchema to LoginForm */
 const { validate, meta, values, setFieldError } = useForm<LoginForm>({
   validationSchema: loginSchema,
 });
 
-/** Go to register view */
-const goToRegister = (): void => {
-  router.navigate('/register', 'forward', 'push', forwardAnimation);
-};
-
-/** Login user */
+/** Login user action with error handling */
 const loginAction = async (): Promise<void> => {
   try {
     validate();
@@ -72,7 +68,7 @@ const loginAction = async (): Promise<void> => {
       const { username, password } = values;
       const result = await login(username, password);
       const { user, token } = result;
-      store.login(user, token);
+      userStore.login(user, token);
       router.navigate('/', 'root', 'push', forwardAnimation);
     }
   } catch (error) {
@@ -85,6 +81,11 @@ const loginAction = async (): Promise<void> => {
       }
     }
   }
+};
+
+/** Go to register view */
+const goToRegister = (): void => {
+  router.navigate('/register', 'forward', 'push', forwardAnimation);
 };
 </script>
 

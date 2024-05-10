@@ -11,7 +11,10 @@
           <h2 class="placeUnlock__title">{{ loadedPlace.name }}</h2>
           <!-- DODAĆ TUTAJ ZE STORA OBLICZANIE ODLEGŁOŚCI-->
           <ActionButton :icon="'location'" class="placeUnlock__btn"
-            >{{ store.getDistance(loadedPlace).toFixed(2) }} km</ActionButton
+            >{{
+              placeStore.getDistance(loadedPlace).toFixed(2)
+            }}
+            km</ActionButton
           >
         </div>
         <CodeChecker :id="loadedPlace.id" />
@@ -28,21 +31,21 @@
 
 <script setup lang="ts">
 import { IonPage, useIonRouter } from '@ionic/vue';
+import { Ref, onBeforeMount, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { getSinglePlace } from '@/services/placeServices';
+import type Place from '@/types/Place';
 import { usePlaceStore } from '@/stores/placeStore';
 import { useUserStore } from '@/stores/userStore';
-import { Ref, onBeforeMount, ref } from 'vue';
-import { getSinglePlace } from '@/services/placeServices';
-import { Place } from '@/types/Place';
 import { backAnimation } from '@/animations/navigateAnimations';
 
+import CodeChecker from '@/widgets/CodeChecker.vue';
 import HeroBanner from '@/components/common/HeroBanner.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
-import CodeChecker from '@/widgets/CodeChecker.vue';
 
 const route = useRoute();
 const router = useIonRouter();
-const store = usePlaceStore();
+const placeStore = usePlaceStore();
 const userStore = useUserStore();
 
 const loadedPlace: Ref<Place | null> = ref(null);

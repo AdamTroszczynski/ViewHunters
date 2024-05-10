@@ -15,9 +15,8 @@
               @click-action="isModalOpen = true"
               >Map</ActionButton
             >
-            <!-- DODAĆ TUTAJ ZE STORA OBLICZANIE ODLEGŁOŚCI-->
             <ActionButton :icon="'location'" class="placeDetails__btn">{{
-              `${store.getDistance(loadedPlace).toFixed(2)} km`
+              `${placeStore.getDistance(loadedPlace).toFixed(2)} km`
             }}</ActionButton>
           </div>
         </div>
@@ -45,20 +44,20 @@
 import { IonPage, IonModal, useIonRouter } from '@ionic/vue';
 import { onBeforeMount, ref, type Ref } from 'vue';
 import { useRoute } from 'vue-router';
+import L from 'leaflet';
+import type Place from '@/types/Place';
 import { usePlaceStore } from '@/stores/placeStore';
-import type { Place } from '@/types/Place';
 import { useUserStore } from '@/stores/userStore';
 import { getSinglePlace } from '@/services/placeServices';
-import L from 'leaflet';
-
 import { backAnimation } from '@/animations/navigateAnimations';
+
 import PhotoGallery from '@/widgets/PhotoGallery.vue';
 import HeroBanner from '@/components/common/HeroBanner.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
 
 const route = useRoute();
 const router = useIonRouter();
-const store = usePlaceStore();
+const placeStore = usePlaceStore();
 const userStore = useUserStore();
 
 const loadedPlace: Ref<Place | null> = ref(null);
@@ -66,17 +65,8 @@ const loadedPlace: Ref<Place | null> = ref(null);
 const isModalOpen = ref(false);
 const map = ref();
 
-/** Choose where redirect */
-const goBack = async () => {
-  if (router.canGoBack()) {
-    router.back(backAnimation);
-  } else {
-    router.navigate('/explored', 'root', 'pop', backAnimation);
-  }
-};
-
 /** Set map and marker to modal */
-const setMap = () => {
+const setMap = (): void => {
   if (loadedPlace.value !== null) {
     map.value = L.map('map').setView(
       [loadedPlace.value.geoWidth, loadedPlace.value.geoHeight],
@@ -90,6 +80,15 @@ const setMap = () => {
     L.marker([loadedPlace.value.geoWidth, loadedPlace.value.geoHeight]).addTo(
       map.value,
     );
+  }
+};
+
+/** Choose where redirect */
+const goBack = async (): Promise<void> => {
+  if (router.canGoBack()) {
+    router.back(backAnimation);
+  } else {
+    router.navigate('/explored', 'root', 'pop', backAnimation);
   }
 };
 

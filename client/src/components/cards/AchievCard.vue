@@ -9,6 +9,7 @@
 
 <script setup lang="ts">
 import { IonCard, IonCardHeader, IonCardTitle } from '@ionic/vue';
+
 import AchievementIcon from '@/components/icons/AchievementIcon.vue';
 </script>
 

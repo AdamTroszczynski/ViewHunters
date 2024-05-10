@@ -21,34 +21,34 @@
 import { IonList, IonItem, useIonRouter } from '@ionic/vue';
 import { computed, onBeforeMount } from 'vue';
 import { usePlaceStore } from '@/stores/placeStore';
-import { Place } from '@/types/Place';
+import type Place from '@/types/Place';
 import { forwardAnimation } from '@/animations/navigateAnimations';
 
 import ExploredCard from '@/components/cards/ExploredCard.vue';
 
-const store = usePlaceStore();
+const placeStore = usePlaceStore();
 const router = useIonRouter();
 
 /**
  * Filter ExploredPlaces based on selectedCategory
- * @returns {Place[]}
+ * @returns {Place[]} Array of place objects
  */
 const filterPlaces = computed<Place[]>(() => {
-  return store.exploredPlaces.filter(
-    (el) => el.category === store.selectedCategory,
+  return placeStore.exploredPlaces.filter(
+    (el) => el.category === placeStore.selectedCategory,
   );
 });
 
 /**
  * Move to /placeDetail/id path
- * @param {number} id - Place's id
+ * @param {number} id Place's id
  */
-const goToDetails = (id: number) => {
+const goToDetails = (id: number): void => {
   router.navigate(`/placeDetail/${id}`, 'forward', 'push', forwardAnimation);
 };
 
 onBeforeMount(() => {
-  store.loadExploredPlaces();
+  placeStore.loadExploredPlaces();
 });
 </script>
 
