@@ -131,7 +131,7 @@ const ExploredPlaces: Place[] = [
     code: '000',
     isDiscovered: true,
     name: 'Building',
-    geoWidth: 5,
+    geoWidth: 50,
     geoHeight: 5,
     photo: ['/Untitled.jpeg'],
     category: 'Houses',

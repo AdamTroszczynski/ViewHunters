@@ -6,6 +6,5 @@ export type Place = {
   photo: string[];
   category: string;
   description: string;
-  code: string;
   isDiscovered: boolean;
 };

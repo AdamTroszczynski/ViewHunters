@@ -1,17 +1,20 @@
 <template>
-  <form class="mainForm">
+  <form class="mainForm" @keyup.enter="emitAuthAction()">
     <div class="mainForm__container">
       <TitleLabel class="mainForm__title"
         ><slot name="title"></slot
       ></TitleLabel>
       <slot name="inputs"></slot>
-      <ActionButton
-        class="mainForm__btn"
-        :is-green="true"
-        :icon="'check'"
-        @click-action="emitAuthAction"
-        ><slot name="button"></slot
-      ></ActionButton>
+      <div class="mainForm_button">
+        <slot name="errorMessage"></slot>
+        <ActionButton
+          class="mainForm__btn"
+          :is-green="true"
+          :icon="'check'"
+          @click-action="emitAuthAction"
+          ><slot name="button"></slot
+        ></ActionButton>
+      </div>
     </div>
   </form>
 </template>
@@ -47,7 +50,7 @@ const emitAuthAction = (): void => emit('onSubmit');
   }
 
   &__btn {
-    margin-top: 15px;
+    margin-top: 10px;
   }
 }
 </style>

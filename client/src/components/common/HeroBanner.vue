@@ -11,7 +11,7 @@
         class="heroBanner__buttonsContainer"
       >
         <IconButton :icon="'github'" @click-action="openSource"></IconButton>
-        <IconButton :icon="'exit'" @click-action="logout"></IconButton>
+        <IconButton :icon="'exit'" @click-action="logoutAction()"></IconButton>
       </IonButtons>
 
       <IonTitle
@@ -27,7 +27,13 @@
 
 <script setup lang="ts">
 import { IonHeader, IonToolbar, IonTitle, IonButtons } from '@ionic/vue';
+import { useUserStore } from '@/stores/userStore';
+import { useIonRouter } from '@ionic/vue';
+import { backAnimation } from '@/animations/navigateAnimations';
 import IconButton from '@/components/buttons/IconButton.vue';
+
+const store = useUserStore();
+const router = useIonRouter();
 
 defineProps({
   isLogged: {
@@ -41,8 +47,9 @@ defineProps({
 });
 
 /** Logout user */
-const logout = (): void => {
-  console.log('Logout');
+const logoutAction = (): void => {
+  store.logout();
+  router.navigate('/login', 'none', 'pop', backAnimation);
 };
 
 /** Open github source code */
