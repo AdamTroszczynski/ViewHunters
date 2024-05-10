@@ -7,4 +7,5 @@ export enum StatusCodesEnum {
   ResourceConflict = 409,
   NewResources = 201,
   Unauthorized = 401,
+  UnprocessableEntity = 422,
 }

@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["driverAdapters"]
 }
 
@@ -8,20 +8,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Place {
-  id            Int @id @default(autoincrement())
-  name          String
-  geoWidth      Float
-  geoHeight     Float
-  photo         String
-  category      String
-  description   String
-  code          String
+model User {
+  id           Int             @id @default(autoincrement())
+  username     String
+  email        String
+  passwordHash String
+  unlocked     UnlockedPlace[]
 }
 
-model User {
-  id            Int @id @default(autoincrement())
-  username      String
-  email         String
-  passwordHash  String
+model Place {
+  id          Int             @id @default(autoincrement())
+  name        String
+  geoWidth    Float
+  geoHeight   Float
+  photo       String
+  category    String
+  description String
+  code        String
+  unlocked    UnlockedPlace[]
+}
+
+model UnlockedPlace {
+  userId  Int
+  placeId Int
+  user    User  @relation(fields: [userId], references: [id])
+  place   Place @relation(fields: [placeId], references: [id])
+
+  @@id([userId, placeId])
 }
