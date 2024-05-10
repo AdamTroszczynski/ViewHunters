@@ -7,9 +7,7 @@ export const usePlaceStore = defineStore('placeStore', () => {
   const selectedCategory: Ref<string> = ref('Buildings');
   const selectedDistanse: Ref<number> = ref(5); // REFACTOR: Replace hard-coded values with enums
   const localization: Ref<any> = ref({ width: 5, height: 5 });
-
   const places: Ref<Place[]> = ref([]);
-
   const exploredPlaces: Ref<Place[]> = ref([]);
 
   const getDistance = (place: Place): number => {
