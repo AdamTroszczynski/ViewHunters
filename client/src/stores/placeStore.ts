@@ -1,6 +1,5 @@
 import { ref, type Ref } from 'vue';
 import { defineStore } from 'pinia';
-import { getExploredPlaces } from '@/testPlaces';
 import { useUserStore } from './userStore';
 import { getPlaces } from '@/services/placeServices';
 import type { Place } from '@/types/Place';
@@ -17,7 +16,7 @@ export const usePlaceStore = defineStore('placeStore', () => {
   const getDistance = (place: Place): number => {
     return Math.sqrt(
       Math.pow(place.geoWidth - localization.value.width, 2) +
-      Math.pow(place.geoHeight - localization.value.height, 2),
+        Math.pow(place.geoHeight - localization.value.height, 2),
     );
   };
 
@@ -30,11 +29,7 @@ export const usePlaceStore = defineStore('placeStore', () => {
     places.value = result;
   };
 
-  const loadExploredPlaces = async () => {
-    if (exploredPlaces.value.length !== 0) return;
-    const result = getExploredPlaces();
-    exploredPlaces.value = result;
-  };
+  const loadExploredPlaces = async () => {};
 
   return {
     selectedCategory,

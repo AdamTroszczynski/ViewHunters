@@ -8,7 +8,7 @@
     <DetailLabel class="nearbyCard__label">{{ label }}</DetailLabel>
     <div class="nearbyCard__buttons">
       <ActionButton :icon="'location'" class="nearbyCard__locationBtn"
-        >{{ `${distance} km` }}
+        >{{ `${distance.toFixed(2)} km` }}
       </ActionButton>
       <ActionButton
         v-if="isDiscovered"

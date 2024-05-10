@@ -26,11 +26,6 @@
             :placeholder="'Repeat password'"
           ></MainInput>
         </template>
-        <template #errorMessage>
-          <div v-show="isBadRequest" class="loginView__error">
-            {{ badRequestMessage }}
-          </div>
-        </template>
         <template #button>Create account</template>
       </MainForm>
       <div class="registerView__info">
@@ -92,7 +87,7 @@ const loginSchema = object({
     .required('Please enter a password'),
 });
 
-const { validate, meta, values } = useForm<RegisterForm>({
+const { validate, meta, values, setFieldError } = useForm<RegisterForm>({
   validationSchema: loginSchema,
 });
 
@@ -109,12 +104,11 @@ const registerAction = async (): Promise<void> => {
     }
   } catch (error) {
     if (error instanceof AxiosError) {
-      isBadRequest.value = true;
       if (error.response && error.response.data) {
         const { errorMsg } = error.response.data;
-        badRequestMessage.value = errorMsg;
+        setFieldError('passwordRepeat', errorMsg);
       } else if (error.code === 'ECONNABORTED') {
-        badRequestMessage.value = 'Server is not available';
+        setFieldError('passwordRepeat', 'Server is not available');
       }
     }
   }

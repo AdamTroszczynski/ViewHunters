@@ -6,7 +6,6 @@
       ></TitleLabel>
       <slot name="inputs"></slot>
       <div class="mainForm_button">
-        <slot name="errorMessage"></slot>
         <ActionButton
           class="mainForm__btn"
           :is-green="true"
