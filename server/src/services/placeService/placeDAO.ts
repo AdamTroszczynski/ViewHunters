@@ -13,6 +13,23 @@ export const getNearestPlacesDAO = async (): Promise<Place[]> => {
 };
 
 /**
+ * Get all explored places by user DAO
+ * @param userId user id
+ * @returns {Promise<Place[]>}
+ */
+export const getExploredPlacesDAO = async (userId: number): Promise<Place[]> => {
+  return await dbClient.place.findMany({
+    where: {
+      unlocked: {
+        some: {
+          userId: userId,
+        },
+      },
+    },
+  });
+};
+
+/**
  * Get single place DAO
  * @param {number} id ID of the place
  * @returns {Place} place object

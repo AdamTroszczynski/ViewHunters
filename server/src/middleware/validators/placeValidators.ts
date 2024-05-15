@@ -4,7 +4,9 @@ export const getNearestPlacesValidators = [fieldValidNumber('geoWidth'), fieldVa
 
 export const getSinglePlaceValidators = [fieldValidNumber('id')];
 
-export const getUnlockPlaceValidators = [
+export const getExploredPlacesValidators = [fieldValidNumber('userId')];
+
+export const unlockPlaceValidators = [
   fieldValidNumber('placeId'),
   fieldValidNumber('userId'),
   fieldValidString('code'),
