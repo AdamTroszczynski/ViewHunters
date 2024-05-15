@@ -33,7 +33,6 @@ export const getNearestPlacesAction = async (req: Request, res: Response): Promi
 export const getExploredPlacesAction = async (req: Request, res: Response): Promise<void> => {
   try {
     const { userId } = req.query;
-    console.log(userId);
     const places: Place[] = await getExploredPlacesBO(Number(userId));
     res.status(StatusCodesEnum.OK).json(places);
   } catch (err) {
