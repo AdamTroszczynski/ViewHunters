@@ -1,11 +1,13 @@
 import type Place from '@/types/Place';
 import {
   getNearestPlacesDAO,
+  getExploredPlacesDAO,
   getPlaceCodeDAO,
   getSinglePlaceDAO,
   getUnlockedDAO,
   unlockPlaceDAO,
 } from '@/services/placeService/placeDAO';
+import { toRadians } from '@/utils/helpers/mathHelpers';
 
 /**
  * Get nearest places BO, only places that are near the user's location
@@ -15,12 +17,20 @@ import {
  */
 export const getNearestPlacesBO = async (geoWidth: number, geoHeight: number): Promise<Place[]> => {
   const places = await getNearestPlacesDAO();
+  const R = 6371;
+
   const filteredPlaces = places.filter((place: Place) => {
-    const x1 = place.geoWidth;
-    const y1 = place.geoHeight;
-    const x2 = geoWidth;
-    const y2 = geoHeight;
-    const distance: number = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+    const lat1 = toRadians(place.geoWidth);
+    const lon1 = toRadians(place.geoHeight);
+    const lat2 = toRadians(geoWidth);
+    const lon2 = toRadians(geoHeight);
+
+    const dLat = lat2 - lat1;
+    const dLon = lon2 - lon1;
+
+    const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance: number = R * c;
     return distance <= 15;
   });
 
@@ -44,6 +54,15 @@ export const getSinglePlaceBO = async (id: number): Promise<Place | null> => {
   }
 
   return place;
+};
+
+/**
+ * Get all explored places by user BO
+ * @param userId user id
+ * @returns {Promise<Place[]>}
+ */
+export const getExploredPlacesBO = async (userId: number): Promise<Place[]> => {
+  return await getExploredPlacesDAO(userId);
 };
 
 /**

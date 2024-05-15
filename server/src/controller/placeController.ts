@@ -7,6 +7,7 @@ import dbClient from '@/services/dbClient';
 import {
   getNearestPlacesBO,
   getSinglePlaceBO,
+  getExploredPlacesBO,
   unlockPlaceBO,
   isPlaceUnlockedBO,
 } from '@/services/placeService/placeBO';
@@ -20,6 +21,20 @@ export const getNearestPlacesAction = async (req: Request, res: Response): Promi
   try {
     const { geoWidth, geoHeight } = req.query;
     const places: Place[] = await getNearestPlacesBO(Number(geoWidth), Number(geoHeight));
+    res.status(StatusCodesEnum.OK).json(places);
+  } catch (err) {
+    console.error(err);
+    res.status(StatusCodesEnum.ServerError).json({ msg: ErrorMessagesEnum.ServerError });
+  } finally {
+    await dbClient.$disconnect();
+  }
+};
+
+export const getExploredPlacesAction = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { userId } = req.query;
+    console.log(userId);
+    const places: Place[] = await getExploredPlacesBO(Number(userId));
     res.status(StatusCodesEnum.OK).json(places);
   } catch (err) {
     console.error(err);
