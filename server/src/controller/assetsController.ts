@@ -6,11 +6,15 @@ import { existsSync } from 'fs';
 import { BASE_CLIENT_URL } from '@/const/commonConst';
 import type RequestError from '@/types/common/RequestError';
 
+/**
+ * Get image action
+ * @param {Request} req Request
+ * @param {Response} res Response
+ */
 export const getImageAction = async (req: Request, res: Response): Promise<void> => {
   try {
     const { userId, imageName } = req.params;
     const imagePath = path.join(__dirname, '../www/accounts', String(userId), String(imageName));
-    console.log(imagePath);
 
     res.set('Access-Control-Allow-Origin', BASE_CLIENT_URL);
     res.set('Cross-Origin-Resource-Policy', 'cross-origin');
