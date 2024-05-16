@@ -3,7 +3,7 @@
     <TransitionGroup name="list">
       <IonItem
         class="exploredPlaces__item"
-        v-for="place in filterPlaces"
+        v-for="place in placeStore.exploredPlaces"
         :key="place.id"
       >
         <ExploredCard
@@ -28,16 +28,6 @@ import ExploredCard from '@/components/cards/ExploredCard.vue';
 
 const placeStore = usePlaceStore();
 const router = useIonRouter();
-
-/**
- * Filter ExploredPlaces based on selectedCategory
- * @returns {Place[]} Array of place objects
- */
-const filterPlaces = computed<Place[]>(() => {
-  return placeStore.exploredPlaces.filter(
-    (el) => el.category === placeStore.selectedCategory,
-  );
-});
 
 /**
  * Move to /placeDetail/id path

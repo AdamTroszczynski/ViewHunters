@@ -14,8 +14,8 @@
           :photo="place.photo[0]"
           :distance="placeStore.getDistance(place)"
           :label="place.name"
-          :is-discovered="place.isDiscovered"
-          @click-action="choosePath($event, place.isDiscovered)"
+          :is-discovered="checkPlace(place)"
+          @click-action="choosePath($event, checkPlace(place))"
         ></NearbyCard>
       </IonItem>
     </TransitionGroup>
@@ -34,17 +34,32 @@ import NearbyCard from '@/components/cards/NearbyCard.vue';
 const placeStore = usePlaceStore();
 const router = useIonRouter();
 
-/** Filter places from store
+/** Filter and sort places from store
  * @return {Places[]}
  */
 const filterPlaces = computed<Place[]>(() => {
-  const filterArray = placeStore.nearbyPlaces.filter(
+  let filterArray = placeStore.nearbyPlaces.filter(
     (el) => el.category === placeStore.selectedCategory,
   );
-  return filterArray.filter(
+  filterArray = filterArray.filter(
     (el) => placeStore.getDistance(el) <= placeStore.selectedDistanse,
   );
+  return filterArray.sort((a: Place, b: Place): number => {
+    return placeStore.getDistance(a) - placeStore.getDistance(b);
+  });
 });
+
+/** Check if place is Explored
+ * @param {Place} place Place to check
+ * @returns {boolean} Place is explored
+ */
+const checkPlace = (place: Place): boolean => {
+  return (
+    placeStore.exploredPlaces.findIndex(
+      (exploredPlace: Place) => exploredPlace.id === place.id,
+    ) !== -1
+  );
+};
 
 /** Redirect to correct path
  * @param {number} id Place's id
@@ -59,6 +74,7 @@ const choosePath = (id: number, isDiscovered: boolean): void => {
 };
 
 onBeforeMount(() => {
+  placeStore.loadExploredPlaces();
   placeStore.loadNearbyPlaces();
 });
 </script>

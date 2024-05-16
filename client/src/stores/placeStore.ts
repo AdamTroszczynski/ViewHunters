@@ -2,7 +2,7 @@ import { ref, type Ref } from 'vue';
 import { defineStore } from 'pinia';
 import { Geolocation } from '@capacitor/geolocation';
 import { useUserStore } from '@/stores/userStore';
-import { getNearbyPlaces } from '@/services/placeServices';
+import { getNearbyPlaces, getExploredPlaces } from '@/services/placeServices';
 import type Place from '@/types/Place';
 import type { GeoLocation } from '@/types/commonTypes';
 import { Category, Distance } from '@/enums/placeEnum';
@@ -22,6 +22,7 @@ export const usePlaceStore = defineStore('placeStore', () => {
     try {
       await Geolocation.checkPermissions();
       const coordinates = (await Geolocation.getCurrentPosition()).coords;
+      console.log(coordinates);
       localization.value = {
         geoWidth: coordinates.latitude,
         geoHeight: coordinates.longitude,
@@ -45,7 +46,12 @@ export const usePlaceStore = defineStore('placeStore', () => {
   };
 
   /** Load explored places */
-  const loadExploredPlaces = async () => {};
+  const loadExploredPlaces = async (): Promise<void> => {
+    if (userStore.user) {
+      const result = await getExploredPlaces(userStore.user, userStore.token);
+      exploredPlaces.value = result;
+    }
+  };
 
   /** Get distance to place
    * @param {Place} place Place object

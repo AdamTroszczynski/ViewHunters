@@ -6,7 +6,6 @@ type Place = {
   photo: string[];
   category: string;
   description: string;
-  isDiscovered: boolean;
 };
 
 export default Place;

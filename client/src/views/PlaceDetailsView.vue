@@ -12,7 +12,7 @@
             <ActionButton
               :icon="'map'"
               class="placeDetails__btn"
-              @click-action="isModalOpen = true"
+              @click-action="() => (isModalOpen = true)"
               >Map</ActionButton
             >
             <ActionButton :icon="'location'" class="placeDetails__btn">{{
