@@ -45,13 +45,16 @@ import { AxiosError } from 'axios';
 import jsQR from 'jsqr';
 import { unlockPlace } from '@/services/placeServices';
 import { useUserStore } from '@/stores/userStore';
+import { usePlaceStore } from '@/stores/placeStore';
 import { forwardAnimation } from '@/animations/navigateAnimations';
 
 import MainInput from '@/components/inputs/MainInput.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
+import Place from '@/types/Place';
 
 const router = useIonRouter();
 const userStore = useUserStore();
+const placeStore = usePlaceStore();
 const modal = ref();
 
 const videoElement: Ref<HTMLVideoElement | null> = ref(null);
@@ -94,6 +97,10 @@ const checkCode = async (): Promise<any> => {
           values.code,
           userStore.token,
         );
+        const index = placeStore.nearbyPlaces.findIndex((place: Place) => {
+          return place.id === props.id;
+        });
+        placeStore.exploredPlaces.push(placeStore.nearbyPlaces[index]);
         router.navigate(
           `/placeDetail/${response}`,
           'root',
