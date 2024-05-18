@@ -3,7 +3,7 @@
     <div
       class="nearbyCard__photo"
       :class="!isDiscovered ? 'nearbyCard__photo--is-hidden' : ''"
-      :style="`background-image: url(${photo})`"
+      :style="`background-image: url(${BASE_SERVER_URL}/api/asset/image/${id}/${photo})`"
     ></div>
     <DetailLabel class="nearbyCard__label">{{ label }}</DetailLabel>
     <div class="nearbyCard__buttons">
@@ -24,6 +24,8 @@
 </template>
 
 <script setup lang="ts">
+import { BASE_SERVER_URL } from '@/const/commonConst';
+
 import DetailLabel from '@/components/labels/DetailLabel.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
 
