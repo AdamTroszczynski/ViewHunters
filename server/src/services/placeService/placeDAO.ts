@@ -75,3 +75,23 @@ export const unlockPlaceDAO = async (userId: number, placeId: number): Promise<n
 export const getUnlockedDAO = async (userId: number, placeId: number): Promise<UnlockedPlace | null> => {
   return await dbClient.unlockedPlace.findFirst({ where: { userId: userId, placeId: placeId } });
 };
+
+/** Delete all events in database */
+export const deleteAllPlacesDAO = async (): Promise<void> => {
+  await dbClient.place.deleteMany();
+};
+
+/** Add event in database */
+export const createPlaceDAO = async (place: Place): Promise<Place> => {
+  return await dbClient.place.create({
+    data: {
+      name: place.name,
+      geoWidth: place.geoWidth,
+      geoHeight: place.geoHeight,
+      photo:  place.photo.toString(),
+      category: place.category,
+      description: place.description,
+      code: "some test code"
+    },
+  });
+};

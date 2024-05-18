@@ -1,3 +1,5 @@
+import UnlockedPlace from "./UnlockedPlace";
+
 type Place = {
   id: number;
   name: string;
