@@ -6,6 +6,6 @@ import { validRequest } from '@/middleware/validators/commonValidators';
 
 const assetRouter = express.Router();
 
-assetRouter.get('/image/:userId/:imageName', [verifyToken, ...getImageValidators, validRequest], getImageAction);
+assetRouter.get('/image/:placeId/:imageName', [verifyToken, ...getImageValidators, validRequest], getImageAction);
 
 export default assetRouter;
