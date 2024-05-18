@@ -13,8 +13,8 @@ import type RequestError from '@/types/common/RequestError';
  */
 export const getImageAction = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { userId, imageName } = req.params;
-    const imagePath = path.join(__dirname, '../www/accounts', String(userId), String(imageName));
+    const { placeId, imageName } = req.params;
+    const imagePath = path.join(__dirname, '../www/places', String(placeId), String(imageName));
 
     res.set('Access-Control-Allow-Origin', BASE_CLIENT_URL);
     res.set('Cross-Origin-Resource-Policy', 'cross-origin');
