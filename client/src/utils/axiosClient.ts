@@ -1,7 +1,8 @@
+import { BASE_SERVER_URL } from '@/const/commonConst';
 import axios from 'axios';
 
 const axiosClient = axios.create({
-  baseURL: 'http://localhost:8080/api',
+  baseURL: `${BASE_SERVER_URL}/api`,
   timeout: 1000,
   headers: {
     Accept: 'application/json',

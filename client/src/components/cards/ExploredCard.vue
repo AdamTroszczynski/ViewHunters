@@ -2,13 +2,15 @@
   <div class="exploredCard" @click="emitClickEvent">
     <div
       class="exploredCard__photo"
-      :style="`background-image: url(${photo})`"
+      :style="`background-image: url(${BASE_SERVER_URL}/api/asset/image/${id}/${photo})`"
     ></div>
     <DetailLabel class="exploredCard__label">{{ label }}</DetailLabel>
   </div>
 </template>
 
 <script setup lang="ts">
+import { BASE_SERVER_URL } from '@/const/commonConst';
+
 import DetailLabel from '@/components/labels/DetailLabel.vue';
 
 const props = defineProps({
