@@ -78,7 +78,7 @@ export const getUnlockedDAO = async (userId: number, placeId: number): Promise<U
 
 /** Delete all events in database */
 export const deleteAllPlacesDAO = async (): Promise<void> => {
-  await dbClient.place.deleteMany();
+  await dbClient.place.deleteMany({});
 };
 
 /** Add event in database */
