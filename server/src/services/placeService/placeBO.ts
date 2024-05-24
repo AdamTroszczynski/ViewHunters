@@ -62,7 +62,14 @@ export const getSinglePlaceBO = async (id: number): Promise<Place | null> => {
  * @returns {Promise<Place[]>}
  */
 export const getExploredPlacesBO = async (userId: number): Promise<Place[]> => {
-  return await getExploredPlacesDAO(userId);
+  const places = await getExploredPlacesDAO(userId);
+
+  // Convert images string into array of images string paths
+  places.forEach((place: Place) => {
+    place.photo = (place.photo as string).split(',');
+  });
+
+  return places;
 };
 
 /**
