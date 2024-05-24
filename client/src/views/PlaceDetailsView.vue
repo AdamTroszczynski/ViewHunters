@@ -4,7 +4,10 @@
     <div class="placeDetails">
       <div v-if="loadedPlace !== null">
         <div class="placeDetails__photo">
-          <PhotoGallery :photos="loadedPlace.photo"></PhotoGallery>
+          <PhotoGallery
+            :photos="loadedPlace.photo"
+            :place-id="loadedPlace.id"
+          ></PhotoGallery>
         </div>
         <div class="placeDetails__header">
           <h2 class="placeDetails__title">{{ loadedPlace.name }}</h2>

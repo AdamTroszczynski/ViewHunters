@@ -90,6 +90,7 @@ export const usePlaceStore = defineStore('placeStore', () => {
   };
 
   return {
+    localization,
     selectedCategory,
     selectedDistanse,
     nearbyPlaces,
