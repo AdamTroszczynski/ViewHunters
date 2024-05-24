@@ -5,7 +5,7 @@
       <div v-if="loadedPlace !== null">
         <div
           class="placeUnlock__photo"
-          :style="`background-image: url(${loadedPlace.photo[0]})`"
+          :style="`background-image: url(${BASE_SERVER_URL}/api/asset/image/${loadedPlace.id}/${loadedPlace.photo[0]})`"
         ></div>
         <div class="placeUnlock__header">
           <h2 class="placeUnlock__title">{{ loadedPlace.name }}</h2>
@@ -38,6 +38,7 @@ import type Place from '@/types/Place';
 import { usePlaceStore } from '@/stores/placeStore';
 import { useUserStore } from '@/stores/userStore';
 import { backAnimation } from '@/animations/navigateAnimations';
+import { BASE_SERVER_URL } from '@/const/commonConst';
 
 import CodeChecker from '@/widgets/CodeChecker.vue';
 import HeroBanner from '@/components/common/HeroBanner.vue';
@@ -51,6 +52,7 @@ const userStore = useUserStore();
 const loadedPlace: Ref<Place | null> = ref(null);
 
 onBeforeMount(async () => {
+  if (!placeStore.localization) await placeStore.loadLocalization();
   const placeId = Number(route.params.id);
   loadedPlace.value = await getSinglePlace(placeId, userStore.token);
 });

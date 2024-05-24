@@ -8,7 +8,7 @@
   >
     <swiper-slide v-for="photo in photos" :key="photo"
       ><div
-        :style="`background-image: url(${photo})`"
+        :style="`background-image: url(${BASE_SERVER_URL}/api/asset/image/${placeId}/${photo})`"
         class="photoGallery__photo"
       ></div
     ></swiper-slide>
@@ -16,9 +16,15 @@
 </template>
 
 <script setup lang="ts">
+import { BASE_SERVER_URL } from '@/const/commonConst';
+
 defineProps({
   photos: {
     type: Array<string>,
+    required: true,
+  },
+  placeId: {
+    type: Number,
     required: true,
   },
 });
