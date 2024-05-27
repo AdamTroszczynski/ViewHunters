@@ -22,7 +22,6 @@ export const usePlaceStore = defineStore('placeStore', () => {
     try {
       await Geolocation.checkPermissions();
       const coordinates = (await Geolocation.getCurrentPosition()).coords;
-      console.log(coordinates);
       localization.value = {
         geoWidth: coordinates.latitude,
         geoHeight: coordinates.longitude,
