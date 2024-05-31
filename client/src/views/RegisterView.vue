@@ -43,7 +43,6 @@
 
 <script setup lang="ts">
 import { IonPage, useIonRouter } from '@ionic/vue';
-import { AxiosError } from 'axios';
 import { object, string, ref as yupRef } from 'yup';
 import { YupSchema, useForm } from 'vee-validate';
 import type { RegisterForm } from '@/types/commonTypes';
@@ -94,14 +93,10 @@ const registerAction = async (): Promise<void> => {
       userStore.login(user, token);
       router.navigate('/', 'root', 'push', forwardAnimation);
     }
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      if (error.response && error.response.data) {
-        const { errorMsg } = error.response.data;
-        setFieldError('passwordRepeat', errorMsg);
-      } else if (error.code === 'ECONNABORTED') {
-        setFieldError('passwordRepeat', 'Server is not available');
-      }
+  } catch (error: any) {
+    if (error.response && error.response.data) {
+      const { errorMsg } = error.response.data;
+      setFieldError('passwordRepeat', errorMsg);
     }
   }
 };

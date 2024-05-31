@@ -5,9 +5,9 @@
   >
     <TransitionGroup name="list">
       <IonItem
-        class="nearbyPlaces__item"
         v-for="place in filterPlaces"
         :key="place.id"
+        class="nearbyPlaces__item"
       >
         <NearbyCard
           :id="place.id"
@@ -63,7 +63,7 @@ const checkPlace = (place: Place): boolean => {
 
 /** Redirect to correct path
  * @param {number} id Place's id
- * @param {boolean} isDiscovered If place is discorvered
+ * @param {boolean} isDiscovered If place is discovered
  */
 const choosePath = (id: number, isDiscovered: boolean): void => {
   if (isDiscovered) {
@@ -73,9 +73,9 @@ const choosePath = (id: number, isDiscovered: boolean): void => {
   }
 };
 
-onBeforeMount(() => {
-  placeStore.loadExploredPlaces();
-  placeStore.loadNearbyPlaces();
+onBeforeMount(async (): Promise<void> => {
+  await placeStore.loadExploredPlaces();
+  await placeStore.loadNearbyPlaces();
 });
 </script>
 
