@@ -27,7 +27,7 @@ export const usePlaceStore = defineStore('placeStore', () => {
         geoHeight: coordinates.longitude,
       };
     } catch (err) {
-      alert('Please enable localization!');
+      console.error('Please enable localization!');
     }
   };
 

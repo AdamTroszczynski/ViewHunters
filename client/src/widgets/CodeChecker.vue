@@ -25,7 +25,7 @@
       ref="modal"
       trigger="open-modal"
       class="codeChecker__modal"
-      @didDismiss="stopCamera"
+      @did-dismiss="stopCamera"
     >
       <div v-show="!isLoaded" class="codeChecker__loader"></div>
       <div v-show="isLoaded">
@@ -41,7 +41,6 @@ import { IonModal, useIonRouter } from '@ionic/vue';
 import { Ref, onMounted, ref } from 'vue';
 import { object, string } from 'yup';
 import { YupSchema, useForm } from 'vee-validate';
-import { AxiosError } from 'axios';
 import jsQR from 'jsqr';
 import { unlockPlace } from '@/services/placeServices';
 import { useUserStore } from '@/stores/userStore';
@@ -109,14 +108,10 @@ const checkCode = async (): Promise<any> => {
         );
       }
     }
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      if (error.response && error.response.data) {
-        const { errorMsg } = error.response.data;
-        setFieldError('code', errorMsg);
-      } else if (error.code === 'ECONNABORTED') {
-        setFieldError('code', 'Server is not available');
-      }
+  } catch (error: any) {
+    if (error.response && error.response.data) {
+      const { errorMsg } = error.response.data;
+      setFieldError('code', errorMsg);
     }
   }
 };
