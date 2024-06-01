@@ -31,13 +31,13 @@ const placeStore = usePlaceStore();
  * @return {string} Distance in km
  */
 const convertDistance = computed<string>(() => {
-  return placeStore.selectedDistanse == Distance.short
-    ? 'To 5 km'
-    : placeStore.selectedDistanse == Distance.medium
-      ? 'To 10 km'
-      : Distance.long
-        ? 'To 15 km'
-        : '';
+  const distanceLabels: { [key: number]: string } = {
+    [Distance.short]: 'To 5 km',
+    [Distance.medium]: 'To 10 km',
+    [Distance.long]: 'To 15 km',
+  };
+
+  return distanceLabels[placeStore.selectedDistance] || '';
 });
 
 /** Set selected category to store
@@ -52,13 +52,14 @@ const setCategory = (ev: CustomEvent): void => {
  * @param {CustomEvent} ev Selected distance
  */
 const setDistance = (ev: CustomEvent): void => {
+  const distanceMap: { [key: string]: Distance } = {
+    'To 5 km': Distance.short,
+    'To 10 km': Distance.medium,
+    'To 15 km': Distance.long,
+  };
+
   const { detail } = ev;
-  placeStore.selectedDistanse =
-    detail.value == 'To 5 km'
-      ? Distance.short
-      : detail.value == 'To 10 km'
-        ? Distance.medium
-        : Distance.long;
+  placeStore.selectedDistance = distanceMap[detail.value] || Distance.long;
 };
 </script>
 

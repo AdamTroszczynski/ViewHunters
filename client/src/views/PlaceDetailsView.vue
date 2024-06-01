@@ -35,8 +35,8 @@
     <IonModal
       :is-open="isModalOpen"
       class="placeDetails__modal"
-      @didPresent="setMap"
-      @didDismiss="isModalOpen = false"
+      @did-present="setMap"
+      @did-dismiss="isModalOpen = false"
     >
       <div id="map" class="placeDetails__map"></div>
     </IonModal>
@@ -96,7 +96,6 @@ const goBack = async (): Promise<void> => {
 };
 
 onBeforeMount(async () => {
-  await placeStore.loadLocalization();
   const placeId = Number(route.params.id);
   const place = await getSinglePlace(placeId, userStore.token);
   if (place !== undefined) {

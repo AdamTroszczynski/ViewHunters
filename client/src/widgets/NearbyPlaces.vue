@@ -42,7 +42,7 @@ const filterPlaces = computed<Place[]>(() => {
     (el) => el.category === placeStore.selectedCategory,
   );
   filterArray = filterArray.filter(
-    (el) => placeStore.getDistance(el) <= placeStore.selectedDistanse,
+    (el) => placeStore.getDistance(el) <= placeStore.selectedDistance,
   );
   return filterArray.sort((a: Place, b: Place): number => {
     return placeStore.getDistance(a) - placeStore.getDistance(b);
@@ -74,6 +74,7 @@ const choosePath = (id: number, isDiscovered: boolean): void => {
 };
 
 onBeforeMount(async (): Promise<void> => {
+  await placeStore.setupLocalization();
   await placeStore.loadExploredPlaces();
   await placeStore.loadNearbyPlaces();
 });

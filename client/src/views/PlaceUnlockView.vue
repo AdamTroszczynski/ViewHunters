@@ -9,7 +9,6 @@
         ></div>
         <div class="placeUnlock__header">
           <h2 class="placeUnlock__title">{{ loadedPlace.name }}</h2>
-          <!-- DODAĆ TUTAJ ZE STORA OBLICZANIE ODLEGŁOŚCI-->
           <ActionButton :icon="'location'" class="placeUnlock__btn"
             >{{
               placeStore.getDistance(loadedPlace).toFixed(2)
@@ -52,7 +51,6 @@ const userStore = useUserStore();
 const loadedPlace: Ref<Place | null> = ref(null);
 
 onBeforeMount(async () => {
-  if (!placeStore.localization) await placeStore.loadLocalization();
   const placeId = Number(route.params.id);
   loadedPlace.value = await getSinglePlace(placeId, userStore.token);
 });
