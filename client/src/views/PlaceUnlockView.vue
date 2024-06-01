@@ -9,12 +9,9 @@
         ></div>
         <div class="placeUnlock__header">
           <h2 class="placeUnlock__title">{{ loadedPlace.name }}</h2>
-          <ActionButton :icon="'location'" class="placeUnlock__btn"
-            >{{
-              placeStore.getDistance(loadedPlace).toFixed(2)
-            }}
-            km</ActionButton
-          >
+          <ActionButton :icon="'location'" class="placeUnlock__btn">
+            {{ placeStore.getDistance(loadedPlace).toFixed(3) }}km
+          </ActionButton>
         </div>
         <CodeChecker :id="loadedPlace.id" />
       </div>

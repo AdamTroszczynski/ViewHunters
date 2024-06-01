@@ -54,7 +54,7 @@ export const httpClient = async (
     method,
     url: `${BASE_SERVER_URL}/api/${controller}/${action}${createParamsString(paramsData)}`,
     headers: {
-      'Content-type': 'application/json',
+      'Content-Type': 'application/json',
       ...extraHeaders,
     },
   };

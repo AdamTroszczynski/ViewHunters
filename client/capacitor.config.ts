@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'ViewHunters',
   webDir: 'dist',
   server: {
-    androidScheme: 'https',
+    androidScheme: 'http',
   },
   plugins: {
     CapacitorHttp: {
