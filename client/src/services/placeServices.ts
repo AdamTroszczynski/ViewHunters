@@ -1,11 +1,7 @@
-import {
-  CapacitorHttp,
-  type HttpOptions,
-  type HttpResponse,
-} from '@capacitor/core';
+import { httpClient } from '@/utils/httpClient';
 import type Place from '@/types/Place';
+import type { HttpResponse } from '@capacitor/core';
 import User from '@/types/User';
-import { BASE_SERVER_URL } from '@/const/commonConst';
 
 /** Get single place action
  * @param {number} id PlaceId
@@ -16,15 +12,13 @@ export const getSinglePlace = async (
   id: number,
   token: string,
 ): Promise<Place> => {
-  const options: HttpOptions = {
-    url: `${BASE_SERVER_URL}/api/place/places/${id}`,
-    headers: {
-      'Content-type': 'application/json',
-      'x-access-token': token,
-    },
-  };
+  const response: HttpResponse = await httpClient(
+    'get',
+    'place',
+    `places/${id}`,
+    { 'x-access-token': token },
+  );
 
-  const response = await CapacitorHttp.get(options);
   const data = response.data;
   return data;
 };
@@ -40,15 +34,14 @@ export const getNearbyPlaces = async (
   geoHeight: number,
   token: string,
 ): Promise<Place[]> => {
-  const options: HttpOptions = {
-    url: `${BASE_SERVER_URL}/api/place/places?geoWidth=${geoWidth}&geoHeight=${geoHeight}`,
-    headers: {
-      'Content-type': 'application/json',
-      'x-access-token': token,
-    },
-  };
+  const response: HttpResponse = await httpClient(
+    'get',
+    'place',
+    'places',
+    { 'x-access-token': token },
+    { geoWidth, geoHeight },
+  );
 
-  const response: HttpResponse = await CapacitorHttp.get(options);
   const data = response.data;
   return data;
 };
@@ -62,15 +55,14 @@ export const getExploredPlaces = async (
   token: string,
 ): Promise<Place[]> => {
   const userId = user.id;
-  const options: HttpOptions = {
-    url: `${BASE_SERVER_URL}/api/place/explored?userId=${userId}`,
-    headers: {
-      'Content-type': 'application/json',
-      'x-access-token': token,
-    },
-  };
+  const response: HttpResponse = await httpClient(
+    'get',
+    'place',
+    'explored',
+    { 'x-access-token': token },
+    { userId },
+  );
 
-  const response: HttpResponse = await CapacitorHttp.get(options);
   const data = response.data;
   return data;
 };
@@ -87,16 +79,15 @@ export const unlockPlace = async (
   code: string,
   token: string,
 ): Promise<number> => {
-  const options: HttpOptions = {
-    url: `${BASE_SERVER_URL}/api/place/places/unlock`,
-    headers: {
-      'Content-type': 'application/json',
-      'x-access-token': token,
-    },
-    data: { placeId, userId, code },
-  };
+  const response: HttpResponse = await httpClient(
+    'post',
+    'place',
+    'places/unlock',
+    { 'x-access-token': token },
+    {},
+    { placeId, userId, code },
+  );
 
-  const response: HttpResponse = await CapacitorHttp.post(options);
   const data = response.data;
   return data;
 };

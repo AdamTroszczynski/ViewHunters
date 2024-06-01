@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { useUserStore } from '@/stores/userStore';
+import { usePlaceStore } from '@/stores/placeStore';
 import { checkToken } from '@/services/userServices';
 import { Storage } from '@ionic/storage';
 
@@ -28,6 +29,13 @@ const router = createRouter({
         {
           path: 'nearby',
           name: 'nearby',
+          beforeEnter: async (): Promise<void> => {
+            const placeStore = usePlaceStore();
+            if (placeStore.nearbyPlaces.length === 0) {
+              await placeStore.loadExploredPlaces();
+              await placeStore.loadNearbyPlaces();
+            }
+          },
           component: NearbyView,
         },
         {
@@ -87,7 +95,9 @@ router.beforeEach(async (to, from, next) => {
       try {
         const response = await checkToken(token);
         userStore.login(response, token);
-      } catch (err) {}
+      } catch (err) {
+        console.error(err);
+      }
     }
   }
   if (userStore.isUserLoggedIn && !to.meta.onlyWhenLogout) {

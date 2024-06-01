@@ -1,6 +1,6 @@
 import { ref, type Ref } from 'vue';
 import { defineStore } from 'pinia';
-import { Geolocation } from '@capacitor/geolocation';
+import { Geolocation, Position } from '@capacitor/geolocation';
 import { useUserStore } from '@/stores/userStore';
 import { getNearbyPlaces, getExploredPlaces } from '@/services/placeServices';
 import type Place from '@/types/Place';
@@ -11,21 +11,44 @@ export const usePlaceStore = defineStore('placeStore', () => {
   const userStore = useUserStore();
 
   const selectedCategory: Ref<string> = ref(Category.buildings);
-  const selectedDistanse: Ref<number> = ref(Distance.short);
+  const selectedDistance: Ref<number> = ref(Distance.short);
 
   const localization: Ref<GeoLocation | null> = ref(null);
 
   const nearbyPlaces: Ref<Place[]> = ref([]);
   const exploredPlaces: Ref<Place[]> = ref([]);
 
-  const loadLocalization = async () => {
+  const setupLocalization = async () => {
     try {
-      await Geolocation.checkPermissions();
-      const coordinates = (await Geolocation.getCurrentPosition()).coords;
-      localization.value = {
-        geoWidth: coordinates.latitude,
-        geoHeight: coordinates.longitude,
+      const permissionStatus = await Geolocation.checkPermissions();
+      if (permissionStatus.location != 'granted') {
+        const requestStatus = await Geolocation.requestPermissions();
+        if (requestStatus.location != 'granted') {
+          localization.value = null;
+          throw new Error();
+        }
+      }
+
+      const options: PositionOptions = {
+        timeout: 100,
+        enableHighAccuracy: true,
       };
+
+      const introLocation = await Geolocation.getCurrentPosition();
+
+      // Set location for the first time to avoid null value
+      localization.value = {
+        geoWidth: introLocation.coords.latitude,
+        geoHeight: introLocation.coords.longitude,
+      };
+
+      Geolocation.watchPosition(options, (position) => {
+        const pos = position as Position;
+        localization.value = {
+          geoWidth: pos.coords.latitude,
+          geoHeight: pos.coords.longitude,
+        };
+      });
     } catch (err) {
       console.error('Please enable localization!');
     }
@@ -33,7 +56,6 @@ export const usePlaceStore = defineStore('placeStore', () => {
 
   /** Load nearby places  */
   const loadNearbyPlaces = async (): Promise<void> => {
-    if (!localization.value) await loadLocalization();
     if (localization.value) {
       const result = await getNearbyPlaces(
         localization.value.geoWidth,
@@ -91,12 +113,12 @@ export const usePlaceStore = defineStore('placeStore', () => {
   return {
     localization,
     selectedCategory,
-    selectedDistanse,
+    selectedDistance,
     nearbyPlaces,
     exploredPlaces,
     loadNearbyPlaces,
     loadExploredPlaces,
     getDistance,
-    loadLocalization,
+    setupLocalization,
   };
 });
