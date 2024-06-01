@@ -19,7 +19,7 @@
               >Map</ActionButton
             >
             <ActionButton :icon="'location'" class="placeDetails__btn">{{
-              `${placeStore.getDistance(loadedPlace).toFixed(2)} km`
+              `${placeStore.getDistance(loadedPlace).toFixed(3)}km`
             }}</ActionButton>
           </div>
         </div>

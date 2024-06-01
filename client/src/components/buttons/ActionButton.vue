@@ -81,14 +81,13 @@ const emitClickEvent = () => emit('clickAction');
 <style lang="scss" scoped>
 .actionButton {
   --border-radius: 8px;
-  --width: 100%;
+  --width: auto;
   --background: #293b4f;
   --padding-start: 1.125rem;
   --padding-end: 1.125rem;
   --padding-top: 0.3125rem;
   --padding-bottom: 0.3125rem;
   --box-shadow: none;
-  min-width: 100%;
   height: 25px;
   min-height: 0;
   text-transform: none;
