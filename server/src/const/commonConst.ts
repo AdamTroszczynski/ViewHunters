@@ -5,4 +5,5 @@ export const PREVIEW_CLIENT_URL = `${BASE_URL}:4173`;
 export const PLACE_API_PATH = '/api/place';
 export const ACHIEVEMENT_API_PATH = '/api/achievement';
 export const AUTH_API_PATH = '/api/auth';
+export const USER_API_PATH = '/api/user';
 export const ASSETS_API_PATH = '/api/asset';

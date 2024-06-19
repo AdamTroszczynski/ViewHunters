@@ -7,6 +7,7 @@ import {
   getUnlockedDAO,
   unlockPlaceDAO,
 } from '@/services/placeService/placeDAO';
+import { updateUserViewsCountBO } from '@/services/userService/userBO';
 import { toRadians } from '@/utils/helpers/mathHelpers';
 
 /**
@@ -91,5 +92,6 @@ export const isPlaceUnlockedBO = async (placeId: number, userId: number): Promis
  */
 export const unlockPlaceBO = async (placeId: number, userId: number, codeToCheck: string): Promise<number | null> => {
   if ((await getPlaceCodeDAO(placeId)) !== codeToCheck) return null;
+  await updateUserViewsCountBO(userId);
   return await unlockPlaceDAO(userId, placeId);
 };

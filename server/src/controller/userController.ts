@@ -5,7 +5,13 @@ import type { TokenRequest } from '@/interfaces/customRequests';
 import { ErrorMessagesEnum } from '@/enums/ErrorMessagesEnum';
 import { StatusCodesEnum } from '@/enums/StatusCodesEnum';
 import bcrypt from 'bcrypt';
-import { getUserByUsernameBO, getUserByIdBO, createUserBO, getUserByEmailBO } from '@/services/userService/userBO';
+import {
+  getUserByUsernameBO,
+  getUserByIdBO,
+  createUserBO,
+  getUserByEmailBO,
+  getRankingScoresBO,
+} from '@/services/userService/userBO';
 import { createToken } from '@/utils/helpers/tokenHelpers';
 
 /**
@@ -105,6 +111,24 @@ export const getValidUserAction = async (req: TokenRequest, res: Response): Prom
     const { id } = req.user!;
     const user = await getUserByIdBO(id);
     res.status(StatusCodesEnum.OK).json(user);
+  } catch (err) {
+    res
+      .status(StatusCodesEnum.ServerError)
+      .json({ name: ErrorMessagesEnum.ServerError, errorMsg: err } as RequestError);
+  }
+};
+
+/**
+ * Get ranking scores action
+ * @param {Request} req Request
+ * @param {Response} res Response
+ */
+export const getRankingScoresAction = async (req: Request, res: Response): Promise<void> => {
+  try {
+    // TODO: Limit users to for example best 100 users to avoid fetching all users from database
+    const scores = await getRankingScoresBO();
+    scores.sort((a, b) => b.viewsCount - a.viewsCount);
+    res.status(StatusCodesEnum.OK).json(scores);
   } catch (err) {
     res
       .status(StatusCodesEnum.ServerError)

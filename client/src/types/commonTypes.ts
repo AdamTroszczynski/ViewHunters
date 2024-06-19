@@ -21,3 +21,8 @@ export type GeoLocation = {
   geoWidth: number;
   geoHeight: number;
 };
+
+export type RankingScore = {
+  username: string;
+  viewsCount: number;
+};

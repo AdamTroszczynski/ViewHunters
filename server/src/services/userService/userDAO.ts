@@ -1,5 +1,6 @@
 import User from '@/types/User';
 import dbClient from '@/services/dbClient';
+import type RankingScore from '@/types/common/RankingScore';
 
 /**
  * Get user by username DAO
@@ -42,5 +43,29 @@ export const getUserByEmailDAO = async (email: string): Promise<User | null> => 
  * @returns {Promise<User>} created user object
  */
 export const createUserDAO = async (username: string, email: string, passwordHash: string): Promise<User> => {
-  return await dbClient.user.create({ data: { username: username, email: email, passwordHash: passwordHash } });
+  return await dbClient.user.create({
+    data: { username: username, email: email, passwordHash: passwordHash, viewsCount: 0 },
+  });
+};
+
+/**
+ * Get all ranking scores DAO
+ * @returns {Promise<RankingScore>} ranking scores
+ */
+export const getRankingScoresDAO = async (): Promise<RankingScore[]> => {
+  return await dbClient.user.findMany({
+    select: { username: true, viewsCount: true },
+  });
+};
+
+/**
+ * Increment views count value for specific user
+ * @param {number} userId user id
+ * @returns {Promise<User>} user object
+ */
+export const updateUserViewsCountDAO = async (userId: number): Promise<User> => {
+  return await dbClient.user.update({
+    where: { id: userId },
+    data: { viewsCount: { increment: 1 } },
+  });
 };
