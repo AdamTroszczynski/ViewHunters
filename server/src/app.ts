@@ -8,10 +8,12 @@ import {
   PLACE_API_PATH,
   AUTH_API_PATH,
   ASSETS_API_PATH,
+  USER_API_PATH,
 } from '@/const/commonConst';
 import placeRouter from '@/router/placeRouter';
 import userRouter from '@/router/userRouter';
 import assetRouter from '@/router/assetRouter';
+import authRouter from '@/router/authRouter';
 
 /** Create and prepare app object */
 export const createApp = (): Express => {
@@ -24,7 +26,8 @@ export const createApp = (): Express => {
 
   // Routes setup
   app.use(PLACE_API_PATH, placeRouter);
-  app.use(AUTH_API_PATH, userRouter);
+  app.use(USER_API_PATH, userRouter);
+  app.use(AUTH_API_PATH, authRouter);
   app.use(ASSETS_API_PATH, assetRouter);
 
   return app;

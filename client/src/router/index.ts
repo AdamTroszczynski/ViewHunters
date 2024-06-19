@@ -13,6 +13,7 @@ import AchievementsView from '@/views/tabViews/AchievementsView.vue';
 import ExploredView from '@/views/tabViews/ExploredView.vue';
 import ProfileView from '@/views/tabViews/ProfileView.vue';
 import NearbyView from '@/views/tabViews/NearbyView.vue';
+import RankingView from '@/views/RankingView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -76,6 +77,11 @@ const router = createRouter({
       path: '/placeUnlock/:id',
       name: 'placeUnlock',
       component: PlaceUnlockView,
+    },
+    {
+      path: '/ranking',
+      name: 'ranking',
+      component: RankingView,
     },
     {
       path: '/:pathMatch(.*)*',
