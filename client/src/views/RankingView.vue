@@ -5,9 +5,7 @@
       <TitleLabel class="rankingView__title">Places Nearby</TitleLabel>
       <IonList>
         <TransitionGroup name="list">
-          <IonItem v-for="place in filterPlaces" :key="place.id">
-            siema
-          </IonItem>
+          <IonItem>siema</IonItem>
         </TransitionGroup>
       </IonList>
     </div>
