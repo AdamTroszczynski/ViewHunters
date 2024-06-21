@@ -1,7 +1,7 @@
 import { httpClient } from '@/utils/httpClient';
 import { type HttpResponse } from '@capacitor/core';
-import { type UserToken } from '@/types/commonTypes';
-import User from '@/types/User';
+import type { UserToken, RankingScore } from '@/types/commonTypes';
+import type User from '@/types/User';
 
 /** Login action
  * @param {string} username Username
@@ -57,6 +57,22 @@ export const register = async (
  */
 export const checkToken = async (token: string): Promise<User> => {
   const response: HttpResponse = await httpClient('get', 'auth', 'check', {
+    'x-access-token': token,
+  });
+
+  const data = response.data;
+  return data;
+};
+
+/**
+ * Get all ranking scores
+ * @param {string} token User's token
+ * @returns {Promise<RankingScore[]>} All ranking scores
+ */
+export const getRankingsScores = async (
+  token: string,
+): Promise<RankingScore[]> => {
+  const response: HttpResponse = await httpClient('get', 'user', 'ranking', {
     'x-access-token': token,
   });
 

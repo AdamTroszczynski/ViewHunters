@@ -2,14 +2,16 @@
   <div class="exploredCard" @click="emitClickEvent">
     <div
       class="exploredCard__photo"
-      :style="`background-image: url(${BASE_SERVER_URL}/api/asset/image/${id}/${photo})`"
+      :style="`background-image: url(${getImage})`"
     ></div>
     <DetailLabel class="exploredCard__label">{{ label }}</DetailLabel>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { BASE_SERVER_URL } from '@/const/commonConst';
+import defaultImage from '@/assets/images/default.png';
 
 import DetailLabel from '@/components/labels/DetailLabel.vue';
 
@@ -32,6 +34,13 @@ const emit = defineEmits<{
   /** Emit event after click button */
   (e: 'clickAction', id: number): void;
 }>();
+
+/** Get image source path or url */
+const getImage = computed<string>(() =>
+  props.photo && props.photo !== ''
+    ? `${BASE_SERVER_URL}/api/asset/image/${props.id}/${props.photo}`
+    : defaultImage,
+);
 
 /** Emit click action event */
 const emitClickEvent = () => emit('clickAction', props.id);
