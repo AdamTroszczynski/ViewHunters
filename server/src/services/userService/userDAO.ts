@@ -55,6 +55,8 @@ export const createUserDAO = async (username: string, email: string, passwordHas
 export const getRankingScoresDAO = async (): Promise<RankingScore[]> => {
   return await dbClient.user.findMany({
     select: { username: true, viewsCount: true },
+    orderBy: { viewsCount: 'desc' },
+    take: 100,
   });
 };
 

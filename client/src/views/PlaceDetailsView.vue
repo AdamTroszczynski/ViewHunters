@@ -28,14 +28,14 @@
       <ActionButton
         :icon="'arrow'"
         class="placeDetails__btn"
-        @click-action="goBack"
+        @click-action="goBack()"
         >Back</ActionButton
       >
     </div>
     <IonModal
       :is-open="isModalOpen"
       class="placeDetails__modal"
-      @did-present="setMap"
+      @did-present="setMap()"
       @did-dismiss="isModalOpen = false"
     >
       <div id="map" class="placeDetails__map"></div>

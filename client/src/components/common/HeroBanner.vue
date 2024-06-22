@@ -10,7 +10,8 @@
         slot="end"
         class="heroBanner__buttonsContainer"
       >
-        <IconButton :icon="'github'" @click-action="openSource"></IconButton>
+        <IconButton :icon="'stats'" @click-action="openRanking()"></IconButton>
+        <IconButton :icon="'github'" @click-action="openSource()"></IconButton>
         <IconButton :icon="'exit'" @click-action="logoutAction()"></IconButton>
       </IonButtons>
 
@@ -34,7 +35,10 @@ import {
   useIonRouter,
 } from '@ionic/vue';
 import { useUserStore } from '@/stores/userStore';
-import { backAnimation } from '@/animations/navigateAnimations';
+import {
+  backAnimation,
+  forwardAnimation,
+} from '@/animations/navigateAnimations';
 
 import IconButton from '@/components/buttons/IconButton.vue';
 
@@ -61,6 +65,11 @@ const logoutAction = (): void => {
 /** Open github source code */
 const openSource = (): void => {
   window.location.replace('https://github.com/AdamTroszczynski/ViewHunters');
+};
+
+/** Open ranking page */
+const openRanking = (): void => {
+  router.navigate('/ranking', 'none', 'push', forwardAnimation);
 };
 </script>
 
