@@ -10,13 +10,14 @@ import { computed, type Component } from 'vue';
 
 import ExitIcon from '@/components/icons/ExitIcon.vue';
 import GithubIcon from '@/components/icons/GithubIcon.vue';
+import StatsIcon from '@/components/icons/StatsIcon.vue';
 
 const props = defineProps({
   icon: {
     type: String,
     required: true,
     validator(val: string): boolean {
-      return ['exit', 'github'].includes(val);
+      return ['exit', 'github', 'stats'].includes(val);
     },
   },
 });
@@ -30,6 +31,8 @@ const setIcon = computed<Component>(() => {
       return ExitIcon;
     case 'github':
       return GithubIcon;
+    case 'stats':
+      return StatsIcon;
     default:
       return ExitIcon;
   }

@@ -72,7 +72,7 @@ export const checkToken = async (token: string): Promise<User> => {
 export const getRankingsScores = async (
   token: string,
 ): Promise<RankingScore[]> => {
-  const response: HttpResponse = await httpClient('get', 'user', 'ranking', {
+  const response: HttpResponse = await httpClient('get', 'user', 'score', {
     'x-access-token': token,
   });
 

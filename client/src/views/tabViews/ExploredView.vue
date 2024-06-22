@@ -37,6 +37,7 @@ import TitleLabel from '@/components/labels/TitleLabel.vue';
     gap: 30px;
   }
 }
+
 ::-webkit-scrollbar {
   width: 0px;
 }
