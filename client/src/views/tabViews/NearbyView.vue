@@ -1,7 +1,6 @@
 <template>
   <IonPage>
     <div class="nearbyView">
-      <HeroBanner :is-filters="true" />
       <PlaceFilter />
       <div class="nearbyView__container">
         <TitleLabel class="nearbyView__title">Places Nearby</TitleLabel>
@@ -14,7 +13,6 @@
 <script setup lang="ts">
 import { IonPage } from '@ionic/vue';
 
-import HeroBanner from '@/components/common/HeroBanner.vue';
 import PlaceFilter from '@/widgets/PlaceFilter.vue';
 import NearbyPlaces from '@/widgets/NearbyPlaces.vue';
 import TitleLabel from '@/components/labels/TitleLabel.vue';
@@ -31,7 +29,7 @@ import TitleLabel from '@/components/labels/TitleLabel.vue';
 
   &__container {
     width: 100%;
-    height: calc(100% - 155px);
+    height: calc(100% - 60px);
     overflow-y: scroll;
     padding: 0px 20px 20px 20px;
     display: flex;

@@ -1,7 +1,6 @@
 <template>
   <IonPage>
     <div class="rankingView">
-      <HeroBanner />
       <div class="rankingView__container">
         <div class="rankingView__listWrapper">
           <TitleLabel class="rankingView__title">Ranking</TitleLabel>
@@ -54,7 +53,6 @@ import type { RankingScore } from '@/types/commonTypes';
 import { getRankingsScores } from '@/services/userServices';
 import { useUserStore } from '@/stores/userStore';
 
-import HeroBanner from '@/components/common/HeroBanner.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
 import TitleLabel from '@/components/labels/TitleLabel.vue';
 import SingleRankingCard from '@/components/cards/SingleRankingCard.vue';
@@ -89,7 +87,7 @@ onMounted(async (): Promise<void> => {
     flex-direction: column;
     gap: 30px;
     width: 100%;
-    height: calc(100% - 94px);
+    height: 100%;
     padding: 0px 20px 20px 20px;
   }
 
