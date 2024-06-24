@@ -50,15 +50,20 @@ const emitClickEvent = () => emit('clickAction');
 <style lang="scss" scoped>
 .iconButton {
   --background: none;
-  --padding-start: 8px;
-  --padding-end: 6px;
-  width: 29px;
-  min-height: 29px;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  min-height: 25px;
   border: solid 1px $mediumGray;
   border-radius: 8px;
 
   &__icon {
-    min-width: 15px;
+    width: 15px;
+    height: 12px;
     fill: $mediumGray;
   }
 }

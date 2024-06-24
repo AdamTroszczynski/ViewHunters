@@ -32,8 +32,8 @@ model Place {
 model UnlockedPlace {
   userId  Int
   placeId Int
-  user    User  @relation(fields: [userId], references: [id])
   place   Place @relation(fields: [placeId], references: [id])
+  user    User  @relation(fields: [userId], references: [id])
 
   @@id([userId, placeId])
 }
