@@ -2,9 +2,9 @@
   <IonList class="exploredPlaces">
     <TransitionGroup name="list">
       <IonItem
-        class="exploredPlaces__item"
         v-for="place in placeStore.exploredPlaces"
         :key="place.id"
+        class="exploredPlaces__item"
       >
         <ExploredCard
           :id="place.id"
@@ -19,9 +19,8 @@
 
 <script setup lang="ts">
 import { IonList, IonItem, useIonRouter } from '@ionic/vue';
-import { computed, onBeforeMount } from 'vue';
+import { onBeforeMount } from 'vue';
 import { usePlaceStore } from '@/stores/placeStore';
-import type Place from '@/types/Place';
 import { forwardAnimation } from '@/animations/navigateAnimations';
 
 import ExploredCard from '@/components/cards/ExploredCard.vue';
