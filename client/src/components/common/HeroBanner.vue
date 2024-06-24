@@ -27,6 +27,8 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 import {
   IonHeader,
   IonToolbar,
@@ -44,16 +46,15 @@ import IconButton from '@/components/buttons/IconButton.vue';
 
 const userStore = useUserStore();
 const router = useIonRouter();
+const route = useRoute();
 
-defineProps({
-  isLogged: {
-    type: Boolean,
-    default: true,
-  },
-  isFilters: {
-    type: Boolean,
-    default: false,
-  },
+/** Get login status */
+const isLogged = computed<boolean>(() => {
+  return userStore.isUserLoggedIn;
+});
+
+const isFilters = computed<boolean>(() => {
+  return route.name == 'nearby';
 });
 
 /** Logout user */
@@ -93,7 +94,6 @@ const openRanking = (): void => {
 
   &__buttonsContainer {
     column-gap: 2px;
-    width: 85px;
   }
 
   &__title {

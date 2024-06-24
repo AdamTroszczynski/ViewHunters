@@ -1,6 +1,5 @@
 <template>
   <IonPage>
-    <HeroBanner :is-logged="false" />
     <div class="registerView">
       <MainForm @on-submit="registerAction()">
         <template #title>Create Account</template>
@@ -54,7 +53,6 @@ import {
 } from '@/animations/navigateAnimations';
 
 import ActionButton from '@/components/buttons/ActionButton.vue';
-import HeroBanner from '@/components/common/HeroBanner.vue';
 import MainInput from '@/components/inputs/MainInput.vue';
 import MainForm from '@/components/layout/MainForm.vue';
 

@@ -1,7 +1,6 @@
 <template>
   <IonPage>
     <div class="exploredView">
-      <HeroBanner />
       <div class="exploredView__container">
         <TitleLabel class="exploredView__title">Explored</TitleLabel>
         <ExploredPlaces />
@@ -13,7 +12,6 @@
 <script setup lang="ts">
 import { IonPage } from '@ionic/vue';
 
-import HeroBanner from '@/components/common/HeroBanner.vue';
 import ExploredPlaces from '@/widgets/ExploredPlaces.vue';
 import TitleLabel from '@/components/labels/TitleLabel.vue';
 </script>
@@ -29,7 +27,7 @@ import TitleLabel from '@/components/labels/TitleLabel.vue';
 
   &__container {
     width: 100%;
-    height: calc(100% - 155px);
+    height: 100%;
     overflow-y: scroll;
     padding: 0px 20px 20px 20px;
     display: flex;

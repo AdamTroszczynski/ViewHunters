@@ -1,6 +1,5 @@
 <template>
   <IonPage>
-    <HeroBanner />
     <div class="placeDetails">
       <div v-if="loadedPlace !== null">
         <div class="placeDetails__photo">
@@ -55,7 +54,6 @@ import { getSinglePlace } from '@/services/placeServices';
 import { backAnimation } from '@/animations/navigateAnimations';
 
 import PhotoGallery from '@/widgets/PhotoGallery.vue';
-import HeroBanner from '@/components/common/HeroBanner.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
 
 const route = useRoute();

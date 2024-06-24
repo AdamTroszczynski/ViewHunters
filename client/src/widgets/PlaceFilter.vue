@@ -65,6 +65,7 @@ const setDistance = (ev: CustomEvent): void => {
 
 <style lang="scss" scoped>
 .filterSection {
+  position: relative;
   height: 60px;
   width: 100%;
   background: white;
@@ -75,6 +76,7 @@ const setDistance = (ev: CustomEvent): void => {
   align-items: center;
   justify-content: center;
   gap: 35px;
+  z-index: 1;
 
   &__text {
     font-weight: 500;

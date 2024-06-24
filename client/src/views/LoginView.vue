@@ -1,6 +1,5 @@
 <template>
   <IonPage>
-    <HeroBanner :is-logged="false" />
     <div class="loginView">
       <MainForm @on-submit="loginAction()">
         <template #title>Login</template>
@@ -40,7 +39,6 @@ import { login } from '@/services/userServices';
 import { useUserStore } from '@/stores/userStore';
 import { forwardAnimation } from '@/animations/navigateAnimations';
 
-import HeroBanner from '@/components/common/HeroBanner.vue';
 import MainInput from '@/components/inputs/MainInput.vue';
 import MainForm from '@/components/layout/MainForm.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';

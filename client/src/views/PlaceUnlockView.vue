@@ -1,6 +1,5 @@
 <template>
   <IonPage>
-    <HeroBanner />
     <div class="placeUnlock">
       <div v-if="loadedPlace !== null">
         <div
@@ -37,7 +36,6 @@ import { backAnimation } from '@/animations/navigateAnimations';
 import { BASE_SERVER_URL } from '@/const/commonConst';
 
 import CodeChecker from '@/widgets/CodeChecker.vue';
-import HeroBanner from '@/components/common/HeroBanner.vue';
 import ActionButton from '@/components/buttons/ActionButton.vue';
 
 const route = useRoute();
