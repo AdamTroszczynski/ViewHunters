@@ -83,14 +83,17 @@ const openRanking = (): void => {
   }
 
   &__toolbar {
-    padding: 29px 50px 27px;
+    display: flex;
+    justify-content: space-between;
+    padding: 29px 47px;
 
     --background: white;
     --min-height: auto;
   }
 
   &__buttonsContainer {
-    column-gap: 8px;
+    column-gap: 2px;
+    width: 85px;
   }
 
   &__title {
@@ -104,7 +107,7 @@ const openRanking = (): void => {
     text-align: center;
 
     &--is-logged {
-      margin-right: 15px;
+      width: 174px;
     }
   }
 
