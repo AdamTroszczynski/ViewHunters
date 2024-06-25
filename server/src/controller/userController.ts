@@ -8,9 +8,10 @@ import bcrypt from 'bcrypt';
 import {
   getUserByUsernameBO,
   getUserByIdBO,
-  createUserBO,
   getUserByEmailBO,
   getRankingScoresBO,
+  getUserAchievementsBO,
+  createUserBO,
 } from '@/services/userService/userBO';
 import { createToken } from '@/utils/helpers/tokenHelpers';
 
@@ -125,10 +126,26 @@ export const getValidUserAction = async (req: TokenRequest, res: Response): Prom
  */
 export const getRankingScoresAction = async (req: Request, res: Response): Promise<void> => {
   try {
-    // TODO: Limit users to for example best 100 users to avoid fetching all users from database
     const scores = await getRankingScoresBO();
     scores.sort((a, b) => b.viewsCount - a.viewsCount);
     res.status(StatusCodesEnum.OK).json(scores);
+  } catch (err) {
+    res
+      .status(StatusCodesEnum.ServerError)
+      .json({ name: ErrorMessagesEnum.ServerError, errorMsg: err } as RequestError);
+  }
+};
+
+/**
+ * Get user achievements action
+ * @param {Request} req Request
+ * @param {Response} res Response
+ */
+export const getUserAchievementsAction = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { userId } = req.query;
+    const achievements = await getUserAchievementsBO(Number(userId));
+    res.status(StatusCodesEnum.OK).json(achievements);
   } catch (err) {
     res
       .status(StatusCodesEnum.ServerError)

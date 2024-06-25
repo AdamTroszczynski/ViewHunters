@@ -1,13 +1,16 @@
 import { ref, type Ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import type User from '@/types/User';
 import { usePlaceStore } from '@/stores/placeStore';
 import { Storage } from '@ionic/storage';
+import type User from '@/types/User';
+import type Achievement from '@/types/Achievement';
+import { getAchievements } from '@/services/userServices';
 
 export const useUserStore = defineStore('userStore', () => {
   const user: Ref<User | null> = ref(null);
   const token: Ref<string> = ref('');
   const isLogged: Ref<boolean> = ref(false);
+  const achievements: Ref<Achievement[]> = ref([]);
   const storage = new Storage();
 
   /**
@@ -39,6 +42,7 @@ export const useUserStore = defineStore('userStore', () => {
     isLogged.value = false;
     placeStore.nearbyPlaces = [];
     placeStore.exploredPlaces = [];
+    achievements.value = [];
   };
 
   /** Save token to device storage
@@ -54,13 +58,21 @@ export const useUserStore = defineStore('userStore', () => {
     await storage.create();
     await storage.remove('token');
   };
+
+  /** Load user achievements */
+  const loadAchievements = async (): Promise<void> => {
+    achievements.value = await getAchievements(token.value, user.value!.id);
+  };
+
   return {
     user,
     token,
     isLogged,
     isUserLoggedIn,
+    achievements,
     login,
     logout,
     saveToken,
+    loadAchievements,
   };
 });
