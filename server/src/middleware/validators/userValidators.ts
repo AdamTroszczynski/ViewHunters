@@ -1,4 +1,4 @@
-import { fieldValidString, baseValid } from '@/middleware/validators/commonValidators';
+import { fieldValidString, baseValid, fieldValidNumber } from '@/middleware/validators/commonValidators';
 
 export const loginValidators = [fieldValidString('username').isLength({ min: 3, max: 120 }), baseValid('password')];
 
@@ -8,3 +8,5 @@ export const registerValidators = [
   baseValid('password'),
   baseValid('passwordRepeat'),
 ];
+
+export const getUserAchievementsValidators = [fieldValidNumber('userId')];

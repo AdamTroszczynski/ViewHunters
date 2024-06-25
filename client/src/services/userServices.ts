@@ -2,6 +2,7 @@ import { httpClient } from '@/utils/httpClient';
 import { type HttpResponse } from '@capacitor/core';
 import type { UserToken, RankingScore } from '@/types/commonTypes';
 import type User from '@/types/User';
+import type Achievement from '@/types/Achievement';
 
 /** Login action
  * @param {string} username Username
@@ -75,6 +76,28 @@ export const getRankingsScores = async (
   const response: HttpResponse = await httpClient('get', 'user', 'score', {
     'x-access-token': token,
   });
+
+  const data = response.data;
+  return data;
+};
+
+/**
+ * Get all user achievements
+ * @param token User's token
+ * @param userId user id
+ * @returns {Promise<Achievement[]>} all users achievements
+ */
+export const getAchievements = async (
+  token: string,
+  userId: number,
+): Promise<Achievement[]> => {
+  const response: HttpResponse = await httpClient(
+    'get',
+    'user',
+    'achievements',
+    { 'x-access-token': token },
+    { userId },
+  );
 
   const data = response.data;
   return data;

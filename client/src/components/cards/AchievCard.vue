@@ -15,12 +15,14 @@ import AchievementIcon from '@/components/icons/AchievementIcon.vue';
 
 <style lang="scss" scoped>
 .achievCard {
-  --background: $white;
+  --background: white;
   width: 100px;
   height: 100px;
+  margin: 0;
   text-align: center;
   padding-top: 1.4rem;
   border-radius: 8px;
+  box-shadow: 0 0 20px rgba($darkGray, 0.01);
 
   &__header {
     padding-top: 0.5rem;

@@ -11,6 +11,7 @@ import {
   unlockPlaceBO,
   isPlaceUnlockedBO,
 } from '@/services/placeService/placeBO';
+import { getUserByIdBO, unlockAchievementsBO } from '@/services/userService/userBO';
 
 /**
  * Get nearest places action
@@ -80,6 +81,11 @@ export const unlockPlaceAction = async (req: Request, res: Response): Promise<vo
     const unlocked = await unlockPlaceBO(Number(placeId), Number(userId), code);
 
     if (unlocked) {
+      // Check if user can unlock achievement and unlock them
+      const user = await getUserByIdBO(Number(userId));
+      if (user) {
+        await unlockAchievementsBO(Number(userId), user.viewsCount);
+      }
       res.status(StatusCodesEnum.OK).json(unlocked);
     } else {
       res

@@ -1,6 +1,9 @@
 import User from '@/types/User';
 import dbClient from '@/services/dbClient';
 import type RankingScore from '@/types/common/RankingScore';
+import type UnlockedAchievement from '@/types/UnlockedAchievement';
+import type Achievement from '@/types/Achievement';
+import type { Prisma } from '@prisma/client';
 
 /**
  * Get user by username DAO
@@ -19,7 +22,7 @@ export const getUserByUsernameDAO = async (username: string): Promise<User | nul
 export const getUserByIdDAO = async (id: number): Promise<User | null> => {
   return (await dbClient.user.findFirst({
     where: { id: id },
-    select: { id: true, username: true, email: true },
+    select: { id: true, username: true, email: true, viewsCount: true },
   })) as User | null;
 };
 
@@ -69,5 +72,49 @@ export const updateUserViewsCountDAO = async (userId: number): Promise<User> => 
   return await dbClient.user.update({
     where: { id: userId },
     data: { viewsCount: { increment: 1 } },
+  });
+};
+
+/**
+ * Get possible achievements to unlock DAO
+ * @param {number} userViewsCount amount of places unlocked by user
+ * @returns {Promise<Achievement[]>} array of possible achievements to unlock
+ */
+export const getPossibleAchievementsToUnlockDAO = async (userViewsCount: number): Promise<Achievement[]> => {
+  return await dbClient.achievement.findMany({
+    where: {
+      value: { lte: userViewsCount },
+    },
+  });
+};
+
+/**
+ * Get user achievements DAO
+ * @param {number} userId user id
+ * @returns {Promise<Achievement[]>} all unlocked achievements by user
+ */
+export const getUserAchievementsDAO = async (userId: number): Promise<Achievement[]> => {
+  return await dbClient.achievement.findMany({
+    where: {
+      unlockedAchievements: {
+        some: {
+          userId: userId,
+        },
+      },
+    },
+  });
+};
+
+/**
+ * Unlock achievements DAO
+ * @param {UnlockedAchievement[]} achievementsToUnlock array of prepared achievements objects to insert to database
+ * @returns {Promise<Prisma.BatchPayload>} unlocked achievements prepared objects
+ */
+export const unlockAchievementsDAO = async (
+  achievementsToUnlock: UnlockedAchievement[],
+): Promise<Prisma.BatchPayload> => {
+  return await dbClient.unlockedAchievement.createMany({
+    data: achievementsToUnlock,
+    skipDuplicates: true,
   });
 };

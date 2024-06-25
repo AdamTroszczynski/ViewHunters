@@ -9,12 +9,13 @@ datasource db {
 }
 
 model User {
-  id           Int             @id @default(autoincrement())
-  username     String
-  email        String
-  passwordHash String
-  viewsCount   Int
-  unlocked     UnlockedPlace[]
+  id                   Int                   @id @default(autoincrement())
+  username             String
+  email                String
+  passwordHash         String
+  viewsCount           Int
+  unlocked             UnlockedPlace[]
+  unlockedAchievements UnlockedAchievement[]
 }
 
 model Place {
@@ -29,6 +30,12 @@ model Place {
   unlocked    UnlockedPlace[]
 }
 
+model Achievement {
+  id                   Int                   @id @default(autoincrement())
+  value                Int
+  unlockedAchievements UnlockedAchievement[]
+}
+
 model UnlockedPlace {
   userId  Int
   placeId Int
@@ -36,4 +43,13 @@ model UnlockedPlace {
   user    User  @relation(fields: [userId], references: [id])
 
   @@id([userId, placeId])
+}
+
+model UnlockedAchievement {
+  userId        Int
+  achievementId Int
+  achievement   Achievement @relation(fields: [achievementId], references: [id])
+  user          User        @relation(fields: [userId], references: [id])
+
+  @@id([userId, achievementId])
 }

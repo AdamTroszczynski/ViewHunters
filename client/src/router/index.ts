@@ -15,6 +15,21 @@ import ProfileView from '@/views/tabViews/ProfileView.vue';
 import NearbyView from '@/views/tabViews/NearbyView.vue';
 import RankingView from '@/views/RankingView.vue';
 
+/** Load places */
+const nearbyBeforeEnterAction = async (): Promise<void> => {
+  const placeStore = usePlaceStore();
+  if (placeStore.nearbyPlaces.length === 0) {
+    await placeStore.loadExploredPlaces();
+    await placeStore.loadNearbyPlaces();
+  }
+};
+
+/** Load achievements */
+const achievementsBeforeEnterAction = async (): Promise<void> => {
+  const userStore = useUserStore();
+  await userStore.loadAchievements();
+};
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -30,18 +45,13 @@ const router = createRouter({
         {
           path: 'nearby',
           name: 'nearby',
-          beforeEnter: async (): Promise<void> => {
-            const placeStore = usePlaceStore();
-            if (placeStore.nearbyPlaces.length === 0) {
-              await placeStore.loadExploredPlaces();
-              await placeStore.loadNearbyPlaces();
-            }
-          },
+          beforeEnter: nearbyBeforeEnterAction,
           component: NearbyView,
         },
         {
           path: 'achievements',
           name: 'achievements',
+          beforeEnter: achievementsBeforeEnterAction,
           component: AchievementsView,
         },
         {
